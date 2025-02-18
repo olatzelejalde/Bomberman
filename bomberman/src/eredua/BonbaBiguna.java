@@ -1,5 +1,10 @@
 package eredua;
 
-public class BonbaBiguna extends Bonba{
-    // Bloke bigunak apurtu eta etsaiak hil
+public class Biguna extends Bonba {
+	private int estaldura;
+	
+	public Biguna(int x, int y) {
+		super(x,y);
+	}
+
 }
