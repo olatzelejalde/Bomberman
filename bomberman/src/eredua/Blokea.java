@@ -18,12 +18,5 @@ public abstract class Blokea {
         return apurtuta;
     }
 
-    public void apurtu() {
-        if (!suntsiezina) {
-            apurtuta = true;
-            System.out.println("Blokea apurtu da!");
-        } else {
-            System.out.println("Ezin da bloke hau apurtu.");
-        }
-    }
+    public  abstract void apurtu() {}
 }
