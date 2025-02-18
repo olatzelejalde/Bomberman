@@ -1,28 +1,36 @@
 package eredua;
-import java.until.Random;
 
-public class LabirintoClassic extends Labirintoa{
-  public LabirintoClassic(){
-    super();
-  }
+import java.util.Random;
 
-   @Override
-    protected char gelaxkaSortu(int i, int j) {
-        if (i % 2 == 1 && j % 2 == 1) {
-            return 'G'; //G: GOGORRA
-        } else {
-            double probabilitatea = random.nextDouble();
-            if (probabilitatea > 0.4) {
-                return 'B'; //B: BIGUNA
-            } else {
-                probabilitatea = random.nextDouble();
-                if (probabilitatea > 0.9 && etsaiKont < 6) {
-                    etsaiKont ++;
-                    return 'E'; //E: ETSAIA
-                } else {
-                    return 'H'; //H: HUTSIK
-                }
-            }
-        }
-    }
+public class Classic extends Laberinto {
+	public Classic() {
+		super();
+		hasieratuClassic();
+	}
+	
+	public void hasieratuClassic() {
+		Random r = new Random();
+		
+		for (int i = 0; i < 11; i++) { //altuera
+			for (int j = 0; j < 17; j++) { //zabalera
+				// Bomberman posizioa hasieran
+				if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
+					getGelaxka()[i][j] = new Gelaxka("hutsik", false);
+				}
+				// Bloke gogorrak posizio inparretan
+				else if (i % 2 != 0 && j % 2 != 0) {
+					getGelaxka()[i][j] = new Gelaxka("suntsiezina", true);
+				}
+				// Bloke bigunak 40% probabilitatearekin
+				else if (r.nextInt(100) < 40) {
+					getGelaxka()[i][j] = new Gelaxka("apurkorra", false);
+				}
+				// Posizio hutsik
+				else {
+					getGelaxka()[i][j] = new Gelaxka("hutsik", false);
+				}
+			}
+		}
+	}
+
 }
