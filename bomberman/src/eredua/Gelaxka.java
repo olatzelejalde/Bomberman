@@ -1,13 +1,13 @@
-package eredua;
+package model;
 
 public class Gelaxka {
 	private String mota;
-	private boolean suntsiezina;
+	private boolean gogorra;
 	private boolean okupatuta;
 	
-	public Gelaxka(String mota, boolean suntsiezina) {
+	public Gelaxka(String mota, boolean gogorra) {
 		this.mota = mota;
-		this.suntsiezina = suntsiezina;
+		this.gogorra = gogorra;
 		this.okupatuta = false;
 	}
 
@@ -15,8 +15,12 @@ public class Gelaxka {
 		return mota;
 	}
 
-	public boolean suntsiezinaDa() {
-		return suntsiezina;
+	public void setMota(String mota) {
+		this.mota = "mota";
+	}
+	
+	public boolean gogorraDa() {
+		return gogorra;
 	}
 
 	public boolean okupatutaDago() {
@@ -24,39 +28,28 @@ public class Gelaxka {
 	}
 
 	public boolean bideaDago() {
-		if (!suntsiezina && !okupatuta && !mota.equals("bonba")) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return mota.equals("hutsik");
 	}
 
 	public void apurtu() {
-		if (mota.equals("apurkorra")) {
-			mota = "biguna";
-			suntsiezina = false;
+		if (getMota().equals("biguna")) {
+			mota = "hutsik";
+			System.out.println("Bloke biguna zegoen eta orain hutsik dago!!");
+		}
+		else if (okupatutaDago() == false) {
+			System.out.println("Hutsik zegoen!!");
+		}
+		else { // gogorraDa() == true
+			System.out.println("Bloke googorra da eta ezin da apurtu!!");
 		}
 	}
 
-	public void bonbaJarri() {
-		mota = "bonba";
-		okupatuta = true;
-	}
-
-	public void bonbaKendu() {
-		mota = "hutsik";
-		okupatuta = false;
-	}
-
 	public void suaJarri() {
-		mota = "sua";
-		okupatuta = true;
+		this.mota = "sua";
 	}
 
 	public void suaKendu() {
-		mota = "hutsik";
-		okupatuta = false;
+		this.mota = "hutsik";
 	}
 
 }
