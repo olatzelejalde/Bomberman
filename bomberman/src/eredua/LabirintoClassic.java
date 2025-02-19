@@ -1,4 +1,4 @@
-package eredua;
+package model;
 
 import java.util.Random;
 
@@ -13,21 +13,28 @@ public class Classic extends Laberinto {
 		
 		for (int i = 0; i < 11; i++) { //altuera
 			for (int j = 0; j < 17; j++) { //zabalera
-				// Bomberman posizioa hasieran
+				// Bomberman posizioa hutsik hasieratu
 				if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
-					getGelaxka()[i][j] = new Gelaxka("hutsik", false);
+					matriz[i][j] = new Gelaxka("hutsik", false);
 				}
-				// Bloke gogorrak posizio inparretan
+				// Bloke gogorrak posizio bakoitietan
 				else if (i % 2 != 0 && j % 2 != 0) {
-					getGelaxka()[i][j] = new Gelaxka("suntsiezina", true);
+					matriz[i][j] = new Gelaxka("gogorra", true);
 				}
-				// Bloke bigunak 40% probabilitatearekin
-				else if (r.nextInt(100) < 40) {
-					getGelaxka()[i][j] = new Gelaxka("apurkorra", false);
-				}
-				// Posizio hutsik
+				// Beste gelaxkak
 				else {
-					getGelaxka()[i][j] = new Gelaxka("hutsik", false);
+					int prob1 = r.nextInt(100); // 0-100
+					// %40 baino handiago bloke biguna
+					if (prob1 > 40) {
+						matriz[i][j] = new Gelaxka("biguna", false);
+					}
+					else {
+						// %90 baino txikiagoa hutsik
+						int prob2 = r.nextInt(100); // 0-100
+						if (prob2 < 90) {
+							matriz[i][j] = new Gelaxka("hutsik", false);
+						}
+					}
 				}
 			}
 		}
