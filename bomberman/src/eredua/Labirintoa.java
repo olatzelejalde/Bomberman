@@ -1,46 +1,52 @@
-package eredua;
+package model;
 
 public abstract class Laberinto {
-	private Gelaxka[][] gelaxkak;
-	private int zabalera = 17;
-	private int altuera = 11;
+	private static Laberinto nireLaberinto;
+	protected Gelaxka[][] matriz;
 	
-	public Laberinto() {
-		this.gelaxkak = new Gelaxka[zabalera][altuera];
-	}
-	
-	public Gelaxka getGelaxka(int x, int y) {
-		return gelaxkak[x][y];
+	protected Laberinto() {
+		this.matriz = new Gelaxka[11][17];
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 17; j++) {
+				matriz[i][j] = new Gelaxka();
+			}
+		}
 	}
 
-	public Gelaxka[][] getGelaxkak() {
-		return gelaxkak;
+	public static Laberinto getNireLaberinto() {
+		if (nireLaberinto == null) {
+			nireLaberinto = new Laberinto();
+		}
+		return nireLaberinto;
+	}
+
+	public Gelaxka getGelaxkaPos(int x, int y) {
+		return matriz[x][y];
 	}
 
 	public boolean bidePosizioa(int x, int y) {
-		return gelaxkak[x][y].bideaDago();
+		return matriz[x][y].bideaDago();
 	}
 
 	public void eguneratuGelaxka(int x, int y, String mota) {
 		switch (mota) {
 			case "hutsik":
-				gelaxkak[x][y] = new Gelaxka("hutsik", false);
+				matriz[x][y] = new Gelaxka("hutsik", false);
 				break;
-			case "suntsiezina":
-				gelaxkak[x][y] = new Gelaxka("suntsiezina", true);
+			case "gogorra":
+				matriz[x][y] = new Gelaxka("gogorra", true);
 				break;	
-			case "apurkorra":
-				gelaxkak[x][y] = new Gelaxka("apurkorra", false);
+			case "biguna":
+				matriz[x][y] = new Gelaxka("biguna", false);
 				break;
 			case "bonba":
-				gelaxkak[x][y].bonbaJarri();
+				matriz[x][y].bonbaJarri();
 				break;	
 			case "sua":
-				gelaxkak[x][y].suaJarri();
+				matriz[x][y].suaJarri();
 				break;		
 		}
 	}
 
 
 }
-
