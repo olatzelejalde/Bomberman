@@ -1,4 +1,4 @@
-package model;
+package eredua;
 
 public abstract class Laberinto {
 	private static Laberinto nireLaberinto;

@@ -1,4 +1,4 @@
-package model;
+package eredua;
 
 import java.util.Random;
 

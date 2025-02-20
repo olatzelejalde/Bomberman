@@ -1,4 +1,4 @@
-package model;
+package eredua;
 
 public class Gelaxka {
 	private String mota;

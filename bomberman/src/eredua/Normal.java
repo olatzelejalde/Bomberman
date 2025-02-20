@@ -1,4 +1,4 @@
-package model;
+package eredua;
 
 public class Normal extends Bonba {
 	
