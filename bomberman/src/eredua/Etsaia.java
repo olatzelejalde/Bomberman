@@ -9,11 +9,15 @@ public class Etsaia {
         this.y = y;
         this.bizirik = true;
     }
+    
+    public boolean bizirikDago() {
+        return bizirik;
+    }
 
     public void hil() {
         if (bizirik) {
             bizirik = false;
             System.out.println("Etsaia hil da!");
-        }
+            Jokoa.getInstance().eguneratu();
     }
 }

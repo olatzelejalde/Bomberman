@@ -3,11 +3,13 @@ package eredua;
 public abstract class Bonba {
 	private int x, y;
 	private Laberinto laberinto;
+	protected Jokoa jokoa;
 	
-	public Bonba(int x, int y, Laberinto laberinto) {
+	public Bonba(int x, int y, Laberinto laberinto, Jokoa jokoa) {
 		this.x = x;
 		this.y = y;
 		this.laberinto = laberinto;
+		this.jokoa = jokoa;
 
 		itxaronEztanda();
 	}
@@ -24,7 +26,8 @@ public abstract class Bonba {
 		new Thread(() -> {
 			try {
 				Thread.sleep(3000); // 3s itxaron bonba eztanda egin arte
-				System.out.println("Bonba eztanda egin du!!");
+				System.out.println("Bonbak eztanda egin du!!");
+				eztanda()
 			}
 			catch (InterruptedException e) {
 	            e.printStackTrace();

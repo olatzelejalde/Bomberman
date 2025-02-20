@@ -86,4 +86,16 @@ public class Bomberman {
 			
 		}).start();
 	}
+	
+	public boolean hildaDago() {
+	    return !bizirik;
+	}
+	
+	public void hil() {
+	    if (bizirik) {
+	        bizirik = false;
+	        System.out.println("Bomberman hil da, jokoa bukatu da.");
+	        Jokoa.getInstance().bukaera(false);
+	    }
+	}
 }

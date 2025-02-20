@@ -2,23 +2,29 @@ package eredua;
 
 public class Normal extends Bonba {
 	
+	private Bomberman bomberman;
 	public Normal(int x, int y, Laberinto laberinto, Bomberman bomberman) {
 		super(x,y,laberinto,bomberman);
+		this.bomberman = bomberman;
 	}
-
+	
+	@Override
 	protected void eztanda() {
 		System.out.println("Eztanda (" + x + ", " + y + ") gelaxkan!!");
 
 		eztandaPos(x,y);
-		estaldura(x-1,y); // arriba
-		estaldura(x+1,y); // abajo
-		estaldura(x,y-1); // izquierda
-		estaldura(x,y+1); // derecha
+		estaldura(x-1,y); // goian
+		estaldura(x+1,y); // behean
+		estaldura(x,y-1); // ezkerra
+		estaldura(x,y+1); // eskuina
 
 		new Thread(() -> {
 			Thread.sleep(2000);
 			suaKendu();
-		}).start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }).start();
 	}
 
 	public void estaldura(int x, int y) {
@@ -38,21 +44,27 @@ public class Normal extends Bonba {
 		if (g.getMota().equals("biguna")) {
 			laberinto.eguneratuGelaxka(x,y,"hutsik");
 		}
+		
+		// Hil etsaiak
+        if (laberinto.etsaiaPosizioan(x, y)) {
+            laberinto.hilEtsaia(x, y);
+        }
 
 		// Bomberman posizioan badago hil
 		if (bomberman.getX() == x && bomberman.getY() == y) {
 			bomberman.hil();
+			Jokoa.getInstance().bukaera(false); //false --> ez du irabazi
 		}
 
 		laberinto.eguneratuGelaxka(x,y,"sua");
 	}
 
 	public void suaKendu() {
-		estalduraGarbitu(x,y); // posicion bonba
-		estalduraGarbitu(x-1,y); // arriba
-		estalduraGarbitu(x+1,y); // abajo
-		estalduraGarbitu(x,y-1); // izquierda
-		estalduraGarbitu(x,y+1); // derecha
+		estalduraGarbitu(x,y); // bonba posizioa
+		estalduraGarbitu(x-1,y); // goian
+		estalduraGarbitu(x+1,y); // behean
+		estalduraGarbitu(x,y-1); // ezkerrean
+		estalduraGarbitu(x,y+1); // eskuinean
 	}
 
 	public void estalduraKendu(int x, int y) {
