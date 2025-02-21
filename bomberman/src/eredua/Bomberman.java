@@ -9,7 +9,7 @@ public class Bomberman {
 		this.x = x;
 		this.y = y;
 		this.bizirik = true;
-		this.bonbaKop = 10;
+		//this.bonbaKop = 10;
 	}
 	
 	public int getX() {
