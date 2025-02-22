@@ -3,79 +3,78 @@ package eredua;
 public class Normal extends Bonba {
 	
 	private Bomberman bomberman;
-	public Normal(int x, int y, Laberinto laberinto, Bomberman bomberman) {
-		super(x,y,laberinto,bomberman);
+	public Normal(int x, int y, Laberinto laberinto, Bomberman bomberman, Jokoa jokoa) {
+		super(x,y,laberinto,jokoa);
 		this.bomberman = bomberman;
 	}
 	
 	@Override
 	protected void eztanda() {
-		System.out.println("Eztanda (" + x + ", " + y + ") gelaxkan!!");
+		System.out.println("Eztanda (" + getX() + ", " + getY() + ") gelaxkan!!");
 
-		eztandaPos(x,y);
-		estaldura(x-1,y); // goian
-		estaldura(x+1,y); // behean
-		estaldura(x,y-1); // ezkerra
-		estaldura(x,y+1); // eskuina
+		eztandaPos(getX(), getY());
+        	estaldura(getX() - 1, getY()); // goian
+        	estaldura(getX() + 1, getY()); // behean
+        	estaldura(getX(), getY() - 1); // ezkerra
+        	estaldura(getX(), getY() + 1); // eskuina
 
 		new Thread(() -> {
-			Thread.sleep(2000);
-			suaKendu();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }).start();
+		    try {
+		        Thread.sleep(2000);
+		        suaKendu();
+		    } catch (InterruptedException e) {
+		        e.printStackTrace();
+		    }
+		}).start();
 	}
 
 	public void estaldura(int x, int y) {
-		if ((x >= 0 && x < 11) && (x >= 0 && y < 17)) {
-			Gelaxka g = laberinto.getGelaxkaPos(x,y);
-			// Gogorra bada ez kendu
-			if (!g.gogorraDa()) {
-				eztandaPos(x,y);
+		if ((x >= 0 && x < 11) && (y >= 0 && y < 17)) {
+			Gelaxka g = getLaberinto().getGelaxkaPos(x,y);
+			if(g.getMota().equals("gogorra")) {
+				eztandaPos(getX(),getY());
 			}
+			
 		}
 	}
 
 	public void eztandaPos(int x, int y) {
-		Gelaxka g = laberinto.getGelaxkaPos(x,y);
+		if (getLaberinto() == null || getLaberinto().getGelaxkaPos(x, y) == null) return;
+		Gelaxka g = getLaberinto().getGelaxkaPos(x,y);
 
 		// Bloke biguna badago apurtu
 		if (g.getMota().equals("biguna")) {
-			laberinto.eguneratuGelaxka(x,y,"hutsik");
+			getLaberinto().eguneratuGelaxka(x,y,"hutsik");
 		}
-		
+		/*
 		// Hil etsaiak
-        if (laberinto.etsaiaPosizioan(x, y)) {
-            laberinto.hilEtsaia(x, y);
-        }
+        	if (laberinto.etsaiaPosizioan(x, y)) {
+	         	laberinto.hilEtsaia(x, y);
+       	 	}*/
 
 		// Bomberman posizioan badago hil
 		if (bomberman.getX() == x && bomberman.getY() == y) {
 			bomberman.hil();
-			Jokoa.getInstance().bukaera(false); //false --> ez du irabazi
+			Jokoa.getInstance(bomberman).bukaera(false); //false --> ez du irabazi
 		}
 
-		laberinto.eguneratuGelaxka(x,y,"sua");
+		getLaberinto().eguneratuGelaxka(x,y,"sua");
 	}
 
 	public void suaKendu() {
-		estalduraGarbitu(x,y); // bonba posizioa
-		estalduraGarbitu(x-1,y); // goian
-		estalduraGarbitu(x+1,y); // behean
-		estalduraGarbitu(x,y-1); // ezkerrean
-		estalduraGarbitu(x,y+1); // eskuinean
+		estalduraKendu(getX(), getY()); // bonba posizioa
+	        estalduraKendu(getX() - 1, getY()); // goian
+	        estalduraKendu(getX() + 1, getY()); // behean
+	        estalduraKendu(getX(), getY() - 1); // ezkerrean
+	        estalduraKendu(getX(), getY() + 1); // eskuinean
 	}
 
 	public void estalduraKendu(int x, int y) {
-		if ((x >= 0 && x < 11) && (x >= 0 && y < 17)) {
+		if ((x >= 0 && x < 11) && (y >= 0 && y < 17)) {
 			// Gelaxka sua badu hutsik jarri
-			if (laberinto.getGelaxkaPos(x,y).getMota().equals("sua")) {
-				laberinto.eguneratuGelaxka(x,y,"hutsik");
+			if (getLaberinto().getGelaxkaPos(x,y).getMota().equals("sua")) {
+				getLaberinto().eguneratuGelaxka(x,y,"hutsik");
 			}
 		}
 	}
-
-
-
 }
