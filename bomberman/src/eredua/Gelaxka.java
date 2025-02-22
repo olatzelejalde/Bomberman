@@ -1,39 +1,55 @@
 package eredua;
 
 public class Gelaxka {
-	private String mota;
+	private Bloke bloke;
+	private Bonba bonba;
+	private boolean sua;
+
+	public Gelaxka(Bloke bloke) {
+		this.bloke = bloke;
+		this.bonba = null;
+		this.sua = false;
+	}
+
+	public boolean blokeDu() {
+		return bloke != null;
+	}
 	
-	public Gelaxka(String mota) {
-		this.mota = mota;
+	public boolean apurtuDaiteke() {
+		return bloke instanceof BlokeBiguna;
 	}
-
-	public String getMota() {
-		return mota;
-	}
-
-	public void setMota(String mota) {
-		this.mota = mota;
-	}
-
-	public boolean bideaDago() {
-		return mota.equals("hutsik");
-	}
-
-	public void apurtu() {
-		if (getMota().equals("biguna")) {
-			mota = "hutsik";
-			System.out.println("Bloke biguna zegoen eta orain hutsik dago!!");
-		} else if (mota.equals("gogorra")) {
-	        	System.out.println("Bloke gogorra da, ezin da apurtu!!");
-	    	}
+	
+	public void apurtuBlokea() {
+		if (apurtuDaiteke()) {
+			bloke = null;
+			System.out.println("Blokea apurtu da!!");
+		}
 	}
 
 	public void suaJarri() {
-		this.mota = "sua";
+		if (bloke != null && bloke.suntsigarriaDa()) {
+			bloke = null;
+		}
 	}
-
+	
 	public void suaKendu() {
-		this.mota = "hutsik";
+		this.sua = false;
+	}
+	
+	public boolean suaDago() {
+		return sua;
+	}
+	
+	public boolean bonbaDago() {
+		return bonba != null;
+	}
+	
+	public void bonbaJarri(Bonba bonba) {
+		this.bonba = bonba;
+	}
+	
+	public void bonbaKendu() {
+		this.bonba = null;
 	}
 
 }
