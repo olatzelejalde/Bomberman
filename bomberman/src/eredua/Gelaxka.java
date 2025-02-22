@@ -2,13 +2,9 @@ package eredua;
 
 public class Gelaxka {
 	private String mota;
-	private boolean gogorra;
-	private boolean okupatuta;
 	
-	public Gelaxka(String mota, boolean gogorra) {
+	public Gelaxka(String mota) {
 		this.mota = mota;
-		this.gogorra = gogorra;
-		this.okupatuta = false;
 	}
 
 	public String getMota() {
@@ -16,15 +12,7 @@ public class Gelaxka {
 	}
 
 	public void setMota(String mota) {
-		this.mota = "mota";
-	}
-	
-	public boolean gogorraDa() {
-		return gogorra;
-	}
-
-	public boolean okupatutaDago() {
-		return okupatuta;
+		this.mota = mota;
 	}
 
 	public boolean bideaDago() {
@@ -35,13 +23,9 @@ public class Gelaxka {
 		if (getMota().equals("biguna")) {
 			mota = "hutsik";
 			System.out.println("Bloke biguna zegoen eta orain hutsik dago!!");
-		}
-		else if (okupatutaDago() == false) {
-			System.out.println("Hutsik zegoen!!");
-		}
-		else { // gogorraDa() == true
-			System.out.println("Bloke googorra da eta ezin da apurtu!!");
-		}
+		} else if (mota.equals("gogorra")) {
+	        	System.out.println("Bloke gogorra da, ezin da apurtu!!");
+	    	}
 	}
 
 	public void suaJarri() {
