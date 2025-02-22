@@ -1,4 +1,4 @@
-package model;
+package eredua;
 
 public class Bomberman {
 	private int x, y;
@@ -74,17 +74,17 @@ public class Bomberman {
 	}
 
 	public void itxaronBonba(){
-		new Thread(() -> {
-			try {
-				Thread.sleep(3000); // 3s itxaron bonba bat gehiago izateko
-				bonbaKop = 1;
-				System.out.println("Bonba bat gehiago duzu!!");
-			}
-			catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-			
-		}).start();
+		if (bonbaKop == 0) {
+			new Thread(() -> {
+				try {
+					Thread.sleep(3000); // 3s itxaron bonba bat gehiago izateko
+					bonbaKop = 1;
+					System.out.println("Bonba bat gehiago duzu!!");
+				}catch (InterruptedException e) {
+	            			e.printStackTrace();
+	        		}
+			}).start();
+		}
 	}
 	
 	public boolean hildaDago() {
