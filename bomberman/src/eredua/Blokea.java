@@ -18,5 +18,5 @@ public abstract class Blokea {
         return apurtuta;
     }
 
-    public  abstract void apurtu() {}
+    public  abstract void apurtu();
 }
