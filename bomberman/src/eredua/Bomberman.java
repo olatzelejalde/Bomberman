@@ -9,7 +9,6 @@ public class Bomberman {
 		this.x = x;
 		this.y = y;
 		this.bizirik = true;
-		//this.bonbaKop = 10;
 	}
 	
 	public int getX() {
@@ -80,9 +79,10 @@ public class Bomberman {
 					Thread.sleep(3000); // 3s itxaron bonba bat gehiago izateko
 					bonbaKop = 1;
 					System.out.println("Bonba bat gehiago duzu!!");
-				}catch (InterruptedException e) {
-	            			e.printStackTrace();
-	        		}
+				}
+				catch (InterruptedException e) {
+					e.printStackTrace();
+	        	}
 			}).start();
 		}
 	}
@@ -95,7 +95,7 @@ public class Bomberman {
 	    if (bizirik) {
 	        bizirik = false;
 	        System.out.println("Bomberman hil da, jokoa bukatu da.");
-	        Jokoa.getInstance().bukaera(false);
+	        Jokoa.getJokoa().bukaera(false);
 	    }
 	}
 }
