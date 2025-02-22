@@ -1,12 +1,13 @@
 package eredua;
 
-public class BlokeGogorra extends Blokea{
+public class BlokeGogorra extends Bloke {
+	
 	public BlokeGogorra() {
-        super(true);
-    }
+		super(false);
+	}
+	
+	public void apurtu() {
+		System.out.println("Bloke gogorra ezin da apurtu!!");
+	}
 
-    @Override
-    public void apurtu() {
-        System.out.println("Ezin da bloke gogorra apurtu.");
-    }
 }
