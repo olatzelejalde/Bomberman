@@ -21,7 +21,10 @@ public abstract class Bonba {
 	public int getY() {
 		return y;
 	}
-
+	
+	public Laberinto getLaberinto() {
+        	return laberinto;
+    	}
 	public void itxaronEztanda() {
 		new Thread(() -> {
 			try {
