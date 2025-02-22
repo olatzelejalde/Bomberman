@@ -24,16 +24,25 @@ public class Jokoa extends JFrame implements KeyListener {
     private int bZ = 0;
     private int bE = 0; // Bomberman-en hasierako posizioa
 
-    private ImageIcon blokGo = new ImageIcon("hard5.png");
-    private ImageIcon blokBig = new ImageIcon("soft1.png");
-    private ImageIcon bomberman = new ImageIcon("whitefront1.png");
-    private ImageIcon etsaia = new ImageIcon("doria2.png");
+    private ImageIcon blokGo = loadImage("/irudiak/hard5.png");
+    private ImageIcon blokBig = loadImage("/irudiak/soft1.png");
+    private ImageIcon bomberman = loadImage("/irudiak/whitefront1.png");
+
+    private ImageIcon loadImage(String path) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            return null;
+        }
+    }
     
     public Jokoa() {
         setTitle("Bomberman");
         setSize(zutabe * tam, errenkada * tam);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
         
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(errenkada, zutabe));
@@ -41,7 +50,7 @@ public class Jokoa extends JFrame implements KeyListener {
         // Labirintoa osatu
         for (int err = 0; err < errenkada; err++) {
             for (int zut = 0; zut < zutabe; zut++) {
-            	int etsaiKop = 0;
+            	//int etsaiKop = 0;
                 JLabel gelaxka = new JLabel();
                 gelaxka.setOpaque(true);
                 gelaxka.setPreferredSize(new Dimension(tam, tam));
@@ -50,9 +59,9 @@ public class Jokoa extends JFrame implements KeyListener {
                 	gelaxka.setIcon(blokGo); // Bloke gogorrak
                 } else if (Math.random() > 0.4) {
                 	gelaxka.setIcon(blokBig); // Bloke biguna
-                } else if (Math.random() > 0.9 && etsaiKop < 6) { 
-                	gelaxka.setIcon(etsaia); // Etsaia
-                	etsaiKop++;
+                //} else if (Math.random() > 0.9 && etsaiKop < 6) { 
+                	//gelaxka.setIcon(etsaia); // Etsaia
+                	//etsaiKop++;
                 }
 
                 board[err][zut] = gelaxka;
@@ -62,11 +71,13 @@ public class Jokoa extends JFrame implements KeyListener {
 
         // Bomberman gelaxkan kokatu
         board[bE][bZ].setIcon(bomberman);
-
-        add(boardPanel);
+        add(boardPanel, BorderLayout.CENTER);
         addKeyListener(this);
         setFocusable(true);
+        requestFocusInWindow();
         setVisible(true);
+        boardPanel.revalidate();
+        boardPanel.repaint();
     }
 
     @Override
@@ -75,14 +86,14 @@ public class Jokoa extends JFrame implements KeyListener {
         int zBerria = bZ; // Columna = Zutabe
 
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP: eBerria--; break;
-            case KeyEvent.VK_DOWN: eBerria++; break;
-            case KeyEvent.VK_LEFT: zBerria--; break;
-            case KeyEvent.VK_RIGHT: zBerria++; break;
-        }
+	        case KeyEvent.VK_UP:    if (bE > 0) eBerria--; break;
+	        case KeyEvent.VK_DOWN:  if (bE < errenkada - 1) eBerria++; break;
+	        case KeyEvent.VK_LEFT:  if (bZ > 0) zBerria--; break;
+	        case KeyEvent.VK_RIGHT: if (bZ < zutabe - 1) zBerria++; break;
+	    }
 
         // Blokea ez den egiaztatu
-        if (board[eBerria][zBerria].getIcon() != blokBig || board[eBerria][zBerria].getIcon() != blokGo) {
+        if (board[eBerria][zBerria].getIcon() != blokBig && board[eBerria][zBerria].getIcon() != blokGo) {
             board[bE][bZ].setIcon(null); // 
             bE = eBerria;
             bZ = zBerria;
