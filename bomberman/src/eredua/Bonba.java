@@ -23,14 +23,15 @@ public abstract class Bonba {
 	}
 	
 	public Laberinto getLaberinto() {
-        	return laberinto;
-    	}
+        return laberinto;
+    }
+	
 	public void itxaronEztanda() {
 		new Thread(() -> {
 			try {
 				Thread.sleep(3000); // 3s itxaron bonba eztanda egin arte
 				System.out.println("Bonbak eztanda egin du!!");
-				eztanda()
+				eztanda();
 			}
 			catch (InterruptedException e) {
 	            e.printStackTrace();
