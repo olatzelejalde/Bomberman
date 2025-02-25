@@ -1,6 +1,6 @@
 package eredua;
 
-public abstract class Bloke {
+public class Bloke {
 	protected boolean suntsigarri;
 	
 	public Bloke(boolean suntsigarri) {
@@ -11,6 +11,8 @@ public abstract class Bloke {
 		return suntsigarri;
 	}
 	
-	protected abstract void apurtu();
+	protected void apurtu() {
+		// TODO
+	}
 
 }
