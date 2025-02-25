@@ -1,39 +1,39 @@
 package eredua;
 
 import java.util.List;
+import java.util.Observable;
 
-public class Jokoa {
+public class Jokoa extends Observable{
     private static Jokoa instance;
     private Bomberman bomberman;
     //private List<Etsaia> etsaiak;
     private boolean amaituta;
 
-    public Jokoa(Bomberman bomberman) {
-        this.bomberman = bomberman;
+    public Jokoa() {
         //this.etsaiak = etsaiak;
         this.amaituta = false;
     }
 
-    public static Jokoa getInstance(Bomberman bomberman) {
-        if (instance == null) {
-            instance = new Jokoa(bomberman);
+    public static Jokoa getJokoa() {
+        if (jokoa == null) {
+            jokoa = new Jokoa();
         }
-        return instance;
+        return jokoa;
     }
+    
+    public void hasiJokoa(Bomberman pBomberman){
+        this.bomberman = pBomberman;
+    }
+    
+    public Bomberman getBomberman(){
+        return this.bomberman;
+    }
+    
     public void eguneratu() {
         if (bomberman.hildaDago()) {
             bukaera(false);
         }
     }
-/*
-    private boolean etsaiGuztiakHilda() {
-        for (Etsaia etsaia : etsaiak) {
-            if (etsaia.bizirikDago()) {
-                return false;
-            }
-        }
-        return true;
-    }*/
 
     public void bukaera(boolean irabazi) {
         amaituta = true;
@@ -42,6 +42,18 @@ public class Jokoa {
         } else {
             System.out.println("Galdu duzu! Saiatu berriro.");
         }
+        setChanged();
+        notifyObersers();
         System.exit(0);
     }
+
+    /*
+    private boolean etsaiGuztiakHilda() {
+        for (Etsaia etsaia : etsaiak) {
+            if (etsaia.bizirikDago()) {
+                return false;
+            }
+        }
+        return true;
+    }*/
 }
