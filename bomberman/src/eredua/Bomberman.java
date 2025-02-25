@@ -1,6 +1,8 @@
 package eredua;
 
-public class Bomberman {
+import java.util.Observable;
+
+public class Bomberman extends Observable{
 	private int x, y;
 	private boolean bizirik;
 	private int bonbaKop;
@@ -10,7 +12,8 @@ public class Bomberman {
 		this.y = y;
 		this.bizirik = true;
 	}
-	
+
+	// getter eta setter-ak
 	public int getX() {
 		return x;
 	}
@@ -32,20 +35,22 @@ public class Bomberman {
 	}
 	
 	public void mugitu(int newX, int newY, Laberinto laberinto) {
-		// Laberintoaren limiteen barruan
+		// Labirintoaren limiteen barruan
 		if ((newX >= 0 && newX < 11) && (newY >= 0 && newY < 17)) {
 			// Posizio berrian bidea dagoen konprobatu
 			if (laberinto.bidePosizioa(newX, newY)) {
 				this.x = newX;
 				this.y = newY;
 				System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
+				setChanged();
+				notifyObservers();
 			}
 			else {
 				System.out.println("Ezin da mugitu posizio honetara");
 			}
 		}
 		else {
-			System.out.println("Laberintotik kanpo");
+			System.out.println("Labirintotik kanpo");
 		}
 	}
 	
@@ -53,22 +58,25 @@ public class Bomberman {
 		// Bonbak dituen konprobatu
 		if (bonbaKop > 0) { 
 			// Gelaxka hori hutsik badago begiratu
-			if (laberinto.getGelaxkaPos(x,y).getMota().equals("hutsik")) {
-				laberinto.eguneratuGelaxka(x,y,"bonba");
-				Bonba bonba = new Normal(x,y,laberinto,this);
+			if (!laberinto.getGelaxkaPos(x,y).blokeDu()) {
+				laberinto.eguneratuGelaxka(x,y,null);
+				Bonba bonba = new Normal(x,y);
 				bonbaKop--;
 				System.out.println("Bonba (" + x + ", " + y + ") gelaxkan!!");
+				setChanged();
+				notifyObservers();
 
-				if (bonbaKop == 0) {
-					itxaronBonba();
-				}
 			}
 			else {
 				System.out.println("Ezin da hemen bonba jarri husik ez dagoelako!!");
 			}	
 		}
 		else {
-			System.out.println("Ez daukazu bonbarik!!!");
+			// Ez dauka bonbarik, beraz, 3 seg itxaron behar ditu bonba jartzeko
+			System.out.println("Ez daukazu bonbarik! Beraz, itxaron behar duzu");
+			itxaronBonba();
+			setChanged();
+			notifyObserver();
 		}
 	}
 
@@ -97,5 +105,7 @@ public class Bomberman {
 	        System.out.println("Bomberman hil da, jokoa bukatu da.");
 	        Jokoa.getJokoa().bukaera(false);
 	    }
+	setChanged();
+        notifyObservers();	
 	}
 }
