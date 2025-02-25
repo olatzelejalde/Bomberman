@@ -16,7 +16,7 @@ public class Gelaxka {
 	}
 	
 	public boolean apurtuDaiteke() {
-		return bloke instanceof BlokeBiguna;
+		return bloke.suntsigarriaDa();
 	}
 	
 	public void apurtuBlokea() {
