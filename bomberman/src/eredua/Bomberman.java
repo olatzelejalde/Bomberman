@@ -5,11 +5,13 @@ import java.util.Observable;
 public class Bomberman extends Observable{
 	private int x, y;
 	private boolean bizirik;
+	private Laberinto laberinto;
 	private int bonbaKop;
 	
-	public Bomberman(int x, int y) {
+	public Bomberman(int x, int y, Laberinto laberinto) {
 		this.x = x;
 		this.y = y;
+		this.laberinto = laberinto;
 		this.bizirik = true;
 	}
 
