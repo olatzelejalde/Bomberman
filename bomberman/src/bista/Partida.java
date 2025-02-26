@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import eredua.Bomberman;
+import eredua.Classic;
 import eredua.Laberinto;
 
 import javax.swing.JProgressBar;
@@ -45,8 +46,8 @@ public class Partida extends JFrame implements KeyListener, Observer {
     
     public Partida() {
     	// hasierako posizioan jarri
-    	//laberinto = new Laberinto();
-    	bomberman = new Bomberman(0,0);
+    	laberinto = new Classic();
+    	bomberman = new Bomberman(0,0,laberinto);
     	bomberman.addObserver(this);
 
     	setTitle("Bomberman");
@@ -86,7 +87,6 @@ public class Partida extends JFrame implements KeyListener, Observer {
         // Bomberman gelaxkan kokatu
         board[bomberman.getX()][bomberman.getY()].setIcon(bombermanIcon);
         add(boardPanel, BorderLayout.CENTER);
-        boardPanel.setBackground(Color.BLUE);
         addKeyListener(this);
         setFocusable(true);
         requestFocusInWindow();
@@ -108,7 +108,7 @@ public class Partida extends JFrame implements KeyListener, Observer {
 	        case KeyEvent.VK_RIGHT: if (newY < zutabe - 1) newY++; break;
 	    }
         
-        bomberman.mugitu(newX, newY, null);
+        bomberman.mugitu(newX, newY, laberinto);
     }
     
     @Override
