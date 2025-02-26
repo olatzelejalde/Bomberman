@@ -2,8 +2,8 @@ package eredua;
 
 public abstract class Bonba {
 	private int x, y;
-	
-	public Bonba(int x, int y, Laberinto laberinto, Jokoa jokoa) {
+
+	public Bonba(int x, int y) {
 		this.x = x;
 		this.y = y;
 
