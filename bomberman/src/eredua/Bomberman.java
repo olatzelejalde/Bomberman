@@ -13,7 +13,6 @@ public class Bomberman extends Observable{
 		this.bizirik = true;
 	}
 
-	// getter eta setter-ak
 	public int getX() {
 		return x;
 	}
@@ -35,7 +34,7 @@ public class Bomberman extends Observable{
 	}
 	
 	public void mugitu(int newX, int newY, Laberinto laberinto) {
-		// Labirintoaren limiteen barruan
+		// Laberintoaren limiteen barruan
 		if ((newX >= 0 && newX < 11) && (newY >= 0 && newY < 17)) {
 			// Posizio berrian bidea dagoen konprobatu
 			if (laberinto.bidePosizioa(newX, newY)) {
@@ -71,12 +70,13 @@ public class Bomberman extends Observable{
 				System.out.println("Ezin da hemen bonba jarri husik ez dagoelako!!");
 			}	
 		}
+		// Ez dauka bonbarik, beraz 3s itxaron
 		else {
-			// Ez dauka bonbarik, beraz, 3 seg itxaron behar ditu bonba jartzeko
+			
 			System.out.println("Ez daukazu bonbarik! Beraz, itxaron behar duzu");
 			itxaronBonba();
 			setChanged();
-			notifyObserver();
+			notifyObservers();
 		}
 	}
 
@@ -105,7 +105,7 @@ public class Bomberman extends Observable{
 	        System.out.println("Bomberman hil da, jokoa bukatu da.");
 	        Jokoa.getJokoa().bukaera(false);
 	    }
-	setChanged();
+	    setChanged();
         notifyObservers();	
 	}
 }
