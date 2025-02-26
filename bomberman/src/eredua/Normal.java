@@ -1,11 +1,9 @@
 package eredua;
 
 public class Normal extends Bonba {
-	private Bomberman bomberman;
 	
-	public Normal(int x, int y, Laberinto laberinto, Jokoa jokoa, Bomberman bomberman) {
-		super(x,y,laberinto,jokoa);
-		this.bomberman = bomberman;
+	public Normal(int x, int y) {
+		super(x,y);
 	}
 	
 	@Override
