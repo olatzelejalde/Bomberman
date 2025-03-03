@@ -1,6 +1,8 @@
 package eredua;
 
-public abstract class Laberinto {
+import java.util.Observable;
+
+public abstract class Laberinto extends Observable {
 	private static Laberinto nireLaberinto;
 	protected Gelaxka[][] matriz;
 	
@@ -13,7 +15,7 @@ public abstract class Laberinto {
 		}
 	}
 
-	public static Laberinto getNireLaberinto() {
+	public static Laberinto getLaberinto() {
 		if (nireLaberinto == null) {
 			nireLaberinto = new Classic();
 		}
@@ -24,13 +26,13 @@ public abstract class Laberinto {
 		return matriz[x][y];
 	}
 	
-	protected abstract void sortuLaberinto();
+	public abstract void sortuLaberinto();
 
 	public boolean bidePosizioa(int x, int y) {
 		return !matriz[x][y].blokeDu();
 	}
 
-	public void eguneratuGelaxka(int x, int y, Bloke bloke) {
+	public void eguneratuGelaxka(int x, int y, Blokea bloke) {
 		matriz[x][y] = new Gelaxka(bloke);
 	}
 
