@@ -29,7 +29,7 @@ public class Normal extends Bonba {
 
 	public void estaldura(int x, int y) {
 		if ((x >= 0 && x < 11) && (y >= 0 && y < 17)) {
-			Gelaxka g = Laberinto.getNireLaberinto().getGelaxkaPos(x,y);
+			Gelaxka g = Laberinto.getLaberinto().getGelaxkaPos(x,y);
 			// Biguna bada apurtu
 			if (g.apurtuDaiteke()) {
 				eztandaPos(x,y);
@@ -41,7 +41,7 @@ public class Normal extends Bonba {
 	}
 
 	public void eztandaPos(int x, int y) {		
-		Gelaxka g = Laberinto.getNireLaberinto().getGelaxkaPos(x,y);
+		Gelaxka g = Laberinto.getLaberinto().getGelaxkaPos(x,y);
 		
 		// Bloke biguna badago apurtu
 		if (g.apurtuDaiteke()) {
@@ -69,7 +69,7 @@ public class Normal extends Bonba {
 	public void estalduraKendu(int x, int y) {
 		if ((x >= 0 && x < 11) && (y >= 0 && y < 17)) {
 			// Gelaxka sua badu kendu
-			Gelaxka g = Laberinto.getNireLaberinto().getGelaxkaPos(x, y);
+			Gelaxka g = Laberinto.getLaberinto().getGelaxkaPos(x, y);
 			
 			if (g.suaDago()) {
 				g.suaKendu();
