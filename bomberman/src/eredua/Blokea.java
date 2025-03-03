@@ -1,9 +1,9 @@
 package eredua;
 
-public class Bloke {
+public class Blokea {
 	protected boolean suntsigarri;
 	
-	public Bloke(boolean suntsigarri) {
+	public Blokea(boolean suntsigarri) {
 		this.suntsigarri = suntsigarri;
 	}
 	
@@ -12,7 +12,7 @@ public class Bloke {
 	}
 	
 	protected void apurtu() {
-		// TODO
+		//TODO
 	}
 
 }
