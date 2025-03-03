@@ -33,7 +33,9 @@ public class Partida extends JFrame implements KeyListener, Observer {
     private ImageIcon blokGo = loadImage("/irudiak/hard5.png");
     private ImageIcon blokBig = loadImage("/irudiak/soft1.png");
     private ImageIcon bombermanIcon = loadImage("/irudiak/whitefront1.png");
+    private ImageIcon fondo = loadImage("/irudiak/stageBack1.png");
 
+    
     private ImageIcon loadImage(String path) {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
@@ -45,7 +47,6 @@ public class Partida extends JFrame implements KeyListener, Observer {
     }
     
     public Partida() {
-    	// hasierako posizioan jarri
     	laberinto = new Classic();
     	bomberman = new Bomberman(0,0,laberinto);
     	bomberman.addObserver(this);
@@ -55,60 +56,80 @@ public class Partida extends JFrame implements KeyListener, Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
         
-        JPanel boardPanel = new JPanel();
+        // Panel del tablero con fondo
+        JPanel boardPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (fondo != null) {
+                    g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
         boardPanel.setLayout(new GridLayout(errenkada, zutabe));
 
-        // Laberintoa osatu
-        for (int err = 0; err < errenkada; err++) {
-            for (int zut = 0; zut < zutabe; zut++) {
-            	//int etsaiKop = 0;
-                JLabel gelaxka = new JLabel();
-                gelaxka.setOpaque(true);
-                gelaxka.setPreferredSize(new Dimension(tam, tam));
-
-                // blokeak jarri
-                if (err % 2 != 0 && zut % 2 != 0) {
-                	gelaxka.setIcon(blokGo); // Bloke gogorrak
-                }
-                else if (Math.random() > 0.4) {
-                	gelaxka.setIcon(blokBig); // Bloke bigunak
-                //} 
-                //else if (Math.random() > 0.9 && etsaiKop < 6) { 
-                	//gelaxka.setIcon(etsaia); // Etsaiak
-                	//etsaiKop++;
-                }
-
-                board[err][zut] = gelaxka;
-                boardPanel.add(gelaxka);
+        for (int i = 0; i < errenkada; i++) {
+            for (int j = 0; j < zutabe; j++) {
+                board[i][j] = new JLabel();
+                boardPanel.add(board[i][j]);
             }
         }
 
-        // Bomberman gelaxkan kokatu
-        board[bomberman.getX()][bomberman.getY()].setIcon(bombermanIcon);
         add(boardPanel, BorderLayout.CENTER);
+        
+        laberinto.sortuLaberinto();
+        irudiakJarri();
+        
         addKeyListener(this);
         setFocusable(true);
         requestFocusInWindow();
         setVisible(true);
-        revalidate();
-        repaint();
+    }    
+    
+    private void irudiakJarri() {
+        for (int i = 0; i < errenkada; i++) {
+            for (int j = 0; j < zutabe; j++) {
+                if (laberinto.getGelaxkaPos(i, j).blokeDu() == true) {
+                    if (laberinto.getGelaxkaPos(i, j).apurtuDaiteke()) {
+                        board[i][j].setIcon(blokBig); // Bloke biguna
+                    } else {
+                        board[i][j].setIcon(blokGo); // Bloke gogorra
+                    }
+                } else {
+                    board[i][j].setIcon(null); // nada
+                }
+            }
+        }
+        
+        // Bomberman en su posición inicial
+        board[bomberman.getX()][bomberman.getY()].setIcon(bombermanIcon);
     }
+
 
     @Override
     public void keyPressed(KeyEvent e) {
     	requestFocus();
-        int newX = bomberman.getX();
-        int newY = bomberman.getY();
+    	int oldX = bomberman.getX();
+    	int oldY = bomberman.getY();
+        int newX = oldX;
+        int newY = oldY;
 
         switch (e.getKeyCode()) {
-	        case KeyEvent.VK_UP:    if (newX > 0) newX--; break;
-	        case KeyEvent.VK_DOWN:  if (newX < errenkada - 1) newX++; break;
-	        case KeyEvent.VK_LEFT:  if (newY > 0) newY--; break;
-	        case KeyEvent.VK_RIGHT: if (newY < zutabe - 1) newY++; break;
+	        case KeyEvent.VK_UP:    if (oldX > 0) newX--; break;
+	        case KeyEvent.VK_DOWN:  if (oldX < errenkada - 1) newX++; break;
+	        case KeyEvent.VK_LEFT:  if (oldY > 0) newY--; break;
+	        case KeyEvent.VK_RIGHT: if (oldY < zutabe - 1) newY++; break;
+	        default: return; // ignorar teclas no validas
 	    }
         
-        bomberman.mugitu(newX, newY, laberinto);
+        // Solo mover si las coordenadas son distintas
+        if (newX != oldX || newY != oldY) {
+        	bomberman.mugitu(newX, newY, laberinto);
+            revalidate();
+            repaint();
+        }
     }
     
     @Override
@@ -124,6 +145,9 @@ public class Partida extends JFrame implements KeyListener, Observer {
 			}
 			
 			board[b.getX()][b.getY()].setIcon(bombermanIcon);
+			requestFocusInWindow(); // Mantiene el foco en la ventana
+	        revalidate();
+	        repaint();
 		}
 		
 	}
