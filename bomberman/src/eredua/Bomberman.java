@@ -37,22 +37,23 @@ public class Bomberman extends Observable{
 	
 	public void mugitu(int newX, int newY, Laberinto laberinto) {
 		// Laberintoaren limiteen barruan
-		if ((newX >= 0 && newX < 11) && (newY >= 0 && newY < 17)) {
+		if (laberinto != null && (newX >= 0 && newX < 11) && (newY >= 0 && newY < 17)) {
 			// Posizio berrian bidea dagoen konprobatu
 			if (laberinto.bidePosizioa(newX, newY)) {
 				this.x = newX;
 				this.y = newY;
-				System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
 				setChanged();
 				notifyObservers();
+				System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
 			}
 			else {
 				System.out.println("Ezin da mugitu posizio honetara");
 			}
 		}
 		else {
-			System.out.println("Labirintotik kanpo");
+			System.out.println("Laberintotik kanpo");
 		}
+		
 	}
 	
 	public void bonbaJarri(Laberinto laberinto) {
@@ -64,8 +65,7 @@ public class Bomberman extends Observable{
 				Bonba bonba = new Normal(x,y);
 				bonbaKop--;
 				System.out.println("Bonba (" + x + ", " + y + ") gelaxkan!!");
-				setChanged();
-				notifyObservers();
+
 
 			}
 			else {
@@ -77,9 +77,9 @@ public class Bomberman extends Observable{
 			
 			System.out.println("Ez daukazu bonbarik! Beraz, itxaron behar duzu");
 			itxaronBonba();
-			setChanged();
-			notifyObservers();
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	public void itxaronBonba(){
