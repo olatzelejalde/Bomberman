@@ -1,11 +1,11 @@
 package eredua;
 
 public class Gelaxka {
-	private Bloke bloke;
+	private Blokea bloke;
 	private Bonba bonba;
 	private boolean sua;
 
-	public Gelaxka(Bloke bloke) {
+	public Gelaxka(Blokea bloke) {
 		this.bloke = bloke;
 		this.bonba = null;
 		this.sua = false;
