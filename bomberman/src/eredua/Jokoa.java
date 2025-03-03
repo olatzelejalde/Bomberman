@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Observable;
 
 public class Jokoa extends Observable{
-    private static Jokoa instance;
+    private static Jokoa jokoa;
     private Bomberman bomberman;
     //private List<Etsaia> etsaiak;
     private boolean amaituta;
@@ -43,7 +43,7 @@ public class Jokoa extends Observable{
             System.out.println("Galdu duzu! Saiatu berriro.");
         }
         setChanged();
-        notifyObersers();
+        notifyObservers();
         System.exit(0);
     }
 
