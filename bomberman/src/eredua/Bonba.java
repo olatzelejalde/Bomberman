@@ -2,12 +2,12 @@ package eredua;
 
 public abstract class Bonba {
 	private int x, y;
+	protected boolean aktibatuta;
 
 	public Bonba(int x, int y) {
 		this.x = x;
 		this.y = y;
-
-		itxaronEztanda();
+		this.aktibatuta = true;
 	}
 	
 	public int getX() {
@@ -18,18 +18,8 @@ public abstract class Bonba {
 		return y;
 	}
 	
-	public void itxaronEztanda() {
-		new Thread(() -> {
-			try {
-				Thread.sleep(3000); // 3s itxaron bonba eztanda egin arte
-				System.out.println("Bonbak eztanda egin du!!");
-				eztanda();
-			}
-			catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-			
-		}).start();
+	public boolean aktibatutaDago() {
+		return aktibatuta;
 	}
 	
 	protected abstract void eztanda();
