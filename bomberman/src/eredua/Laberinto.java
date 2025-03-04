@@ -23,7 +23,19 @@ public abstract class Laberinto extends Observable {
 	}
 
 	public Gelaxka getGelaxkaPos(int x, int y) {
-		return matriz[x][y];
+		if (koordenatuBarruan(x,y)) {
+			return matriz[x][y];
+		}
+		return null;
+	}
+	
+	public boolean koordenatuBarruan(int x, int y) {
+		if ((x >= 0 && x < 11) && (y >= 0 && y < 17)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public abstract void sortuLaberinto();
@@ -33,7 +45,21 @@ public abstract class Laberinto extends Observable {
 	}
 
 	public void eguneratuGelaxka(int x, int y, Blokea bloke) {
-		matriz[x][y] = new Gelaxka(bloke);
+		if (koordenatuBarruan(x,y)) {
+			matriz[x][y] = new Gelaxka(bloke);
+		}
+	}
+	
+	public void kenduBlokea(int x, int y) {
+		if (koordenatuBarruan(x,y)) {
+			Gelaxka g = matriz[x][y];
+			
+			if (g != null && g.apurtuDaiteke()) {
+				g.apurtuBlokea();
+				setChanged();
+				notifyObservers();
+			}
+		}
 	}
 
 
