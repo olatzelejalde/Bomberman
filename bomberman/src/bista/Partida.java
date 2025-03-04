@@ -8,7 +8,9 @@ import javax.swing.border.EmptyBorder;
 
 import eredua.Bomberman;
 import eredua.Classic;
+import eredua.Jokoa;
 import eredua.Laberinto;
+import eredua.White;
 
 import javax.swing.JProgressBar;
 import java.awt.FlowLayout;
@@ -28,12 +30,15 @@ public class Partida extends JFrame implements KeyListener, Observer {
     private static final int tam = 40;
 
     private JLabel[][] board = new JLabel[errenkada][zutabe];
+    private Jokoa jokoa;
     private Laberinto laberinto;
-    private Bomberman bomberman;
-    private ImageIcon blokGo = loadImage("/irudiak/hard5.png");
-    private ImageIcon blokBig = loadImage("/irudiak/soft1.png");
-    private ImageIcon bombermanIcon = loadImage("/irudiak/whitefront1.png");
-    private ImageIcon fondo = loadImage("/irudiak/stageBack1.png");
+    private White bomberman;
+    private int oldX, oldY;
+    
+    private ImageIcon blokGoIcon = loadImage("/irudiak/hard5.png");
+    private ImageIcon blokBigIcon = loadImage("/irudiak/soft1.png");
+    private ImageIcon bomberIcon = loadImage("/irudiak/whitefront1.png");
+    private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
 
     
     private ImageIcon loadImage(String path) {
@@ -48,7 +53,10 @@ public class Partida extends JFrame implements KeyListener, Observer {
     
     public Partida() {
     	laberinto = new Classic();
-    	bomberman = new Bomberman(0,0,laberinto);
+    	bomberman = new White(0,0,laberinto);
+    	Jokoa jokoa = Jokoa.getJokoa();
+    	jokoa.hasiJokoa(bomberman,laberinto);
+    	jokoa.addObserver(this);
     	bomberman.addObserver(this);
 
     	setTitle("Bomberman");
@@ -63,13 +71,14 @@ public class Partida extends JFrame implements KeyListener, Observer {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                if (fondo != null) {
-                    g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+                if (fondoIcon != null) {
+                    g.drawImage(fondoIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
                 }
             }
         };
         boardPanel.setLayout(new GridLayout(errenkada, zutabe));
 
+        // Inicializar el tablero de etiquetas
         for (int i = 0; i < errenkada; i++) {
             for (int j = 0; j < zutabe; j++) {
                 board[i][j] = new JLabel();
@@ -79,8 +88,9 @@ public class Partida extends JFrame implements KeyListener, Observer {
 
         add(boardPanel, BorderLayout.CENTER);
         
+        // Crear el laberinto
         laberinto.sortuLaberinto();
-        irudiakJarri();
+        tableroEguneratu();
         
         addKeyListener(this);
         setFocusable(true);
@@ -88,14 +98,14 @@ public class Partida extends JFrame implements KeyListener, Observer {
         setVisible(true);
     }    
     
-    private void irudiakJarri() {
+    private void tableroEguneratu() {
         for (int i = 0; i < errenkada; i++) {
             for (int j = 0; j < zutabe; j++) {
-                if (laberinto.getGelaxkaPos(i, j).blokeDu() == true) {
+                if (laberinto.getGelaxkaPos(i, j).blokeDu()) {
                     if (laberinto.getGelaxkaPos(i, j).apurtuDaiteke()) {
-                        board[i][j].setIcon(blokBig); // Bloke biguna
+                        board[i][j].setIcon(blokBigIcon); // Bloke biguna
                     } else {
-                        board[i][j].setIcon(blokGo); // Bloke gogorra
+                        board[i][j].setIcon(blokGoIcon); // Bloke gogorra
                     }
                 } else {
                     board[i][j].setIcon(null); // nada
@@ -103,16 +113,18 @@ public class Partida extends JFrame implements KeyListener, Observer {
             }
         }
         
-        // Bomberman en su posición inicial
-        board[bomberman.getX()][bomberman.getY()].setIcon(bombermanIcon);
+        // Bomberman en su posición actual
+        board[bomberman.getX()][bomberman.getY()].setIcon(bomberIcon);
     }
 
 
     @Override
     public void keyPressed(KeyEvent e) {
     	requestFocus();
-    	int oldX = bomberman.getX();
-    	int oldY = bomberman.getY();
+    	
+    	oldX = bomberman.getX();
+    	oldY = bomberman.getY();
+    	
         int newX = oldX;
         int newY = oldY;
 
@@ -124,11 +136,10 @@ public class Partida extends JFrame implements KeyListener, Observer {
 	        default: return; // ignorar teclas no validas
 	    }
         
-        // Solo mover si las coordenadas son distintas
-        if (newX != oldX || newY != oldY) {
-        	bomberman.mugitu(newX, newY, laberinto);
-            revalidate();
-            repaint();
+        // Solo mover si las coordenadas son distintas y no hay bloke gogorra
+        if ((newX != oldX || newY != oldY) && (!laberinto.getGelaxkaPos(newX, newY).blokeDu())) {
+        	bomberman.mugitu(newX, newY);
+        	tableroEguneratu();
         }
     }
     
@@ -136,18 +147,28 @@ public class Partida extends JFrame implements KeyListener, Observer {
 	public void update(Observable o, Object arg) {
 		if (o instanceof Bomberman) {
 			Bomberman b = (Bomberman) o;
-			for (int i = 0; i < errenkada; i++) {
-				for (int j = 0; j < zutabe; j++) {
-					if (board[i][j].getIcon() == bombermanIcon) {
-						board[i][j].setIcon(null);
-					}
-				}
-			}
 			
-			board[b.getX()][b.getY()].setIcon(bombermanIcon);
+			// Borrar icono en la posicion antigua
+			board[oldX][oldY].setIcon(null);
+		
+			// Refrescar solo la casilla antigua
+			board[oldX][oldY].repaint();
+	        
+			// Obtener la posicion nueva
+			int newX = b.getX();
+			int newY = b.getY();
+			
+			// Colocar icono en la posicion nueva
+			board[newX][newY].setIcon(bomberIcon);
+			
+			// Refrescar solo la casilla nueva
+			board[newX][newY].repaint();
+			
+			// Actualizar las coordenadas
+			oldX = newX;
+			oldY = newY;
+			
 			requestFocusInWindow(); // Mantiene el foco en la ventana
-	        revalidate();
-	        repaint();
 		}
 		
 	}
