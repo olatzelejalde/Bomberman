@@ -33,13 +33,14 @@ public class Classic extends Laberinto {
 	            }
 	        }
 	    }
-	    for (int i = 0; i < 11; i++) {
+	    
+	    /*for (int i = 0; i < 11; i++) {
 	        for (int j = 0; j < 17; j++) {
 	            char simbolo = (matriz[i][j].blokeDu() == false) ? ' ' : (matriz[i][j].apurtuDaiteke()== true? 'B' : 'G');
 	            System.out.print(simbolo + " ");
 	        }
 	        System.out.println();
-	    }
+	    }*/
 
 	    setChanged();
 	    notifyObservers();
