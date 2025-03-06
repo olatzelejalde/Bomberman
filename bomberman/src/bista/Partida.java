@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import eredua.Bomberman;
+import eredua.Bonba;
 import eredua.Classic;
 import eredua.Jokoa;
 import eredua.Laberinto;
@@ -39,6 +40,7 @@ public class Partida extends JFrame implements KeyListener, Observer {
     private ImageIcon blokBigIcon = loadImage("/irudiak/soft1.png");
     private ImageIcon bomberIcon = loadImage("/irudiak/whitefront1.png");
     private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
+    private ImageIcon bonbaIcon = loadImage("/irudiak/bomb1.png");
 
     
     private ImageIcon loadImage(String path) {
@@ -54,7 +56,7 @@ public class Partida extends JFrame implements KeyListener, Observer {
     public Partida() {
     	laberinto = new Classic();
     	bomberman = new White(0,0,laberinto);
-    	Jokoa jokoa = Jokoa.getJokoa();
+    	jokoa = Jokoa.getJokoa();
     	jokoa.hasiJokoa(bomberman,laberinto);
     	jokoa.addObserver(this);
     	bomberman.addObserver(this);
@@ -133,6 +135,7 @@ public class Partida extends JFrame implements KeyListener, Observer {
 	        case KeyEvent.VK_DOWN:  if (oldX < errenkada - 1) newX++; break;
 	        case KeyEvent.VK_LEFT:  if (oldY > 0) newY--; break;
 	        case KeyEvent.VK_RIGHT: if (oldY < zutabe - 1) newY++; break;
+	        case KeyEvent.VK_SPACE: jokoa.kokatuBonba(); break;
 	        default: return; // ignorar teclas no validas
 	    }
         
@@ -171,6 +174,19 @@ public class Partida extends JFrame implements KeyListener, Observer {
 			requestFocusInWindow(); // Mantiene el foco en la ventana
 		}
 		
+		if (o instanceof Jokoa) {
+			Jokoa jokoa = (Jokoa) o;
+			Bonba bonba = jokoa.getBonba();
+			
+			if (bonba != null) {
+				board[bonba.getX()][bonba.getY()].setIcon(bonbaIcon);
+			}
+			else {
+				if (oldX != -1 && oldY != -1) {
+					board[oldX][oldY].setIcon(null);
+				}
+			}
+		}
 	}
 
     @Override public void keyReleased(KeyEvent e) {}
@@ -179,6 +195,4 @@ public class Partida extends JFrame implements KeyListener, Observer {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Partida());
     }
-
-	
 }
