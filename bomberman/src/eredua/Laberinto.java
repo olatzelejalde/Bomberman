@@ -30,12 +30,7 @@ public abstract class Laberinto extends Observable {
 	}
 	
 	public boolean koordenatuBarruan(int x, int y) {
-		if ((x >= 0 && x < 11) && (y >= 0 && y < 17)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (x >= 0 && x < 11) && (y >= 0 && y < 17);
 	}
 	
 	public abstract void sortuLaberinto();
@@ -56,6 +51,28 @@ public abstract class Laberinto extends Observable {
 			
 			if (g != null && g.apurtuDaiteke()) {
 				g.apurtuBlokea();
+				setChanged();
+				notifyObservers();
+			}
+		}
+	}
+	
+	public void jarriSua(int x, int y) {
+		if (koordenatuBarruan(x,y)) {
+			Gelaxka g = matriz[x][y];
+			if (g != null && !g.blokeDu()) {
+				g.setSua(true);
+				setChanged();
+				notifyObservers();
+			}
+		}
+	}
+	
+	public void kenduSua(int x, int y) {
+		if (koordenatuBarruan(x,y)) {
+			Gelaxka g = matriz[x][y];
+			if (g != null && !g.blokeDu()) {
+				g.setSua(false);
 				setChanged();
 				notifyObservers();
 			}
