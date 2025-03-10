@@ -1,6 +1,5 @@
 package eredua;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -8,12 +7,11 @@ public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private White bomberman;
     private Laberinto laberinto;
-    private List<Bonba> bonbaList;
+    private Bonba bonba;
     private boolean amaituta;
     //private List<Etsaia> etsaiak;
 
-    private Jokoa() {
-    	this.bonbaList = new ArrayList<>();        
+    private Jokoa() {       
         this.amaituta = false;
         //this.etsaiak = etsaiak;
     }
@@ -40,33 +38,39 @@ public class Jokoa extends Observable{
         return this.laberinto;
     }
     
+    public Bonba getBonba() {
+    	return this.bonba;
+    }
+    
     public void kokatuBonba() {
     	int x = bomberman.getX();
     	int y = bomberman.getY();
     		
-    	Bonba bonba = new Normal(x,y);
-    	bonbaList.add(bonba);
+    	// Validar antes de colocar la bomba
+        if (x >= 0 && x < 11 && y >= 0 && y < 17) {
+            bonba = new Normal(x, y);
+            setChanged();
+            notifyObservers();
+        } else {
+            System.out.println("🚨 ERROR: No se puede colocar la bomba en (" + x + ", " + y + ")");
+        }
     		
-    	setChanged();
-    	notifyObservers();
-    		
-    	// Temporizador de explosión
+    	// Esperar 3 segundos antes de la explosión
         new Thread(() -> {
-        	try {
-        		Thread.sleep(3000);
-                bonba.eztanda();
-                kenduBonba(bonba);
-            } 
-            catch (InterruptedException e) {
+            try {
+                Thread.sleep(3000);
+                
+                // Comprobar si no se ha movido despues de poner la bomba
+                if (bomberman.getX() == x && bomberman.getY() == y) {
+                    bomberman.hil();
+                    bukaera(false);
+                }
+
+                bonba.eztanda(); // Llamar a la explosión
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
-    }
-    
-    public void kenduBonba(Bonba bonba) {
-    	bonbaList.remove(bonba);
-    	setChanged();
-    	notifyObservers();
     }
     
     public void eguneratu() {
