@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import eredua.Bomberman;
 import eredua.Bonba;
 import eredua.Classic;
+import eredua.Gelaxka;
 import eredua.Jokoa;
 import eredua.Laberinto;
 import eredua.White;
@@ -34,14 +35,16 @@ public class Partida extends JFrame implements KeyListener, Observer {
     private Jokoa jokoa;
     private Laberinto laberinto;
     private White bomberman;
-    private int oldX, oldY;
+    private int oldX, oldY, bonbaX = -1, bonbaY = -1;
     
+    private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
     private ImageIcon blokGoIcon = loadImage("/irudiak/hard5.png");
     private ImageIcon blokBigIcon = loadImage("/irudiak/soft1.png");
     private ImageIcon bomberIcon = loadImage("/irudiak/whitefront1.png");
-    private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
     private ImageIcon bonbaIcon = loadImage("/irudiak/bomb1.png");
-
+    private ImageIcon fuegoIcon = loadImage("/irudiak/kaBomb2.png");
+    private ImageIcon whiteConBonbaIcon = loadImage("/irudiak/whitewithbomb1.png");
+    
     
     private ImageIcon loadImage(String path) {
         java.net.URL imgURL = getClass().getResource(path);
@@ -103,20 +106,105 @@ public class Partida extends JFrame implements KeyListener, Observer {
     private void tableroEguneratu() {
         for (int i = 0; i < errenkada; i++) {
             for (int j = 0; j < zutabe; j++) {
-                if (laberinto.getGelaxkaPos(i, j).blokeDu()) {
-                    if (laberinto.getGelaxkaPos(i, j).apurtuDaiteke()) {
+            	Gelaxka g = laberinto.getGelaxkaPos(i, j);
+            	if (g.suaDago()) {
+            		board[i][j].setIcon(fuegoIcon);
+            	}
+            	else if (g.blokeDu()) {
+            		if (g.apurtuDaiteke()) {
                         board[i][j].setIcon(blokBigIcon); // Bloke biguna
-                    } else {
+                    } 
+            		else {
                         board[i][j].setIcon(blokGoIcon); // Bloke gogorra
                     }
-                } else {
+                } 
+            	else {
                     board[i][j].setIcon(null); // nada
-                }
+                }                           
             }
+        }
+        
+     // Mantener la imagen de la bomba si está en una casilla
+        if (bonbaX != -1 && bonbaY != -1) {
+            board[bonbaX][bonbaY].setIcon(bonbaIcon);
         }
         
         // Bomberman en su posición actual
         board[bomberman.getX()][bomberman.getY()].setIcon(bomberIcon);
+    }
+    
+ // Solo mover si las coordenadas son distintas y no hay bloke gogorra
+    private void bombermanMugitu(int x, int y) {
+        if ((x != oldX || y != oldY) && (!laberinto.getGelaxkaPos(x, y).blokeDu())) {
+        	bomberman.mugitu(x, y);
+        	tableroEguneratu();
+        }
+    }
+    
+    private void bonbaJarri() {
+    	// Solo colocar una bomba si no hay otra
+    	if (bonbaX == -1 && bonbaY == -1) {
+    		bonbaX = bomberman.getX();
+    		bonbaY = bomberman.getY();
+    		board[bonbaX][bonbaY].setIcon(whiteConBonbaIcon);
+    		
+    		new Thread(() -> {
+                try {
+                    Thread.sleep(3000); // Tiempo hasta la explosión
+                    eztandaEguneratu(bonbaX, bonbaY);
+                    
+                    Thread.sleep(2000); // Tiempo antes de limpiar el fuego
+                    garbituSua(bonbaX, bonbaY);
+                    bonbaX = -1;
+                    bonbaY = -1;
+                    tableroEguneratu();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }).start();
+    	}	
+    }
+    
+    // Colocar fuego en las casillas afectadas por la bomba
+    private void eztandaEguneratu(int x, int y) {
+    	laberinto = Jokoa.getJokoa().getLaberinto();
+    	
+    	if (x >= 0 && x < errenkada && y >= 0 && y < zutabe) {
+    		board[x][y].setIcon(fuegoIcon);
+    	}
+    	if (x + 1 >= 0 && x + 1 < errenkada) {
+    		board[x+1][y].setIcon(fuegoIcon);
+    	}
+    	if (x - 1 >= 0 && x - 1 < errenkada) {
+    		board[x-1][y].setIcon(fuegoIcon);
+    	}
+    	if (y + 1 >= 0 && y + 1 < zutabe) {
+    		board[x][y+1].setIcon(fuegoIcon);
+    	}
+    	if (y - 1 >= 0 && y - 1 < zutabe) {
+    		board[x][y-1].setIcon(fuegoIcon);
+    	}
+    }
+    
+    // Quitar fuego en las casillas afectadas por la bomba
+    private void garbituSua(int x, int y) {
+    	laberinto = Jokoa.getJokoa().getLaberinto();
+    	
+    	if (x >= 0 && x < errenkada && y >= 0 && y < zutabe) {
+    		board[x][y].setIcon(null);
+    	}
+    	if (x + 1 >= 0 && x + 1 < errenkada) {
+    		board[x+1][y].setIcon(null);
+    	}
+    	if (x - 1 >= 0 && x - 1 < errenkada) {
+    		board[x-1][y].setIcon(null);
+    	}
+    	if (y + 1 >= 0 && y + 1 < zutabe) {
+    		board[x][y+1].setIcon(null);
+    	}
+    	if (y - 1 >= 0 && y - 1 < zutabe) {
+    		board[x][y-1].setIcon(null);
+    	}
     }
 
 
@@ -135,15 +223,12 @@ public class Partida extends JFrame implements KeyListener, Observer {
 	        case KeyEvent.VK_DOWN:  if (oldX < errenkada - 1) newX++; break;
 	        case KeyEvent.VK_LEFT:  if (oldY > 0) newY--; break;
 	        case KeyEvent.VK_RIGHT: if (oldY < zutabe - 1) newY++; break;
-	        case KeyEvent.VK_SPACE: jokoa.kokatuBonba(); break;
-	        default: return; // ignorar teclas no validas
+	        case KeyEvent.VK_SPACE: bonbaJarri(); break;
+	          
+	        default: return; // ignorar teclas no validas 
 	    }
         
-        // Solo mover si las coordenadas son distintas y no hay bloke gogorra
-        if ((newX != oldX || newY != oldY) && (!laberinto.getGelaxkaPos(newX, newY).blokeDu())) {
-        	bomberman.mugitu(newX, newY);
-        	tableroEguneratu();
-        }
+        bombermanMugitu(newX, newY);
     }
     
     @Override
@@ -151,26 +236,27 @@ public class Partida extends JFrame implements KeyListener, Observer {
 		if (o instanceof Bomberman) {
 			Bomberman b = (Bomberman) o;
 			
-			// Borrar icono en la posicion antigua
-			board[oldX][oldY].setIcon(null);
-		
-			// Refrescar solo la casilla antigua
-			board[oldX][oldY].repaint();
-	        
-			// Obtener la posicion nueva
-			int newX = b.getX();
-			int newY = b.getY();
+			// Borrar la imagen de Bomberman en la posición anterior, pero no la bomba
+            if (!(oldX == bonbaX && oldY == bonbaY)) {
+                board[oldX][oldY].setIcon(null);
+            }
 			
-			// Colocar icono en la posicion nueva
-			board[newX][newY].setIcon(bomberIcon);
-			
-			// Refrescar solo la casilla nueva
-			board[newX][newY].repaint();
-			
-			// Actualizar las coordenadas
-			oldX = newX;
-			oldY = newY;
-			
+            // Obtener la nueva posición de Bomberman
+            int newX = b.getX();
+            int newY = b.getY();
+            
+            // Colocar la imagen de Bomberman en la nueva posición
+            board[newX][newY].setIcon(bomberIcon);
+            
+            // Si hay una bomba en su posición anterior, asegurarse de que siga ahí
+            if (bonbaX != -1 && bonbaY != -1) {
+                board[bonbaX][bonbaY].setIcon(bonbaIcon);
+            }
+            
+            // Actualizar las coordenadas
+            oldX = newX;
+            oldY = newY;
+ 
 			requestFocusInWindow(); // Mantiene el foco en la ventana
 		}
 		
@@ -178,14 +264,34 @@ public class Partida extends JFrame implements KeyListener, Observer {
 			Jokoa jokoa = (Jokoa) o;
 			Bonba bonba = jokoa.getBonba();
 			
-			if (bonba != null) {
-				board[bonba.getX()][bonba.getY()].setIcon(bonbaIcon);
+			if (bonba != null) {				
+				int bx = bonba.getX();
+			    int by = bonba.getY();
+
+			    System.out.println("Bonba kokatu da: (" + bx + ", " + by + ")");
+
+			    if (bx >= 0 && bx < errenkada && by >= 0 && by < zutabe) {
+			        board[bx][by].setIcon(bonbaIcon);
+			    } else {
+			        System.out.println("ERROR: Bonba limiteen kanpoan dago: (" + bx + ", " + by + ")");
+			    }
 			}
-			else {
-				if (oldX != -1 && oldY != -1) {
-					board[oldX][oldY].setIcon(null);
-				}
-			}
+			
+			// Esperar 3 segundos, mostrar el fuego y quitarlo
+            new Thread(() -> {
+                try {
+                    Thread.sleep(3000);
+                    eztandaEguneratu(getX(),getY());
+                    
+                    Thread.sleep(2000);
+                    garbituSua(getX(),getY());
+                    bonbaX = -1;
+                    bonbaY = -1;
+                    
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
 		}
 	}
 
@@ -195,4 +301,6 @@ public class Partida extends JFrame implements KeyListener, Observer {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Partida());
     }
+
+	
 }
