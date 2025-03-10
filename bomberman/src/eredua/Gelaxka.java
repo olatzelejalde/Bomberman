@@ -25,31 +25,13 @@ public class Gelaxka {
 			System.out.println("Blokea apurtu da!!");
 		}
 	}
-
-	public void suaJarri() {
-		if (bloke != null && bloke.suntsigarriaDa()) {
-			bloke = null;
-		}
-	}
-	
-	public void suaKendu() {
-		this.sua = false;
-	}
 	
 	public boolean suaDago() {
-		return sua;
+		return sua != false;
 	}
-	
-	public boolean bonbaDago() {
-		return bonba != null;
-	}
-	
-	public void bonbaJarri(Bonba bonba) {
-		this.bonba = bonba;
-	}
-	
-	public void bonbaKendu() {
-		this.bonba = null;
+
+	public void setSua(boolean sua) {
+		this.sua = sua;
 	}
 
 }
