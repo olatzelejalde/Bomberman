@@ -39,6 +39,8 @@ public abstract class Bomberman extends Observable{
 	}
 	
 	public void mugitu(int newX, int newY) {
+		Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
+		
 		// Laberintoaren limiteen barruan
 		if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {
 			// Posizio berrian bidea dagoen konprobatu
@@ -48,6 +50,12 @@ public abstract class Bomberman extends Observable{
 				setChanged();
 				notifyObservers();
 				System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
+				
+				// Si hay fuego en la nueva casilla muere
+				if (laberinto.getGelaxkaPos(newX, newY).suaDago()) {
+					hil();
+					Jokoa.getJokoa().bukaera(true);
+				}
 			}
 			else {
 				System.out.println("Ezin da mugitu posizio honetara");
@@ -63,7 +71,6 @@ public abstract class Bomberman extends Observable{
 	public void hil() {
 	    if (bizirik) {
 	        bizirik = false;
-	        System.out.println("Bomberman hil da, jokoa bukatu da.");
 	        Jokoa.getJokoa().bukaera(false);
 	    }
 	    setChanged();
