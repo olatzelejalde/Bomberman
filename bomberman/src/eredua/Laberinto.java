@@ -5,14 +5,10 @@ import java.util.Observable;
 public abstract class Laberinto extends Observable {
 	private static Laberinto nireLaberinto;
 	protected Gelaxka[][] matriz;
+
 	
 	protected Laberinto() {
 		this.matriz = new Gelaxka[11][17];
-		for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 17; j++) {
-				matriz[i][j] = new Gelaxka(null);
-			}
-		}
 	}
 
 	public static Laberinto getLaberinto() {
@@ -21,7 +17,16 @@ public abstract class Laberinto extends Observable {
 		}
 		return nireLaberinto;
 	}
+	
+	// Metodo abstracto para crear el laberinto en Classic
+	public abstract void sortuLaberinto();
+	
+	// Consigue la matriz
+	public Gelaxka[][] getMatriz() {
+		return matriz;
+	}
 
+	// Devuelve la posicion de la celda
 	public Gelaxka getGelaxkaPos(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
 			return matriz[x][y];
@@ -29,52 +34,49 @@ public abstract class Laberinto extends Observable {
 		return null;
 	}
 	
+	// Verifica si esta dentro de las coordenadas
 	public boolean koordenatuBarruan(int x, int y) {
 		return (x >= 0 && x < 11) && (y >= 0 && y < 17);
 	}
-	
-	public abstract void sortuLaberinto();
 
+	// Verifica si hay camino por donde pasar
 	public boolean bidePosizioa(int x, int y) {
 		return !matriz[x][y].blokeDu();
 	}
 
+	// Actualiza la celda si ha cambiado su estado
 	public void eguneratuGelaxka(int x, int y, Blokea bloke) {
 		if (koordenatuBarruan(x,y)) {
-			matriz[x][y] = new Gelaxka(bloke);
+			matriz[x][y] = new Gelaxka(bloke, null);
 		}
 	}
 	
-	public void kenduBlokea(int x, int y) {
-		if (koordenatuBarruan(x,y)) {
-			Gelaxka g = matriz[x][y];
-			
-			if (g != null && g.apurtuDaiteke()) {
-				g.apurtuBlokea();
-				setChanged();
-				notifyObservers();
-			}
-		}
-	}
-	
+	// Pone fuego en las casillas adyacentes y si es bloque blando, lo rompe
 	public void jarriSua(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
 			Gelaxka g = matriz[x][y];
-			if (g != null && !g.blokeDu()) {
+			// Solo pone fuego si la celda esta vacia o hay bloque blando
+			if (!g.blokeDu() || g.apurtuDaiteke()) {
 				g.setSua(true);
-				setChanged();
-				notifyObservers();
+				// Rompe el bloque si es blando
+				if (g.apurtuDaiteke()) {
+					g.apurtuBlokea();
+				}
+				// Mata al bomberman si esta en alguna celda de fuego
+				if (g.bombermanDago()) {
+					Jokoa.getJokoa().getBomberman().hil();
+					Jokoa.getJokoa().bukaera(false);
+				}
 			}
 		}
 	}
 	
+	// Quita el fuego cuando se cumple el tiempo de explosion
 	public void kenduSua(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
 			Gelaxka g = matriz[x][y];
-			if (g != null && !g.blokeDu()) {
+			if (g.suaDago()) {
 				g.setSua(false);
-				setChanged();
-				notifyObservers();
 			}
 		}
 	}
