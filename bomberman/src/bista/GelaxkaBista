@@ -1,0 +1,73 @@
+package bista;
+
+import java.awt.EventQueue;
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import eredua.Bomberman;
+import eredua.Gelaxka;
+
+public class GelaxkaBista extends JLabel implements Observer {
+	
+    private ImageIcon blokGoIcon = loadImage("/irudiak/hard5.png");
+    private ImageIcon blokBigIcon = loadImage("/irudiak/soft1.png");
+    private ImageIcon bomberIcon = loadImage("/irudiak/whitefront1.png");
+    private ImageIcon bonbaIcon = loadImage("/irudiak/bomb1.png");
+    private ImageIcon fuegoIcon = loadImage("/irudiak/kaBomb2.png");
+    private ImageIcon whiteConBonbaIcon = loadImage("/irudiak/whitewithbomb1.png");
+	
+	private ImageIcon loadImage(String path) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+        	System.out.println("Error cargando imagen: " + path);
+            return null;
+        }
+    }
+
+	/**
+	 * Create the frame.
+	 */
+	public GelaxkaBista() {
+		
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		Gelaxka g = (Gelaxka) o;
+		
+    	if (g.suaDago()) {
+    		this.setIcon(fuegoIcon);
+    		//System.out.println("Sua kokatu da: (" + g.getX() + ", " + g.getY() + ")");
+    	} 
+    	else if (g.bombermanDago() && g.bonbaDago()) {
+    		this.setIcon(whiteConBonbaIcon);
+    		//System.out.println("Bomberman + bonba kokatu da: (" + g.getX() + ", " + g.getY() + ")");
+    	}
+    	else if (g.bombermanDago()) {
+    		this.setIcon(bomberIcon);
+    		//System.out.println("Bomberman kokatu da: (" + g.getX() + ", " + g.getY() + ")");
+    	}
+    	else if (g.bonbaDago()) {
+    		this.setIcon(bonbaIcon);
+    		//System.out.println("Bonba kokatu da: (" + g.getX() + ", " + g.getY() + ")");
+    	}
+    	else if (g.blokeDu()) {
+    		if (g.apurtuDaiteke()) {
+                this.setIcon(blokBigIcon); // Bloke biguna
+            } 
+    		else {
+    			this.setIcon(blokGoIcon); // Bloke gogorra
+            }
+        }   	
+    	else {
+    		this.setIcon(null); // nada
+    	}	
+	}
+}
