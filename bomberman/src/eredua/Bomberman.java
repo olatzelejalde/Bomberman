@@ -5,7 +5,7 @@ import java.util.Observable;
 public abstract class Bomberman{
 	private int x, y;
 	private boolean bizirik;
-	protected int bonbaKop;
+	protected int bonbaKop= 10;
 	
 	
 	public Bomberman(int x, int y, int bKop) {
@@ -39,6 +39,14 @@ public abstract class Bomberman{
 	public boolean hildaDago() {
 	    return !bizirik;
 	}
+	
+	public int getBonbaKop() {
+		return this.bonbaKop;
+	}
+	
+	public int bonba1Kendu() {
+		return this.bonbaKop= this.bonbaKop-1; 
+	}
 
 	// Matar al bomberman
 	public void setHil(boolean hil) {
@@ -53,7 +61,11 @@ public abstract class Bomberman{
 		Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
 		
 		// Mirar si esta dentro del laberinto
-		if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {
+		if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {// bonbak eztanda egin arte ezin da posiziotik pasatu
+			if (laberinto.getGelaxkaPos(newX, newY).bonbaDago()) {
+	            System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
+	            return;  
+	        }
 			// Mirar si en la nueva posicion hay camino
 			if (laberinto.bidePosizioa(newX, newY)) {
 				// Quitar bomberman de la celda actual
