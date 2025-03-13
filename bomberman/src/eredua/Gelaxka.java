@@ -37,7 +37,7 @@ public class Gelaxka extends Observable {
 	
 	// Verificar si hay fuego en la celda
 	public boolean suaDago() {
-		return sua != false;
+		return sua;
 	}
 	
 	// Verificar si esta el bomberman en la celda
@@ -81,6 +81,6 @@ public class Gelaxka extends Observable {
 	// Notificar a la vista de cambios
 	public void eguneratuBista() {
 		setChanged();
-        notifyObservers();
+        	notifyObservers();
 	}
 }
