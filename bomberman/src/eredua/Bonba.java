@@ -27,5 +27,5 @@ public abstract class Bonba {
 	}
 	
 	// Metodo abstracto para explotar en Normal
-	protected abstract void eztanda();
+	protected abstract void hasiEztanda();
 }
