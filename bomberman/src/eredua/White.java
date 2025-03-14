@@ -5,50 +5,49 @@ import java.util.TimerTask;
 
 public class White extends Bomberman {
 	private boolean bonbaItxaroten;
+	private Timer bonbaTimer;
 	
 	
 	public White(int x, int y, int bonbaKop) {
-		super(x,y,bonbaKop);
+		super(x, y, bonbaKop);
 		this.bonbaItxaroten = false;		
+	}
+	
+	// Conseguir la cantidad de bombas que le quedan
+	public int getBonbaKop() {
+		return bonbaKop;
 	}
 	
 	// Metodo para colocar la bomba
 	public void bonbaJarri() {
-		System.out.println("Bonba kopurua: " + getBonbaKop());
-        if (getBonbaKop() > 0) {
-            Jokoa.getJokoa().kokatuBonba();
-            bonbaKop--; // Disminuir la cantidad de bombas
-            System.out.println("Bonba bat jarri duzu. " + getBonbaKop() + " bonba gelditzen dira");
-        } else if (!bonbaItxaroten) {
-            System.out.println("Ez daukazu bonbarik!! 3 segundotan itxaron bonba bat lortzeko.");
-            itxaronBonba(); // Llamar a la función de esperar
-        } else {
-            System.out.println("Bonba bat lortzen ari zara, itxaron!!");
-        }
-    }
-
-    // Método para esperar 3 segundos para restaurar una bomba
-    public void itxaronBonba() {
-        bonbaItxaroten = true; // Establecer que está esperando
-        System.out.println("3 segunduak  hasi dira...");
-        
-        // Usar un Timer para esperar 3 segundos
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
+		if (bonbaKop > 0) {
+			Jokoa.getJokoa().kokatuBonba();
+			bonbaKop--;
+			System.out.println("Bonba kokatu da. Bonba kopurua: " + bonbaKop);
+		}
+		else if (!bonbaItxaroten) {
+			System.out.println("Ez daukazu bonbarik!! 3s itxaron bonba bat lortzeko.");
+			itxaronBonba();
+		}
+		else {
+			System.out.println("Bonba bat lortzen ari zara, itxaron!!");
+		}
+	}
+	
+	// Metodo para esperar a conseguir una bomba al de 3s cuando ya no te quedaban mas
+	public void itxaronBonba() {
+		bonbaItxaroten = true;
+		
+		// Esperar 3s y luego conseguir una bomba mas
+		bonbaTimer = new Timer();
+        bonbaTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                bonbaKop = 1;  // Restaurar solo 1 bomba
-                bonbaItxaroten = false; // Ya no está esperando
-                System.out.println("Bonba berria kokatu dezakezu!");
+                bonbaKop = 1; 
+                bonbaItxaroten = false; 
+                System.out.println("Bonba bat gehiago duzu!!");
             }
-        };
-        
-        timer.schedule(task, 3000);  // Esperar 3 segundos
-        System.out.println("3 segunduak pasatu dira...");
-    }
-
-    public int getBonbaKop() {
-        return super.getBonbaKop();
-    }
-
+        }, 3000); 
+	}
+	
 }
