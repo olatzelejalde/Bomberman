@@ -1,24 +1,37 @@
 package eredua;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import javax.swing.JOptionPane;
-
-public class Jokoa extends Observable {
+public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
     private Laberinto laberinto;
-    private List<Bonba> bonbaAktiboak = new ArrayList<>();
+    private Bonba bonba;
     private boolean amaituta;
+    //private List<Etsaia> etsaiak;
 
-    private Jokoa() {
+    
+    private Jokoa() {       
         this.amaituta = false;
+        //this.etsaiak = etsaiak;
     }
 
+    public static Jokoa getJokoa() {
+        if (nireJokoa == null) {
+        	nireJokoa = new Jokoa();
+        }
+        return nireJokoa;
+    }
+    
+    // Metodo para empezar el juego
+    public void hasiJokoa(){
+    	this.laberinto = new Classic();
+    	this.bomberman = new White(0,0, 10);
+    	this.laberinto.sortuLaberinto();
+    }
+    
+    // Conseguir el bomberman
     public Bomberman getBomberman(){
         return this.bomberman;
     }
@@ -29,103 +42,73 @@ public class Jokoa extends Observable {
     }
     
     // Conseguir la bomba
-    public List<Bonba> getBonbak() {
-    	return bonbaAktiboak;
+    public Bonba getBonba() {
+    	return this.bonba;
     }
     
-    public static Jokoa getJokoa() {
-        if (nireJokoa == null) {
-            nireJokoa = new Jokoa();
-        }
-        return nireJokoa;
-    }
-
-    // Inicia el juego
-    public void hasiJokoa() {
-        this.laberinto = new Classic();
-        this.bomberman = new White(0, 0, 10);  // Usar White para bomberman
-        this.laberinto.sortuLaberinto();
-    }
-
-    // Colocar una bomba
+    // Metodo para colocar la bomba
     public void kokatuBonba() {
-        int x = bomberman.getX();
-        int y = bomberman.getY();
-
-        // Validar antes de colocar la bomba
-        if (x >= 0 && x < 11 && y >= 0 && y < 17 && laberinto.getMatriz()[x][y] != null) {
-            if (bomberman.getBonbaKop() > 0) {
-                // Si el bomberman tiene bombas disponibles, colocar la bomba
-                Bonba bonbaBerria = new Normal(x, y);
-                bonbaAktiboak.add(bonbaBerria);
-                laberinto.getMatriz()[x][y].setBonba(bonbaBerria);
-                bomberman.bonba1Kendu(); // Disminuir el contador de bombas
-                setChanged();
-                notifyObservers();
-
-                // Esperar 3 segundos antes de la explosión
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        // Comprobar si Bomberman sigue en la posición de la bomba
-                        if (bomberman.getX() == x && bomberman.getY() == y) {
-                            bomberman.hil();
-                            bukaera(false);
-                        }
-                        // Llamar a la explosión
-                        bonbaBerria.eztanda();
-
-                        // Eliminar la bomba del laberinto y de la lista de bombas activas
-                        bonbaAktiboak.remove(bonbaBerria);
-                        laberinto.getMatriz()[x][y].setBonba(null);
-
-                        setChanged();
-                        notifyObservers();
-                    }
-                }, 3000);  // Esperar 3000ms (3 segundos)
-            } else {
-                // Si no tiene bombas disponibles, ponerlo en espera
-                System.out.println("Ez daukazu bonbarik, itxaron 3 segundu...");
-                if (bomberman instanceof White) {
-                    ((White) bomberman).itxaronBonba();  // Llamar al método de espera de White
-                }
-            }
-        } else {
+    	int x = bomberman.getX();
+    	int y = bomberman.getY();
+    		
+    	// Validar antes de colocar la bomba
+        if (laberinto.koordenatuBarruan(x, y) && laberinto.getMatriz()[x][y] != null) {
+            bonba = new Normal(x, y);
+            laberinto.getMatriz()[x][y].setBonba(bonba);
+            setChanged();
+            notifyObservers();
+            
+            // Iniciar el timer de la explosion
+            bonba.hasiEztanda();
+        } 
+        else {
             System.out.println("ERROR: No se puede colocar la bomba en (" + x + ", " + y + ")");
         }
     }
-    
-    // Actualizar si el bomberman ha muerto
+     
+    // Actualizar si el bomberman ha muerto o si ha ganado
     public void eguneratu() {
         if (bomberman.hildaDago()) {
             bukaera(false);
         }
+        else if (laberinto.blokeakDaude()) {
+        	bukaera(true);
+        }
     }
-    
+
+    // Acabar partida
     public void bukaera(boolean irabazi) {
         amaituta = true;
-        String mezua;
+        
         if (irabazi) {
-        	mezua = "Zorionak!! Irabazi duzu.";
-        } else {
-        	mezua = "Oooooo... galdu duzu :(";
+            System.out.println("Zorionak!! Irabazi duzu!!");
+        } 
+        else {
+            System.out.println("Galdu duzu, saiatu berriro.");
         }
-        JOptionPane.showMessageDialog(null, mezua, "JOKOAREN AMAIERA", JOptionPane.INFORMATION_MESSAGE);
-
         setChanged();
         notifyObservers();
         System.exit(0);
     }
     
     // Visualizar el laberinto
-    public void bistaratu() {
-        setChanged();
+	public void bistaratu() {
+		setChanged();
         notifyObservers();
         for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 17; j++) {
-                laberinto.getMatriz()[i][j].eguneratuBista();
+			for (int j = 0; j < 17; j++) {
+				laberinto.getMatriz()[i][j].eguneratuBista();
+			}
+        }
+	}
+
+    /*
+    private boolean etsaiGuztiakHilda() {
+        for (Etsaia etsaia : etsaiak) {
+            if (etsaia.bizirikDago()) {
+                return false;
             }
         }
-    }
+        return true;
+    }*/
 }
