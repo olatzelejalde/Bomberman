@@ -51,13 +51,28 @@ public abstract class Laberinto extends Observable {
 		}
 	}
 	
+	public boolean blokeakDaude() {
+		for (int i = 0; i < matriz.length; i++) {
+			for (int j = 0; j < matriz[i].length; j++)  {
+				Gelaxka g = matriz[i][j];
+				
+				if (g.blokeDu() && g.apurtuDaiteke()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	// Pone fuego en las casillas adyacentes y si es bloque blando, lo rompe
 	public void jarriSua(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
 			Gelaxka g = matriz[x][y];
+			
 			// Solo pone fuego si la celda esta vacia o hay bloque blando
 			if (!g.blokeDu() || g.apurtuDaiteke()) {
 				g.setSua(true);
+				
 				// Rompe el bloque si es blando
 				if (g.apurtuDaiteke()) {
 					g.apurtuBlokea();
