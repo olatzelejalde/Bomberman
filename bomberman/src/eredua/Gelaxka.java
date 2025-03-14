@@ -81,6 +81,6 @@ public class Gelaxka extends Observable {
 	// Notificar a la vista de cambios
 	public void eguneratuBista() {
 		setChanged();
-        	notifyObservers();
+        notifyObservers();
 	}
 }
