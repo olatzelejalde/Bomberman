@@ -128,7 +128,7 @@ public class Partida extends JFrame implements Observer {
 		        case KeyEvent.VK_DOWN:  bomberman.mugitu(x + 1, y); break;
 		        case KeyEvent.VK_LEFT:  bomberman.mugitu(x, y - 1); break;
 		        case KeyEvent.VK_RIGHT: bomberman.mugitu(x, y + 1); break;
-		        case KeyEvent.VK_SPACE: jokoa.kokatuBonba(); break;
+		        case KeyEvent.VK_SPACE: bomberman.bonbaJarri(); break;
 		          
 		        default: return; // ignorar teclas no validas 
 	        }
