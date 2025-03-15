@@ -26,6 +26,19 @@ public abstract class Laberinto extends Observable {
 		return matriz;
 	}
 
+	public void gehituSuntsigarri() {
+        suntsigarriak++;
+    	}
+	
+	public void kenduSuntsigarri() {
+        if (suntsigarriak > 0) {
+            suntsigarriak--;
+        }
+        if (suntsigarriak == 0) {
+            Jokoa.getJokoa().bukaera(true);
+        }
+   	}
+
 	// Devuelve la posicion de la celda
 	public Gelaxka getGelaxkaPos(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
@@ -57,11 +70,11 @@ public abstract class Laberinto extends Observable {
 				Gelaxka g = matriz[i][j];
 				
 				if (g.blokeDu() && g.apurtuDaiteke()) {
-					return false;
+					return true;
 				}
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	// Pone fuego en las casillas adyacentes y si es bloque blando, lo rompe
