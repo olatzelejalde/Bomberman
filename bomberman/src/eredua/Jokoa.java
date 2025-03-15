@@ -62,7 +62,7 @@ public class Jokoa extends Observable{
             bonba.hasiEztanda();
         } 
         else {
-            System.out.println("ERROR: No se puede colocar la bomba en (" + x + ", " + y + ")");
+            System.out.println("ERROREA: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri");
         }
     }
      
@@ -71,14 +71,14 @@ public class Jokoa extends Observable{
         if (bomberman.hildaDago()) {
             bukaera(false);
         }
-        else if (laberinto.blokeakDaude()) {
+        else if (!laberinto.blokeakDaude()) {
         	bukaera(true);
         }
     }
 
     // Acabar partida
     public void bukaera(boolean irabazi) {
-        amaituta = true;
+        //amaituta = true;
         
         if (irabazi) {
             System.out.println("Zorionak!! Irabazi duzu!!");
