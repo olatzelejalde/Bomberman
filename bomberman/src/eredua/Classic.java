@@ -31,6 +31,7 @@ public class Classic extends Laberinto {
 	                int prob1 = r.nextInt(100); // 0-99
 	                if (prob1 < 40) { // 40% de probabilidad de bloque blando
 	                    matriz[i][j] = new Gelaxka(new Blokea(true), null);
+	                    Laberinto.getLaberinto().gehituSuntsigarri();
 	                } else { // 60% de probabilidad de celda vacía
 	                    matriz[i][j] = new Gelaxka(null, null);
 	                }
