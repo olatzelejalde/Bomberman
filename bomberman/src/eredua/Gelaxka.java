@@ -30,6 +30,7 @@ public class Gelaxka extends Observable {
 	public void apurtuBlokea() {
 		if (apurtuDaiteke()) {
 			bloke = null;
+			Laberinto.getLaberinto().kenduSuntsigarri();
 			System.out.println("Blokea apurtu da!!");
 			eguneratuBista();
 		}
