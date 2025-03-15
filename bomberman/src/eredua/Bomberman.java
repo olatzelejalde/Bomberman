@@ -55,8 +55,8 @@ public abstract class Bomberman{
 		// Mirar si esta dentro del laberinto
 		if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {// bonbak eztanda egin arte ezin da posiziotik pasatu
 			if (laberinto.getGelaxkaPos(newX, newY).bonbaDago()) {
-	            		System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
-	            		return;  
+	           	System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
+	           	return;  
 	        }
 			// Mirar si en la nueva posicion hay camino
 			if (laberinto.bidePosizioa(newX, newY)) {
