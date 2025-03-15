@@ -1,114 +1,145 @@
-package eredua;
+package bista;
 
+import java.awt.EventQueue;
+
+import javax.swing.border.EmptyBorder;
+
+import eredua.Bomberman;
+import eredua.Bonba;
+import eredua.Classic;
+import eredua.Gelaxka;
+import eredua.Jokoa;
+import eredua.Laberinto;
+import eredua.White;
+
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Observable;
+import java.util.Observer;
 
-public abstract class Laberinto extends Observable {
-	private static Laberinto nireLaberinto;
-	protected Gelaxka[][] matriz;
-	private int suntsigarriak;
-	
-	protected Laberinto() {
-		this.matriz = new Gelaxka[11][17];
-		this.suntsigarriak=0;
-	}
+import javax.swing.*;
+import java.awt.*;
 
-	public static Laberinto getLaberinto() {
-		if (nireLaberinto == null) {
-			nireLaberinto = new Classic();
-		}
-		return nireLaberinto;
-	}
-	
-	// Metodo abstracto para crear el laberinto en Classic
-	public abstract void sortuLaberinto();
-	
-	// Consigue la matriz
-	public Gelaxka[][] getMatriz() {
-		return matriz;
-	}
-	
-	public void gehituSuntsigarri() {
-        suntsigarriak++;
-    }
-	
-	public void kenduSuntsigarri() {
-        if (suntsigarriak > 0) {
-            suntsigarriak--;
-        }
-        if (suntsigarriak == 0) {
-            Jokoa.getJokoa().bukaera(true); // Llamamos al método para finalizar el juego con victoria
+public class Partida extends JFrame implements Observer {
+    private static final int errenkada = 11;
+    private static final int zutabe = 17;
+    private static final int tam = 40;
+    private Controler nireControler;
+
+    private GelaxkaBista[][] board = new GelaxkaBista[errenkada][zutabe];
+    private Jokoa jokoa;
+    
+    private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
+    
+    
+    private ImageIcon loadImage(String path) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+        	System.out.println("Error cargando imagen: " + path);
+            return null;
         }
     }
+    
+    public Partida() {
+    	setTitle("Bomberman");
+        setSize(zutabe * tam, errenkada * tam);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        
+        // Panel del tablero con fondo
+        JPanel boardPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (fondoIcon != null) {
+                    g.drawImage(fondoIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        boardPanel.setLayout(new GridLayout(errenkada, zutabe));
 
-	// Devuelve la posicion de la celda
-	public Gelaxka getGelaxkaPos(int x, int y) {
-		if (koordenatuBarruan(x,y)) {
-			return matriz[x][y];
-		}
-		return null;
-	}
-	
-	// Verifica si esta dentro de las coordenadas
-	public boolean koordenatuBarruan(int x, int y) {
-		return (x >= 0 && x < 11) && (y >= 0 && y < 17);
+        jokoa = Jokoa.getJokoa();
+    	jokoa.addObserver(this);
+    	jokoa.hasiJokoa();
+    	
+        Gelaxka[][] matriz = jokoa.getLaberinto().getMatriz();
+        // Inicializar el tablero de etiquetas
+        for (int i = 0; i < errenkada; i++) {
+            for (int j = 0; j < zutabe; j++) {
+                board[i][j] = new GelaxkaBista();
+                boardPanel.add(board[i][j]);
+                matriz[i][j].addObserver(board[i][j]);
+            }
+        }
+        jokoa.bistaratu();
+        
+        add(boardPanel, BorderLayout.CENTER);       
+        addKeyListener(getControler());
+        setFocusable(true);
+        requestFocusInWindow();
+        setVisible(true);
+    }        
+    
+    @Override
+	public void update(Observable o, Object arg) {
+    	
 	}
 
-	// Verifica si hay camino por donde pasar
-	public boolean bidePosizioa(int x, int y) {
-		return !matriz[x][y].blokeDu();
-	}
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new Partida());
+    }
+    
+    
+    
+   /************************CONTROLER********************************/
+    
+    private Controler getControler() {
+		if (nireControler == null) {
+			nireControler = new Controler();
+		}
+		return nireControler;
+    }
+    
+    private class Controler implements KeyListener {
 
-	// Actualiza la celda si ha cambiado su estado
-	public void eguneratuGelaxka(int x, int y, Blokea bloke) {
-		if (koordenatuBarruan(x,y)) {
-			matriz[x][y] = new Gelaxka(bloke, null);
-		}
-	}
-	
-	public boolean blokeakDaude() {
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz[i].length; j++)  {
-				Gelaxka g = matriz[i][j];
-				
-				if (g.blokeDu() && g.apurtuDaiteke()) {
-					return true; //oraindik blokeren bat falta da apurtzeko
-				}
-			}
-		}
-		return false; //bloke suntsigarri guztiak apurtuta daude
-	}
-	
-	// Pone fuego en las casillas adyacentes y si es bloque blando, lo rompe
-	public void jarriSua(int x, int y) {
-		if (koordenatuBarruan(x,y)) {
-			Gelaxka g = matriz[x][y];
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
 			
-			// Solo pone fuego si la celda esta vacia o hay bloque blando
-			if (!g.blokeDu() || g.apurtuDaiteke()) {
-				g.setSua(true);
-				
-				// Rompe el bloque si es blando
-				if (g.apurtuDaiteke()) {
-					g.apurtuBlokea();
-				}
-				// Mata al bomberman si esta en alguna celda de fuego
-				if (g.bombermanDago()) {
-					Jokoa.getJokoa().getBomberman().hil();
-					Jokoa.getJokoa().bukaera(false);
-				}
-			}
 		}
-	}
+
+		@Override
+	    public void keyPressed(KeyEvent e) {
+	    	requestFocus();
+	    	
+	    	Bomberman bomberman = jokoa.getBomberman();
+	    	
+	    	int x = jokoa.getBomberman().getX();
+		    int y = jokoa.getBomberman().getY();
+		    
+
+	        switch (e.getKeyCode()) {
+		        case KeyEvent.VK_UP:    bomberman.mugitu(x - 1, y); break;
+		        case KeyEvent.VK_DOWN:  bomberman.mugitu(x + 1, y); break;
+		        case KeyEvent.VK_LEFT:  bomberman.mugitu(x, y - 1); break;
+		        case KeyEvent.VK_RIGHT: bomberman.mugitu(x, y + 1); break;
+		        case KeyEvent.VK_SPACE: bomberman.bonbaJarri(); break;
+		          
+		        default: return; // ignorar teclas no validas 
+	        }
+	    }
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}	
+    }
+
 	
-	// Quita el fuego cuando se cumple el tiempo de explosion
-	public void kenduSua(int x, int y) {
-		if (koordenatuBarruan(x,y)) {
-			Gelaxka g = matriz[x][y];
-			if (g.suaDago()) {
-				g.setSua(false);
-			}
-		}
-	}
-
-
 }
