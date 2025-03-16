@@ -53,11 +53,10 @@ public abstract class Bomberman{
 		Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
 		
 		// Mirar si esta dentro del laberinto
-		if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {// bonbak eztanda egin arte ezin da posiziotik pasatu
+		if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {
 			if (laberinto.getGelaxkaPos(newX, newY).bonbaDago()) {
-	           	System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
-	           	return;  
-	        }
+				System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
+			}
 			// Mirar si en la nueva posicion hay camino
 			if (laberinto.bidePosizioa(newX, newY)) {
 				// Quitar bomberman de la celda actual
@@ -69,10 +68,12 @@ public abstract class Bomberman{
 				setY(newY);
 						
 				System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
-			} else {
+			}
+			else {
 				System.out.println("Ezin da mugitu posizio honetara");
 			}
-		} else {
+		}
+		else {
 			System.out.println("Laberintotik kanpo");
 		}	
 	}
