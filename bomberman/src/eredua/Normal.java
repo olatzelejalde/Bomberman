@@ -32,6 +32,7 @@ public class Normal extends Bonba {
 		int y = getY();
 		
 		Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
+		Gelaxka g = laberinto.getMatriz()[x][y];
 		
 		// Marcar fuego en la posición de la bomba y sus alrededores si están vacíos
 		laberinto.jarriSua(x, y); //posicion original de bomba
@@ -41,7 +42,7 @@ public class Normal extends Bonba {
 		laberinto.jarriSua(x, y + 1); //derecha
 		
 		// Eliminar la bomba de la celda
-		laberinto.getMatriz()[x][y].setBonba(null);
+		g.setBonba(null);
 		
 		// Verificar cada 500ms si el bomberman toca el fuego
 		tocarFuegoTimer = new Timer();
