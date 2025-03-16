@@ -27,7 +27,7 @@ public class Jokoa extends Observable{
     // Metodo para empezar el juego
     public void hasiJokoa(){
     	this.laberinto = new Classic();
-    	this.bomberman = new White(0,0, 10);
+    	this.bomberman = new White(0, 0, 10);
     	this.laberinto.sortuLaberinto();
     }
     
@@ -53,16 +53,24 @@ public class Jokoa extends Observable{
     		
     	// Validar antes de colocar la bomba
         if (laberinto.koordenatuBarruan(x, y) && laberinto.getMatriz()[x][y] != null) {
-            bonba = new Normal(x, y);
-            laberinto.getMatriz()[x][y].setBonba(bonba);
-            setChanged();
-            notifyObservers();
-            
-            // Iniciar el timer de la explosion
-            bonba.hasiEztanda();
+        	Gelaxka g = laberinto.getMatriz()[x][y];
+        	
+        	// Mirar si la celda tiene bloque blando o esta vacia
+        	if (!g.blokeDu() || g.apurtuDaiteke()) {
+        		bonba = new Normal(x, y);
+                laberinto.getMatriz()[x][y].setBonba(bonba);
+                setChanged();
+                notifyObservers();
+                
+                // Iniciar el timer de la explosion
+                bonba.hasiEztanda();
+        	}
+        	else {
+        		System.out.println("ERROR: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri");
+        	}
         } 
         else {
-            System.out.println("ERROREA: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri");
+            System.out.println("ERROR: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri, laberintotik kanpo dagoelako");
         }
     }
      
@@ -70,15 +78,15 @@ public class Jokoa extends Observable{
     public void eguneratu() {
         if (bomberman.hildaDago()) {
             bukaera(false);
-        }
+        } 
         else if (!laberinto.blokeakDaude()) {
-        	bukaera(true);
+            bukaera(true);
         }
     }
 
     // Acabar partida
     public void bukaera(boolean irabazi) {
-        //amaituta = true;
+        amaituta = true;
         
         if (irabazi) {
             System.out.println("Zorionak!! Irabazi duzu!!");
