@@ -27,20 +27,7 @@ public abstract class Laberinto extends Observable {
 	public Gelaxka[][] getMatriz() {
 		return matriz;
 	}
-
-	public void gehituSuntsigarri() {
-        suntsigarriak++;
-    	}
 	
-	public void kenduSuntsigarri() {
-        if (suntsigarriak > 0) {
-            suntsigarriak--;
-        }
-        if (suntsigarriak == 0) {
-            Jokoa.getJokoa().bukaera(true);
-        }
-   	}
-
 	// Devuelve la posicion de la celda
 	public Gelaxka getGelaxkaPos(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
@@ -56,7 +43,7 @@ public abstract class Laberinto extends Observable {
 
 	// Verifica si hay camino por donde pasar
 	public boolean bidePosizioa(int x, int y) {
-		return !matriz[x][y].blokeDu();
+		return !matriz[x][y].blokeDu() && !matriz[x][y].bonbaDago();
 	}
 
 	// Actualiza la celda si ha cambiado su estado
@@ -66,18 +53,28 @@ public abstract class Laberinto extends Observable {
 		}
 	}
 	
+	// Verifica si hay bloques blandos
 	public boolean blokeakDaude() {
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz[i].length; j++)  {
-				Gelaxka g = matriz[i][j];
-				
-				if (g.blokeDu() && g.apurtuDaiteke()) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return this.suntsigarriak > 0;
 	}
+	
+	// Suma un bloque
+	public void gehituSuntsigarri() {
+		this.suntsigarriak++;
+	}
+
+	// Comprueba si hay bloques
+	public void kenduSuntsigarri() {
+		if (suntsigarriak > 0) {
+			this.suntsigarriak--;
+		}
+		
+		if (suntsigarriak == 0) {
+			Jokoa.getJokoa().bukaera(true);
+		}
+	}
+	
+	
 	
 	// Pone fuego en las casillas adyacentes y si es bloque blando, lo rompe
 	public void jarriSua(int x, int y) {
