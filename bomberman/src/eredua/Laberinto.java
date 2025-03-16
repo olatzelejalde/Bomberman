@@ -5,10 +5,12 @@ import java.util.Observable;
 public abstract class Laberinto extends Observable {
 	private static Laberinto nireLaberinto;
 	protected Gelaxka[][] matriz;
+	private int suntsigarriak;
 
 	
 	protected Laberinto() {
 		this.matriz = new Gelaxka[11][17];
+		this.suntsigarriak = 0;
 	}
 
 	public static Laberinto getLaberinto() {
