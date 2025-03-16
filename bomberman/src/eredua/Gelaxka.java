@@ -15,7 +15,7 @@ public class Gelaxka extends Observable {
 		this.sua = false;
 		this.bomberman = bomberman;
 	}
-
+	
 	// Verificar si hay bloque en la celda
 	public boolean blokeDu() {
 		return bloke != null;
@@ -30,7 +30,6 @@ public class Gelaxka extends Observable {
 	public void apurtuBlokea() {
 		if (apurtuDaiteke()) {
 			bloke = null;
-			Laberinto.getLaberinto().kenduSuntsigarri();
 			System.out.println("Blokea apurtu da!!");
 			eguneratuBista();
 		}
