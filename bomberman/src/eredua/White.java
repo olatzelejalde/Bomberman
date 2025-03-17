@@ -7,7 +7,7 @@ public class White extends Bomberman {
 	private boolean bonbaItxaroten;
 	private Timer bonbaTimer;
 	
-	
+	// Eraikitzailea
 	public White(int x, int y, int bonbaKop) {
 		super(x, y, bonbaKop);
 		this.bonbaItxaroten = false;		
