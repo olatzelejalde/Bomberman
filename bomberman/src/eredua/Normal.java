@@ -34,7 +34,7 @@ public class Normal extends Bonba {
 		Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
 		Gelaxka g = laberinto.getMatriz()[x][y];
 		
-		// Marcar fuego en la posición de la bomba y sus alrededores si están vacíos
+		// Sua jarri bonbaren posizioan eta ondokoetan
 		laberinto.jarriSua(x, y); // Bonbaren posizioa
 		laberinto.jarriSua(x - 1, y); // Goiko gelaxka
 		laberinto.jarriSua(x + 1, y); // Beheko gelaxka
