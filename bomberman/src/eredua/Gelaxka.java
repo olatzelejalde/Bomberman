@@ -16,6 +16,10 @@ public class Gelaxka extends Observable {
 		this.bomberman = bomberman;
 	}
 	
+	public Bomberman getBomberman() {
+        return bomberman;
+    }
+	
 	// Verificar si hay bloque en la celda
 	public boolean blokeDu() {
 		return bloke != null;
