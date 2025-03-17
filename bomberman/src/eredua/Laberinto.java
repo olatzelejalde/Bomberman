@@ -1,11 +1,10 @@
 package eredua;
 
-import java.util.Observable;
-
-public abstract class Laberinto extends Observable {
+public abstract class Laberinto {
 	private static Laberinto nireLaberinto;
 	protected Gelaxka[][] matriz;
 	private int suntsigarriak;
+
 	
 	protected Laberinto() {
 		this.matriz = new Gelaxka[11][17];
@@ -26,20 +25,7 @@ public abstract class Laberinto extends Observable {
 	public Gelaxka[][] getMatriz() {
 		return matriz;
 	}
-
-	public void gehituSuntsigarri() {
-        suntsigarriak++;
-    	}
 	
-	public void kenduSuntsigarri() {
-        if (suntsigarriak > 0) {
-            suntsigarriak--;
-        }
-        if (suntsigarriak == 0) {
-            Jokoa.getJokoa().bukaera(true);
-        }
-   	}
-
 	// Gelaxkaren posizioa lortu
 	public Gelaxka getGelaxkaPos(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
@@ -55,7 +41,7 @@ public abstract class Laberinto extends Observable {
 
 	// Bidea dagoen egiaztatu
 	public boolean bidePosizioa(int x, int y) {
-		return !matriz[x][y].blokeDu();
+		return !matriz[x][y].blokeDu() && !matriz[x][y].bonbaDago();
 	}
 
 	// Gelaxka eguneratu egoera aldatu bada
@@ -65,17 +51,25 @@ public abstract class Laberinto extends Observable {
 		}
 	}
 	
+	// Bloke bigunak dauden egiaztatu
 	public boolean blokeakDaude() {
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz[i].length; j++)  {
-				Gelaxka g = matriz[i][j];
-				
-				if (g.blokeDu() && g.apurtuDaiteke()) {
-					return true;
-				}
-			}
+		return this.suntsigarriak > 0;
+	}
+	
+	// Bloke suntsigarria gehitu
+	public void gehituSuntsigarri() {
+		this.suntsigarriak++;
+	}
+
+	// Bloke suntsigarria kendu
+	public void kenduSuntsigarri() {
+		if (suntsigarriak > 0) {
+			this.suntsigarriak--;
 		}
-		return false;
+		
+		if (suntsigarriak == 0) {
+			Jokoa.getJokoa().bukaera(true);
+		}
 	}
 	
 	// Alboko gelaxketan sua jarri eta blokea biguna bada, apurtu
@@ -84,14 +78,14 @@ public abstract class Laberinto extends Observable {
 			Gelaxka g = matriz[x][y];
 			
 			// Bakarrik sua jarriko du gelaxka hutsik badago edo bloke biguna bada
-			if (!g.blokeDu() || g.apurtuDaiteke()) {
-				g.setSua(true);
-				
-				// Bloke biguna bada, apurtu
-				if (g.apurtuDaiteke()) {
-					g.apurtuBlokea();
-				}
-				// Bomberman-a hil baldin eta dagoen gelaxkan sua dago
+		if (!g.blokeDu() || g.apurtuDaiteke()) {
+			g.setSua(true);
+			
+			// Bloke biguna bada, apurtu
+			if (g.apurtuDaiteke()) {
+				g.apurtuBlokea();
+			}
+			// Bomberman-a hil baldin eta dagoen gelaxkan sua dago
 				if (g.bombermanDago()) {
 					Jokoa.getJokoa().getBomberman().hil();
 					Jokoa.getJokoa().bukaera(false);
