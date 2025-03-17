@@ -3,6 +3,8 @@ package eredua;
 import java.util.List;
 import java.util.Observable;
 
+import javax.swing.JOptionPane;
+
 public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
@@ -89,15 +91,17 @@ public class Jokoa extends Observable{
         amaituta = true;
         
         if (irabazi) {
-            System.out.println("Zorionak!! Irabazi duzu!!");
+            JOptionPane.showMessageDialog(null, "Zorionak!! Irabazi duzu!!", "Bukaera", JOptionPane.INFORMATION_MESSAGE);
         } 
         else {
-            System.out.println("Galdu duzu, saiatu berriro.");
+            JOptionPane.showMessageDialog(null, "Galdu duzu, saiatu berriro.", "Bukaera", JOptionPane.INFORMATION_MESSAGE);
         }
+        
         setChanged();
         notifyObservers();
         System.exit(0);
     }
+
     
     // Visualizar el laberinto
 	public void bistaratu() {
