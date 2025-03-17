@@ -6,6 +6,7 @@ public abstract class Bomberman {
     protected int bonbaKop;
     private String norabidea = "behera"; 
 
+    // Eraikitzailea
     public Bomberman(int x, int y, int bonbaKop) {
         this.x = x;
         this.y = y;
@@ -13,40 +14,42 @@ public abstract class Bomberman {
         this.bonbaKop = bonbaKop;
     }
 
- // Conseguir la posicion X
+ 	// X posizioa lortu
  	public int getX() {
  		return x;
  	}
  	
- 	// Conseguir la posicion Y
+ 	// Y posizioa lortu
  	public int getY() {
  		return y;
  	}
  	
- 	// Colocarlo en la posicion x
+ 	// X posizioan kokatu
  	public void setX(int x) {
  		this.x = x;
  	}
 
- 	// COlocarlo en la posicion y
+ 	// Y posizioan kokatu
  	public void setY(int y) {
  		this.y = y;
  	}
  	
- 	// Verifica si ha muerto
+ 	// Hil den egiaztatu
  	public boolean hildaDago() {
  	    return !bizirik;
  	}
 
- 	// Matar al bomberman
+ 	// Bonbermana hil
  	public void setHil(boolean hil) {
  		this.bizirik = false;
  	}
-    public String getNorabidea() {
-        return norabidea;
+
+	// Norantz doan jakiteko
+    	public String getNorabidea() {
+        	return norabidea;
     }
     
- // Metodo abstacto para poner bomba en Normal
+ 	// Metodo abstraktua Normal klasean dagoen metodoa deitu
  	public abstract void bonbaJarri();
 
     public void mugitu(int newX, int newY) {
@@ -58,26 +61,26 @@ public abstract class Bomberman {
             }
 
             if (laberinto.bidePosizioa(newX, newY)) {
-                // Actualizar dirección antes de mover
+                // Mugitu baino lehen posizioa eguneratu
                 if (newX < x) {
-                    norabidea = "goruntz"; // Arriba
+                    norabidea = "gorantz"; // Gora
                 } else if (newX > x) {
-                    norabidea = "behera"; // Abajo
+                    norabidea = "behera"; // Behera
                 } else if (newY < y) {
-                    norabidea = "ezkerra"; // Izquierda
+                    norabidea = "ezkerra"; // Ezkerra
                 } else if (newY > y) {
-                    norabidea = "eskuina"; // Derecha
+                    norabidea = "eskuina"; // Eskuina
                 }
 
-                // Quitar bomberman de la celda actual
+                // Kendu Bombermana gelaxka honetatik
                 laberinto.getGelaxkaPos(x, y).setBomberman(null);
-                // Mover a la celda nueva
+                // Gelaxka berrira mugitu
                 laberinto.getGelaxkaPos(newX, newY).setBomberman(this);
 
                 x = newX;
                 y = newY;
 
-                System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
+                System.out.println("Bombermana mugitu da: (" + x + ", " + y + ")");
             } else {
                 System.out.println("Ezin da mugitu posizio honetara");
             }
@@ -85,6 +88,7 @@ public abstract class Bomberman {
             System.out.println("Laberintotik kanpo");
         }
     }
+    // Bombermana hil
     public void hil() {
 	    if (bizirik) {
 	        bizirik = false;
