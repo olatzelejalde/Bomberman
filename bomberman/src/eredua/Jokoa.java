@@ -85,7 +85,6 @@ public class Jokoa extends Observable{
     // Partida amaitu
     public void bukaera(boolean irabazi) {
         amaituta = true;
-        
         if (irabazi) {
             JOptionPane.showMessageDialog(null, "Zorionak!! Irabazi duzu!!", "Bukaera", JOptionPane.INFORMATION_MESSAGE);
         } 
