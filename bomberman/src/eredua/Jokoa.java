@@ -85,15 +85,9 @@ public class Jokoa extends Observable{
     // Partida amaitu
     public void bukaera(boolean irabazi) {
         amaituta = true;
-        if (irabazi) {
-            JOptionPane.showMessageDialog(null, "Zorionak!! Irabazi duzu!!", "Bukaera", JOptionPane.INFORMATION_MESSAGE);
-        } 
-        else {
-            JOptionPane.showMessageDialog(null, "Galdu duzu, saiatu berriro.", "Bukaera", JOptionPane.INFORMATION_MESSAGE);
-        }
         setChanged();
         notifyObservers();
-        System.exit(0);
+        // System.exit(0);
     }
 
     // Labirintoa bistaratu
