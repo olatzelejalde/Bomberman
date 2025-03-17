@@ -1,13 +1,10 @@
 package bista;
 
-import java.awt.EventQueue;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import eredua.Bomberman;
 import eredua.Gelaxka;
