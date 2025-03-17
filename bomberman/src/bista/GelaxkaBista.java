@@ -20,8 +20,8 @@ public class GelaxkaBista extends JLabel implements Observer {
     private ImageIcon blokBigIcon = loadImage("/irudiak/soft1.png");
     private ImageIcon bomberIcon = loadImage("/irudiak/whitefront1.png");
     private ImageIcon bonbaIcon = loadImage("/irudiak/bomb1.png");
-    private ImageIcon fuegoIcon = loadImage("/irudiak/kaBomb2.png");
-    private ImageIcon whiteConBonbaIcon = loadImage("/irudiak/whitewithbomb1.png");
+    private ImageIcon suaIcon = loadImage("/irudiak/kaBomb2.png");
+    private ImageIcon whiteBonbarekin = loadImage("/irudiak/whitewithbomb1.png");
     private ImageIcon ezkerra = loadImage("/irudiak/whiteleft2.png");
     private ImageIcon eskuina = loadImage("/irudiak/whiteright2.png");
     private ImageIcon atzera = loadImage("/irudiak/whiteup2.png");
@@ -34,7 +34,7 @@ public class GelaxkaBista extends JLabel implements Observer {
             return new ImageIcon(imgURL);
         }
         else {
-        	System.out.println("Error cargando imagen: " + path);
+        	System.out.println("Errorea egon da irudia kargatzeko: " + path);
             return null;
         }
     }
@@ -49,11 +49,11 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 		// Sua dagoen konprobatu
 	    if (g.suaDago()) {
-	        this.setIcon(fuegoIcon);
+	        this.setIcon(suaIcon);
 	    } 
 		// Bomberman bonba kokatzen	badago
 	    else if (g.bombermanDago() && g.bonbaDago()) {
-	        this.setIcon(whiteConBonbaIcon);
+	        this.setIcon(whiteBonbarekin);
 	    }
 	    else if (g.bombermanDago()) {
 	    	Jokoa joko = Jokoa.getJokoa();
