@@ -33,7 +33,6 @@ public class Partida extends JFrame implements Observer {
     
     private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
     
-    
     private ImageIcon loadImage(String path) {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
@@ -131,6 +130,7 @@ public class Partida extends JFrame implements Observer {
 		        case KeyEvent.VK_SPACE: bomberman.bonbaJarri(); break;
 		          
 		        default: return; // ignorar teclas no validas 
+		        
 	        }
 	    }
 
