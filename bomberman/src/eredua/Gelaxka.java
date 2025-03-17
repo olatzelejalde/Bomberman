@@ -6,20 +6,15 @@ public class Gelaxka extends Observable {
 	private Blokea bloke;
 	private Bonba bonba;
 	private boolean sua;
-	private Bomberman bomberman;
+	private boolean bomberman;
 
 	// Eraikitzaileak
-	public Gelaxka(Blokea bloke, Bomberman bomberman) {
+	public Gelaxka(Blokea bloke, boolean bomberman) {
 		this.bloke = bloke;
 		this.bonba = null;
 		this.sua = false;
 		this.bomberman = bomberman;
 	}
-
-	// Bombermana eskuratu
-	public Bomberman getBomberman() {
-        	return bomberman;
-    	}
 	
 	// Gelaxkan bloke dagoen jakiteko
 	public boolean blokeDu() {
@@ -48,12 +43,7 @@ public class Gelaxka extends Observable {
 	
 	// Gelaxkan Bombermana dagoen jakiteko
 	public boolean bombermanDago() {
-		if (bomberman != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return bomberman;
 	}
 	
 	// Gelaxkan bonba dagoen jakiteko
@@ -67,7 +57,7 @@ public class Gelaxka extends Observable {
 	}
 	
 	// Bombermana gelaxkan jarri
-	public void setBomberman(Bomberman b) {
+	public void setBomberman(boolean b) {
 		bomberman = b;
 		eguneratuBista();
 	}
@@ -87,6 +77,6 @@ public class Gelaxka extends Observable {
 	// Aldaketetaz jakinarazi bistari
 	public void eguneratuBista() {
 		setChanged();
-        	notifyObservers();
+        notifyObservers();
 	}
 }
