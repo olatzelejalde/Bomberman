@@ -33,11 +33,13 @@ public class Partida extends JFrame implements Observer {
     
     private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
     
+    
     private ImageIcon loadImage(String path) {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL);
-        } else {
+        }
+        else {
         	System.out.println("Error cargando imagen: " + path);
             return null;
         }
@@ -50,7 +52,7 @@ public class Partida extends JFrame implements Observer {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         
-        // Panel del tablero con fondo
+        // JPanel-ari argazkia jarri fondoan
         JPanel boardPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -67,7 +69,7 @@ public class Partida extends JFrame implements Observer {
     	jokoa.hasiJokoa();
     	
         Gelaxka[][] matriz = jokoa.getLaberinto().getMatriz();
-        // Inicializar el tablero de etiquetas
+        // Tableroa hasieratu
         for (int i = 0; i < errenkada; i++) {
             for (int j = 0; j < zutabe; j++) {
                 board[i][j] = new GelaxkaBista();
@@ -86,13 +88,11 @@ public class Partida extends JFrame implements Observer {
     
     @Override
 	public void update(Observable o, Object arg) {
-    	
 	}
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Partida());
     }
-    
     
     
    /************************CONTROLER********************************/
@@ -109,7 +109,6 @@ public class Partida extends JFrame implements Observer {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -128,18 +127,14 @@ public class Partida extends JFrame implements Observer {
 		        case KeyEvent.VK_LEFT:  bomberman.mugitu(x, y - 1); break;
 		        case KeyEvent.VK_RIGHT: bomberman.mugitu(x, y + 1); break;
 		        case KeyEvent.VK_SPACE: bomberman.bonbaJarri(); break;
-		          
-		        default: return; // ignorar teclas no validas 
-		        
+		        // Gainontzeko teklak ez dira kontuan hartuko  
+		        default: return; 
 	        }
 	    }
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
 		}	
-    }
-
-	
+    }	
 }
