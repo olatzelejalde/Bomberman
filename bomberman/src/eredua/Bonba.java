@@ -4,28 +4,28 @@ public abstract class Bonba {
 	private int x, y;
 	protected boolean aktibatuta;
 
-	
+	// Eraikitzailea
 	public Bonba(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.aktibatuta = true;
 	}
 	
-	// Conseguir la psoicion X
+	// X posizioa lortu
 	public int getX() {
 		return x;
 	}
 	
-	// Conseguir la posicion Y
+	// Y posizioa lortu
 	public int getY() {
 		return y;
 	}
 	
-	// Verificar si la bomba esta activada
+	// Bonba jarrita dagoen jakiteko
 	public boolean aktibatutaDago() {
 		return aktibatuta;
 	}
 	
-	// Metodo abstracto para explotar en Normal
+	// Metodo abstraktua Normal klasean jartzeko
 	protected abstract void hasiEztanda();
 }
