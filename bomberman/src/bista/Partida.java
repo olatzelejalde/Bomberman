@@ -5,14 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.border.EmptyBorder;
 
 import eredua.Bomberman;
-import eredua.Bonba;
-import eredua.Classic;
 import eredua.Gelaxka;
 import eredua.Jokoa;
-import eredua.Laberinto;
-import eredua.White;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -40,7 +35,7 @@ public class Partida extends JFrame implements Observer {
             return new ImageIcon(imgURL);
         }
         else {
-        	System.out.println("Error cargando imagen: " + path);
+        	System.out.println("Errorea irudia kargatzeko: " + path);
             return null;
         }
     }
