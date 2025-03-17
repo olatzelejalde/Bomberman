@@ -1,101 +1,98 @@
-package bista;
+package eredua;
 
-import java.awt.EventQueue;
-import java.util.Observable;
-import java.util.Observer;
+public abstract class Bomberman {
+    private int x, y;
+    private boolean bizirik;
+    protected int bonbaKop;
+    private String norabidea = "behera"; 
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import eredua.Bomberman;
-import eredua.Gelaxka;
-
-public class GelaxkaBista extends JLabel implements Observer {
-
-	// Erabiliko diren irudiak atributu gisa kargatu
-    private ImageIcon blokGoIcon = loadImage("/irudiak/hard5.png");
-    private ImageIcon blokBigIcon = loadImage("/irudiak/soft1.png");
-    private ImageIcon bomberIcon = loadImage("/irudiak/whitefront1.png");
-    private ImageIcon bonbaIcon = loadImage("/irudiak/bomb1.png");
-    private ImageIcon fuegoIcon = loadImage("/irudiak/kaBomb2.png");
-    private ImageIcon whiteConBonbaIcon = loadImage("/irudiak/whitewithbomb1.png");
-    private ImageIcon ezkerra = loadImage("/irudiak/whiteleft2.png");
-    private ImageIcon eskuina = loadImage("/irudiak/whiteright2.png");
-    private ImageIcon atzera = loadImage("/irudiak/whiteup2.png");
-    private ImageIcon aurrera = loadImage("/irudiak/whitedown2.png");
-
-	// Irudiak kargatzeko metodoa
-	private ImageIcon loadImage(String path) {
-        java.net.URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-        	System.out.println("Error cargando imagen: " + path);
-            return null;
-        }
+    // Eraikitzailea
+    public Bomberman(int x, int y, int bonbaKop) {
+        this.x = x;
+        this.y = y;
+        this.bizirik = true;
+        this.bonbaKop = bonbaKop;
     }
 
-	// Eraikitzailea
-	public GelaxkaBista() {
-		
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) {
-	    Gelaxka g = (Gelaxka) o;
+ 	// X posizioa lortu
+ 	public int getX() {
+ 		return x;
+ 	}
+ 	
+ 	// Y posizioa lortu
+ 	public int getY() {
+ 		return y;
+ 	}
+ 	
+ 	// X posizioan kokatu
+ 	public void setX(int x) {
+ 		this.x = x;
+ 	}
 
-		// Sua dagoen konprobatu
-	    if (g.suaDago()) {
-	        this.setIcon(fuegoIcon);
-	    } 
-		// Bomberman bonba kokatzen	badago
-	    else if (g.bombermanDago() && g.bonbaDago()) {
-	        this.setIcon(whiteConBonbaIcon);
-	    }
-	    else if (g.bombermanDago()) {
-			// Bomberman mota lortu
-	        Bomberman bomber = g.getBomberman();
-	        if (bomber != null) {
-				// Bomberman-aren irudia norabidearen arabera aldatu
-	            switch (bomber.getNorabidea()) {
-	                case "ezkerra":
-	                    this.setIcon(ezkerra);
-	                    break;
-	                case "eskuina":
-	                    this.setIcon(eskuina);
-	                    break;
-	                case "goruntz":
-	                    this.setIcon(atzera);
-	                    break;
-	                case "behera":
-	                    this.setIcon(aurrera);
-	                    break;
-	                default:
-	                    this.setIcon(bomberIcon);
-	                    break;
-	            }
-	        }
-	    }
-		// Bonba kokatu badu jada
-	    else if (g.bonbaDago()) {
-	        this.setIcon(bonbaIcon);
-	    }
-		// Blokea duen konprobatu eta haren mota	
-	    else if (g.blokeDu()) {
-			// Bloke biguna
-	        if (g.apurtuDaiteke()) {
-	            this.setIcon(blokBigIcon);
-	        }
-			// Bloke gogorra
-			else {
-	            this.setIcon(blokGoIcon);
-	        }
-	    }
-		// Ezer ez badago, hutsik utzi
-		else {
-	        this.setIcon(null);
+ 	// Y posizioan kokatu
+ 	public void setY(int y) {
+ 		this.y = y;
+ 	}
+ 	
+ 	// Hil den egiaztatu
+ 	public boolean hildaDago() {
+ 	    return !bizirik;
+ 	}
+
+ 	// Bonbermana hil
+ 	public void setHil(boolean hil) {
+ 		this.bizirik = false;
+ 	}
+
+	// Norantz doan jakiteko
+    	public String getNorabidea() {
+        	return norabidea;
+    }
+    
+ 	// Metodo abstraktua Normal klasean dagoen metodoa deitu
+ 	public abstract void bonbaJarri();
+
+    public void mugitu(int newX, int newY) {
+        Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
+
+        if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {
+            if (laberinto.getGelaxkaPos(newX, newY).bonbaDago()) {
+                System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
+            }
+
+            if (laberinto.bidePosizioa(newX, newY)) {
+                // Mugitu baino lehen posizioa eguneratu
+                if (newX < x) {
+                    norabidea = "gorantz"; // Gora
+                } else if (newX > x) {
+                    norabidea = "behera"; // Behera
+                } else if (newY < y) {
+                    norabidea = "ezkerra"; // Ezkerra
+                } else if (newY > y) {
+                    norabidea = "eskuina"; // Eskuina
+                }
+
+                // Kendu Bombermana gelaxka honetatik
+                laberinto.getGelaxkaPos(x, y).setBomberman(null);
+                // Gelaxka berrira mugitu
+                laberinto.getGelaxkaPos(newX, newY).setBomberman(this);
+
+                x = newX;
+                y = newY;
+
+                System.out.println("Bombermana mugitu da: (" + x + ", " + y + ")");
+            } else {
+                System.out.println("Ezin da mugitu posizio honetara");
+            }
+        } else {
+            System.out.println("Laberintotik kanpo");
+        }
+    }
+    // Bombermana hil
+    public void hil() {
+	    if (bizirik) {
+	        bizirik = false;
+	        Jokoa.getJokoa().bukaera(false);
 	    }
 	}
 }
