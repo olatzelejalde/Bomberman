@@ -2,11 +2,10 @@ package eredua;
 
 import java.util.Observable;
 
-public abstract class Laberinto {
+public abstract class Laberinto extends Observable {
 	private static Laberinto nireLaberinto;
 	protected Gelaxka[][] matriz;
 	private int suntsigarriak;
-
 	
 	protected Laberinto() {
 		this.matriz = new Gelaxka[11][17];
@@ -20,15 +19,28 @@ public abstract class Laberinto {
 		return nireLaberinto;
 	}
 	
-	// Metodo abstracto para crear el laberinto en Classic
+	// Metodo abstraktua labirintoa sortzeko
 	public abstract void sortuLaberinto();
 	
-	// Consigue la matriz
+	// Matrizea lortu
 	public Gelaxka[][] getMatriz() {
 		return matriz;
 	}
+
+	public void gehituSuntsigarri() {
+        suntsigarriak++;
+    	}
 	
-	// Devuelve la posicion de la celda
+	public void kenduSuntsigarri() {
+        if (suntsigarriak > 0) {
+            suntsigarriak--;
+        }
+        if (suntsigarriak == 0) {
+            Jokoa.getJokoa().bukaera(true);
+        }
+   	}
+
+	// Gelaxkaren posizioa lortu
 	public Gelaxka getGelaxkaPos(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
 			return matriz[x][y];
@@ -36,60 +48,50 @@ public abstract class Laberinto {
 		return null;
 	}
 	
-	// Verifica si esta dentro de las coordenadas
+	// Koordenatuen barnean dagoen egiaztatu
 	public boolean koordenatuBarruan(int x, int y) {
 		return (x >= 0 && x < 11) && (y >= 0 && y < 17);
 	}
 
-	// Verifica si hay camino por donde pasar
+	// Bidea dagoen egiaztatu
 	public boolean bidePosizioa(int x, int y) {
-		return !matriz[x][y].blokeDu() && !matriz[x][y].bonbaDago();
+		return !matriz[x][y].blokeDu();
 	}
 
-	// Actualiza la celda si ha cambiado su estado
+	// Gelaxka eguneratu egoera aldatu bada
 	public void eguneratuGelaxka(int x, int y, Blokea bloke) {
 		if (koordenatuBarruan(x,y)) {
-			matriz[x][y] = new Gelaxka(bloke, null);
+			matriz[x][y] = new Gelaxka(bloke, false);
 		}
 	}
 	
-	// Verifica si hay bloques blandos
 	public boolean blokeakDaude() {
-		return this.suntsigarriak > 0;
-	}
-	
-	// Suma un bloque
-	public void gehituSuntsigarri() {
-		this.suntsigarriak++;
-	}
-
-	// Comprueba si hay bloques
-	public void kenduSuntsigarri() {
-		if (suntsigarriak > 0) {
-			this.suntsigarriak--;
+		for (int i = 0; i < matriz.length; i++) {
+			for (int j = 0; j < matriz[i].length; j++)  {
+				Gelaxka g = matriz[i][j];
+				
+				if (g.blokeDu() && g.apurtuDaiteke()) {
+					return true;
+				}
+			}
 		}
-		
-		if (suntsigarriak == 0) {
-			Jokoa.getJokoa().bukaera(true);
-		}
+		return false;
 	}
 	
-	
-	
-	// Pone fuego en las casillas adyacentes y si es bloque blando, lo rompe
+	// Alboko gelaxketan sua jarri eta blokea biguna bada, apurtu
 	public void jarriSua(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
 			Gelaxka g = matriz[x][y];
 			
-			// Solo pone fuego si la celda esta vacia o hay bloque blando
+			// Bakarrik sua jarriko du gelaxka hutsik badago edo bloke biguna bada
 			if (!g.blokeDu() || g.apurtuDaiteke()) {
 				g.setSua(true);
 				
-				// Rompe el bloque si es blando
+				// Bloke biguna bada, apurtu
 				if (g.apurtuDaiteke()) {
 					g.apurtuBlokea();
 				}
-				// Mata al bomberman si esta en alguna celda de fuego
+				// Bomberman-a hil baldin eta dagoen gelaxkan sua dago
 				if (g.bombermanDago()) {
 					Jokoa.getJokoa().getBomberman().hil();
 					Jokoa.getJokoa().bukaera(false);
@@ -98,7 +100,7 @@ public abstract class Laberinto {
 		}
 	}
 	
-	// Quita el fuego cuando se cumple el tiempo de explosion
+	// Sua kendu eztanda denbora amaitu denean
 	public void kenduSua(int x, int y) {
 		if (koordenatuBarruan(x,y)) {
 			Gelaxka g = matriz[x][y];
@@ -107,6 +109,4 @@ public abstract class Laberinto {
 			}
 		}
 	}
-
-
 }
