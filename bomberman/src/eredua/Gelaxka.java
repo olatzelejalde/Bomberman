@@ -8,29 +8,30 @@ public class Gelaxka extends Observable {
 	private boolean sua;
 	private Bomberman bomberman;
 
-	
+	// Eraikitzaileak
 	public Gelaxka(Blokea bloke, Bomberman bomberman) {
 		this.bloke = bloke;
 		this.bonba = null;
 		this.sua = false;
 		this.bomberman = bomberman;
 	}
-	
+
+	// Bombermana eskuratu
 	public Bomberman getBomberman() {
-        return bomberman;
-    }
+        	return bomberman;
+    	}
 	
-	// Verificar si hay bloque en la celda
+	// Gelaxkan bloke dagoen jakiteko
 	public boolean blokeDu() {
 		return bloke != null;
 	}
 	
-	// Verificar si se puede romper el bloque
+	// Blokea apurtu ahal den jakiteko
 	public boolean apurtuDaiteke() {
 		return bloke != null && bloke.suntsigarriaDa();
 	}
 	
-	// Romper el bloque si es rompible
+	// Blokea apurtu apurtu ahal bada
 	public void apurtuBlokea() {
 		if (apurtuDaiteke()) {
 			bloke = null;
@@ -40,12 +41,12 @@ public class Gelaxka extends Observable {
 		}
 	}
 	
-	// Verificar si hay fuego en la celda
+	// Gelaxkan sua dagoen jakiteko
 	public boolean suaDago() {
 		return sua;
 	}
 	
-	// Verificar si esta el bomberman en la celda
+	// Gelaxkan Bombermana dagoen jakiteko
 	public boolean bombermanDago() {
 		if (bomberman != null) {
 			return true;
@@ -55,7 +56,7 @@ public class Gelaxka extends Observable {
 		}
 	}
 	
-	// Verificar si hay bomba en la celda
+	// Gelaxkan bonba dagoen jakiteko
 	public boolean bonbaDago() {
 		if (bonba != null) {
 			return true;
@@ -65,27 +66,27 @@ public class Gelaxka extends Observable {
 		}
 	}
 	
-	// Poner bomberman en la celda
+	// Bombermana gelaxkan jarri
 	public void setBomberman(Bomberman b) {
 		bomberman = b;
 		eguneratuBista();
 	}
 	
-	// Poner bomba en la celda
+	// Bonba gelaxkan jarri
 	public void setBonba(Bonba bonba) {
 		this.bonba = bonba;
 		eguneratuBista();
 	}
 	
-	// Poner fuego en la celda
+	// Sua gelaxkan jarri
 	public void setSua(boolean sua) {
 		this.sua = sua;
 		eguneratuBista();
 	}
 	
-	// Notificar a la vista de cambios
+	// Aldaketetaz jakinarazi bistari
 	public void eguneratuBista() {
 		setChanged();
-        notifyObservers();
+        	notifyObservers();
 	}
 }
