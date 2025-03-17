@@ -20,6 +20,10 @@ public class GelaxkaBista extends JLabel implements Observer {
     private ImageIcon bonbaIcon = loadImage("/irudiak/bomb1.png");
     private ImageIcon fuegoIcon = loadImage("/irudiak/kaBomb2.png");
     private ImageIcon whiteConBonbaIcon = loadImage("/irudiak/whitewithbomb1.png");
+    private ImageIcon ezkerra = loadImage("/irudiak/whiteleft2.png");
+    private ImageIcon eskuina = loadImage("/irudiak/whiteright2.png");
+    private ImageIcon atzera = loadImage("/irudiak/whiteup2.png");
+    private ImageIcon aurrera = loadImage("/irudiak/whitedown2.png");
 	
 	private ImageIcon loadImage(String path) {
         java.net.URL imgURL = getClass().getResource(path);
@@ -40,34 +44,48 @@ public class GelaxkaBista extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		Gelaxka g = (Gelaxka) o;
-		
-    	if (g.suaDago()) {
-    		this.setIcon(fuegoIcon);
-    		//System.out.println("Sua kokatu da: (" + g.getX() + ", " + g.getY() + ")");
-    	} 
-    	else if (g.bombermanDago() && g.bonbaDago()) {
-    		this.setIcon(whiteConBonbaIcon);
-    		//System.out.println("Bomberman + bonba kokatu da: (" + g.getX() + ", " + g.getY() + ")");
-    	}
-    	else if (g.bombermanDago()) {
-    		this.setIcon(bomberIcon);
-    		//System.out.println("Bomberman kokatu da: (" + g.getX() + ", " + g.getY() + ")");
-    	}
-    	else if (g.bonbaDago()) {
-    		this.setIcon(bonbaIcon);
-    		//System.out.println("Bonba kokatu da: (" + g.getX() + ", " + g.getY() + ")");
-    	}
-    	else if (g.blokeDu()) {
-    		if (g.apurtuDaiteke()) {
-                this.setIcon(blokBigIcon); // Bloke biguna
-            } 
-    		else {
-    			this.setIcon(blokGoIcon); // Bloke gogorra
-            }
-        }   	
-    	else {
-    		this.setIcon(null); // nada
-    	}	
+	    Gelaxka g = (Gelaxka) o;
+
+	    if (g.suaDago()) {
+	        this.setIcon(fuegoIcon);
+	    } 
+	    else if (g.bombermanDago() && g.bonbaDago()) {
+	        this.setIcon(whiteConBonbaIcon);
+	    }
+	    else if (g.bombermanDago()) {
+	        Bomberman bomber = g.getBomberman(); // Obtener instancia de Bomberman
+	        if (bomber != null) {
+	            switch (bomber.getNorabidea()) {
+	                case "ezkerra":
+	                    this.setIcon(ezkerra);
+	                    break;
+	                case "eskuina":
+	                    this.setIcon(eskuina);
+	                    break;
+	                case "goruntz":
+	                    this.setIcon(atzera);
+	                    break;
+	                case "behera":
+	                    this.setIcon(aurrera);
+	                    break;
+	                default:
+	                    this.setIcon(bomberIcon);
+	                    break;
+	            }
+	        }
+	    }
+	    else if (g.bonbaDago()) {
+	        this.setIcon(bonbaIcon);
+	    }
+	    else if (g.blokeDu()) {
+	        if (g.apurtuDaiteke()) {
+	            this.setIcon(blokBigIcon);
+	        } else {
+	            this.setIcon(blokGoIcon);
+	        }
+	    } else {
+	        this.setIcon(null);
+	    }
 	}
+
 }
