@@ -11,10 +11,10 @@ public class Normal extends Bonba {
 		super(x,y);
 	}
 	
-	// Metodo para iniciar el timer de la explosion
+	// Leherketarako timerra hasieratu
     @Override
     public void hasiEztanda() {
-    	// Esperar 3s y luego poner el fuego
+    	// 3 segundo itxaron eta sua jarri
         eztandaTimer = new Timer();
         eztandaTimer.schedule(new TimerTask() {
             @Override
@@ -24,7 +24,7 @@ public class Normal extends Bonba {
         }, 3000);
     }
 	
-	// Metodo para la explosion de la bomba
+	// Bonbaren eztanda kontrolatzeko metodoa
 	public void eztanda() {
 		aktibatuta = false;
 		
@@ -35,39 +35,40 @@ public class Normal extends Bonba {
 		Gelaxka g = laberinto.getMatriz()[x][y];
 		
 		// Marcar fuego en la posición de la bomba y sus alrededores si están vacíos
-		laberinto.jarriSua(x, y); //posicion original de bomba
-		laberinto.jarriSua(x - 1, y); //arriba
-		laberinto.jarriSua(x + 1, y); //abajo
-		laberinto.jarriSua(x, y - 1); //izquierda
-		laberinto.jarriSua(x, y + 1); //derecha
+		laberinto.jarriSua(x, y); // Bonbaren posizioa
+		laberinto.jarriSua(x - 1, y); // Goiko gelaxka
+		laberinto.jarriSua(x + 1, y); // Beheko gelaxka
+		laberinto.jarriSua(x, y - 1); // Ezkerreko gelaxka
+		laberinto.jarriSua(x, y + 1); // Eskumako gelaxka
 		
-		// Eliminar la bomba de la celda
+		// Gelaxkatik bonba kendu
 		g.setBonba(null);
 		
-		// Verificar cada 500ms si el bomberman toca el fuego
+		// 500ms-ro egiaztatu bomberman-a ez duela sua ukitu
 		tocarFuegoTimer = new Timer();
 		tocarFuegoTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
             public void run() {
-                // Obtener la posicion actual del bomberman
+                // Bomberman-aren momentuko posizioa gorde  
                 int bombermanX = Jokoa.getJokoa().getBomberman().getX();
                 int bombermanY = Jokoa.getJokoa().getBomberman().getY();
 
-                // Verificar si el bomberman esta en una celda con fuego
+                // Egiaztatu bomberman ea sua daukan gelaxka batean dagoen
                 if (laberinto.getMatriz()[bombermanX][bombermanY].suaDago()) {
                     Jokoa.getJokoa().getBomberman().hil();
-                    Jokoa.getJokoa().bukaera(false); 
-                    this.cancel(); // Detener la verificación
+                    Jokoa.getJokoa().bukaera(false);
+                    // Egiaztapena eten
+                    this.cancel();
                 }
             }
         }, 0, 500); 
 		
-		
-		// Esperar 2s y luego limpiar el fuego
+		// 2 segundo itxaron
         suaTimer = new Timer();
         suaTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+            	// Sua kendu
                 laberinto.kenduSua(x, y);
                 laberinto.kenduSua(x - 1, y);
                 laberinto.kenduSua(x + 1, y);
@@ -76,7 +77,5 @@ public class Normal extends Bonba {
                 tocarFuegoTimer.cancel();
             }
         }, 2000); 
-	}
-	
-	
+	}	
 }
