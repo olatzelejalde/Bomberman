@@ -38,9 +38,6 @@ public class Classic extends Laberinto {
 	            }
 	        }
 	    }
-
-	    setChanged();
-	    notifyObservers();
 	}
 
 
