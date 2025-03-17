@@ -2,7 +2,7 @@ package eredua;
 
 import java.util.Observable;
 
-public abstract class Laberinto extends Observable {
+public abstract class Laberinto {
 	private static Laberinto nireLaberinto;
 	protected Gelaxka[][] matriz;
 	private int suntsigarriak;
