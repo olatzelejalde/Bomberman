@@ -1,8 +1,6 @@
 package eredua;
 
-import java.util.List;
 import java.util.Observable;
-
 import javax.swing.JOptionPane;
 
 public class Jokoa extends Observable{
@@ -10,8 +8,6 @@ public class Jokoa extends Observable{
     private Bomberman bomberman;
     private Laberinto laberinto;
     private Bonba bonba;
-    private boolean amaituta;
-
 
     private Jokoa() {       
         this.amaituta = false;
