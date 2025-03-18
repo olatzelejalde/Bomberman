@@ -8,6 +8,7 @@ public class Jokoa extends Observable{
     private Bomberman bomberman;
     private Laberinto laberinto;
     private Bonba bonba;
+    private boolean amaituta;
 
     private Jokoa() {       
         this.amaituta = false;
@@ -86,7 +87,7 @@ public class Jokoa extends Observable{
     public void bukaera(boolean irabazi) {
         amaituta = true;
         setChanged();
-        notifyObservers();
+        notifyObservers(irabazi);
         // System.exit(0);
     }
 
