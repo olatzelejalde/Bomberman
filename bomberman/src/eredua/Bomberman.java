@@ -63,7 +63,7 @@ public abstract class Bomberman {
             if (laberinto.bidePosizioa(newX, newY)) {
                 // Mugitu baino lehen posizioa eguneratu
                 if (newX < x) {
-                    norabidea = "gorantz"; // Gora
+                    norabidea = "goruntz"; // Gora
                 } else if (newX > x) {
                     norabidea = "behera"; // Behera
                 } else if (newY < y) {
@@ -72,6 +72,9 @@ public abstract class Bomberman {
                     norabidea = "eskuina"; // Eskuina
                 }
 
+                // System.out.println("Norabidea: " + norabidea);
+
+                
                 // Kendu Bombermana gelaxka honetatik
                 laberinto.getGelaxkaPos(x, y).setBomberman(false);
                 // Gelaxka berrira mugitu
@@ -81,7 +84,7 @@ public abstract class Bomberman {
                 y = newY;
 
                 System.out.println("Bombermana mugitu da: (" + x + ", " + y + ")");
-                // Jokoa.getJokoa().bistaratu();
+                //Jokoa.getJokoa().bistaratu();
             } else {
                 System.out.println("Ezin da mugitu posizio honetara");
             }
