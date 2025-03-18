@@ -73,9 +73,9 @@ public abstract class Bomberman {
                 }
 
                 // Kendu Bombermana gelaxka honetatik
-                laberinto.getGelaxkaPos(x, y).setBomberman(null);
+                laberinto.getGelaxkaPos(x, y).setBomberman(false);
                 // Gelaxka berrira mugitu
-                laberinto.getGelaxkaPos(newX, newY).setBomberman(this);
+                laberinto.getGelaxkaPos(newX, newY).setBomberman(false);
 
                 x = newX;
                 y = newY;
