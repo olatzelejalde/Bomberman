@@ -75,12 +75,13 @@ public abstract class Bomberman {
                 // Kendu Bombermana gelaxka honetatik
                 laberinto.getGelaxkaPos(x, y).setBomberman(false);
                 // Gelaxka berrira mugitu
-                laberinto.getGelaxkaPos(newX, newY).setBomberman(false);
+                laberinto.getGelaxkaPos(newX, newY).setBomberman(true);
 
                 x = newX;
                 y = newY;
 
                 System.out.println("Bombermana mugitu da: (" + x + ", " + y + ")");
+                Jokoa.getJokoa().bistaratu();
             } else {
                 System.out.println("Ezin da mugitu posizio honetara");
             }
