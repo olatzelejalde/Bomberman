@@ -85,10 +85,11 @@ public class Jokoa extends Observable{
 
     // Partida amaitu
     public void bukaera(boolean irabazi) {
-        amaituta = true;
-        setChanged();
-        notifyObservers(irabazi);
-        // System.exit(0);
+    	if (!amaituta) {
+    		setChanged();
+    		amaituta = true;
+        	notifyObservers(irabazi);
+        }
     }
 
     // Labirintoa bistaratu
