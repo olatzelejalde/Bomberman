@@ -81,7 +81,7 @@ public abstract class Bomberman {
                 y = newY;
 
                 System.out.println("Bombermana mugitu da: (" + x + ", " + y + ")");
-                Jokoa.getJokoa().bistaratu();
+                // Jokoa.getJokoa().bistaratu();
             } else {
                 System.out.println("Ezin da mugitu posizio honetara");
             }
