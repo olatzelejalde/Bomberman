@@ -82,14 +82,14 @@ public class Partida extends JFrame implements Observer {
     }        
     
    @Override
-public void update(Observable o, Object arg) {
+   public void update(Observable o, Object arg) {
     	if (arg instanceof Boolean) {
             boolean irabazi = (Boolean) arg;
             String mensaje = irabazi ? "Zorionak!! Irabazi duzu!!" : "Galdu duzu, saiatu berriro.";
-            
             JOptionPane.showMessageDialog(this, mensaje, "Bukaera", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
-        }
+            
+    	}
 	}
 
     public static void main(String[] args) {
