@@ -78,16 +78,17 @@ public abstract class Laberinto {
 			Gelaxka g = matriz[x][y];
 			
 			// Bakarrik sua jarriko du gelaxka hutsik badago edo bloke biguna bada
-		if (!g.blokeDu() || g.apurtuDaiteke()) {
-			g.setSua(true);
-			
-			// Bloke biguna bada, apurtu
-			if (g.apurtuDaiteke()) {
-				g.apurtuBlokea();
-			}
-			// Bomberman-a hil baldin eta dagoen gelaxkan sua dago
+			if (!g.blokeDu() || g.apurtuDaiteke() || g.bombermanDago()) {
+				g.setSua(true);
+				
+				// Bloke biguna bada, apurtu
+				if (g.apurtuDaiteke()) {
+					g.apurtuBlokea();
+				}
+				// Bomberman-a hil baldin eta dagoen gelaxkan sua dago
 				if (g.bombermanDago()) {
 					Jokoa.getJokoa().getBomberman().hil();
+					g.setBomberman(false);
 					Jokoa.getJokoa().bukaera(false);
 				}
 			}
