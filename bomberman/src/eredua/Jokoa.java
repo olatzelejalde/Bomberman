@@ -58,11 +58,12 @@ public class Jokoa extends Observable{
         	if (!g.blokeDu() || g.apurtuDaiteke()) {
         		bonba = new Normal(x, y);
                 laberinto.getMatriz()[x][y].setBonba(bonba);
-                setChanged();
-                notifyObservers();
+               
                 
                 // Eztandarako timerra hasieratu
                 bonba.hasiEztanda();
+                setChanged();
+                notifyObservers();
         	}
         	else {
         		System.out.println("ERROR: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri");
@@ -86,9 +87,9 @@ public class Jokoa extends Observable{
     // Partida amaitu
     public void bukaera(boolean irabazi) {
     	if (!amaituta) {
-    		setChanged();
     		amaituta = true;
-        	notifyObservers(irabazi);
+    		setChanged();
+    		notifyObservers(irabazi);
         }
     }
 
