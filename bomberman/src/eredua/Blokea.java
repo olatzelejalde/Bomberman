@@ -1,13 +1,16 @@
 package eredua;
 
-public abstract class Blokea {
+public class Blokea {
 	protected boolean suntsigarri;
-	
+
 	// Eraikitzailea
 	public Blokea(boolean suntsigarri) {
 		this.suntsigarri = suntsigarri;
 	}
-	
-	public abstract boolean blokeBigunaDa();
+
+	// Suntsigarria den jakiteko
+	public boolean suntsigarriaDa() {
+		return suntsigarri;
+	}
 
 }
