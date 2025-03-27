@@ -23,7 +23,7 @@ public class Gelaxka extends Observable {
 	
 	// Blokea apurtu ahal den jakiteko
 	public boolean apurtuDaiteke() {
-		return bloke != null && bloke.suntsigarriaDa();
+		return bloke != null && bloke.blokeBigunaDa();
 	}
 	
 	// Blokea apurtu apurtu ahal bada
