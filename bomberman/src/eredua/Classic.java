@@ -26,14 +26,14 @@ public class Classic extends Laberinto {
 	            
 	            // Bloke gogorrak posizio bakoitietan
 	            else if (i % 2 != 0 && j % 2 != 0) {
-	                matriz[i][j] = new Gelaxka(new Blokea(false), false);
+	                matriz[i][j] = new Gelaxka(new BlokeGogorra(), false);
 	            }
 	            // Beste posizioak: bloke bigunak edo hutsik
 	            else {
 	                int prob1 = r.nextInt(100); // 0-99
 	                if (prob1 < 40) { 
 	                	// Bloke bigunen probabilitatea 40% 
-	                    matriz[i][j] = new Gelaxka(new Blokea(true), false);
+	                    matriz[i][j] = new Gelaxka(new BlokeBiguna(), false);
 	                    Laberinto.getLaberinto().gehituSuntsigarri();
 	                } else { 
 	                	// Gelaxka hutsaren probabilitatea 60%
