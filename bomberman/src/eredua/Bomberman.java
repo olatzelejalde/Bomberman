@@ -53,7 +53,7 @@ public abstract class Bomberman {
  	public abstract void bonbaJarri();
 
     public void mugitu(int newX, int newY) {
-        Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
+        Laberinto laberinto = Laberinto.getLaberinto();
 
         if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {
             if (laberinto.getGelaxkaPos(newX, newY).bonbaDago()) {
