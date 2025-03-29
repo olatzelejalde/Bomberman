@@ -31,7 +31,7 @@ public class Normal extends Bonba {
 		int x = getX();
 		int y = getY();
 		
-		Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
+		Laberinto laberinto = Laberinto.getLaberinto();
 		Gelaxka g = laberinto.getMatriz()[x][y];
 		
 		// Gelaxkatik bonba kendu
