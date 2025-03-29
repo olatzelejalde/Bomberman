@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import eredua.Bomberman;
 import eredua.Gelaxka;
 import eredua.Jokoa;
+import eredua.Laberinto;
 
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -63,7 +64,7 @@ public class Partida extends JFrame implements Observer {
     	jokoa.addObserver(this);
     	jokoa.hasiJokoa();
     	
-        Gelaxka[][] matriz = jokoa.getLaberinto().getMatriz();
+        Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz();
         // Tableroa hasieratu
         for (int i = 0; i < errenkada; i++) {
             for (int j = 0; j < zutabe; j++) {
