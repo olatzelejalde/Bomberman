@@ -2,13 +2,8 @@ package bista;
 
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import eredua.Bomberman;
-import eredua.Gelaxka;
-import eredua.Jokoa;
 
 public class GelaxkaBista extends JLabel implements Observer {
 
@@ -42,59 +37,33 @@ public class GelaxkaBista extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-	    Gelaxka g = (Gelaxka) o;
-
-		// Sua dagoen konprobatu
-	    if (g.suaDago()) {
-	        this.setIcon(suaIcon);
-	    } 
-		// Bomberman bonba kokatzen	badago
-	    else if (g.bombermanDago() && g.bonbaDago()) {
-	        this.setIcon(whiteBonbarekin);
-	    }
-	    else if (g.bombermanDago()) {
-	    	Jokoa joko = Jokoa.getJokoa();
-			// Bomberman mota lortu
-	        Bomberman bomber = joko.getBomberman();
-	        if (bomber != null) {// Bomberman-a ez da printzipioz null-a izango, baina konprobatzearren
-				// Bomberman-aren irudia norabidearen arabera aldatu
-	            switch (bomber.getNorabidea()) {
-	                case "ezkerra":
-	                    this.setIcon(ezkerra);
-	                    break;
-	                case "eskuina":
-	                    this.setIcon(eskuina);
-	                    break;
-	                case "goruntz":
-	                    this.setIcon(atzera);
-	                    break;
-	                case "behera":
-	                    this.setIcon(aurrera);
-	                    break;
-	                default:
-	                    this.setIcon(bomberIcon);
-	                    break;
-	            }
-	        }
-	    }
-		// Bonba kokatu badu jada
-	    else if (g.bonbaDago()) {
-	        this.setIcon(bonbaIcon);
-	    }
-		// Blokea duen konprobatu eta haren mota	
-	    else if (g.blokeDu()) {
-			// Bloke biguna
-	        if (g.apurtuDaiteke()) {
-	            this.setIcon(blokBigIcon);
-	        }
-			// Bloke gogorra
-			else {
-	            this.setIcon(blokGoIcon);
-	        }
-	    }
-		// Ezer ez badago, hutsik utzi
-		else {
-	        this.setIcon(null);
-	    }
-	}
+		if (arg instanceof String) {
+            String estado = (String) arg;
+            switch (estado) {
+                case "sua":
+                    this.setIcon(suaIcon);
+                    break;
+                case "bombermanBonba":
+                    this.setIcon(whiteBonbarekin);
+                    break;
+                case "bomberman":
+                    this.setIcon(bomberIcon);
+                    break;
+                case "bonba":
+                    this.setIcon(bonbaIcon);
+                    break;
+                case "blokBig":
+                    this.setIcon(blokBigIcon);
+                    break;
+                case "blokGo":
+                    this.setIcon(blokGoIcon);
+                    break;
+                case "hutsik":
+                    this.setIcon(null);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
