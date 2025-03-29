@@ -38,8 +38,8 @@ public class GelaxkaBista extends JLabel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
-            String estado = (String) arg;
-            switch (estado) {
+            String egoera = (String) arg;
+            switch (egoera) {
                 case "sua":
                     this.setIcon(suaIcon);
                     break;
