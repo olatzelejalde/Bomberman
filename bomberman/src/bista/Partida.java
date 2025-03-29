@@ -62,8 +62,8 @@ public class Partida extends JFrame implements Observer {
 
         jokoa = Jokoa.getJokoa();
     	jokoa.addObserver(this);
-    	jokoa.hasiJokoa();
     	
+    	getControler().jokoaHasi();
         Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz();
         // Tableroa hasieratu
         for (int i = 0; i < errenkada; i++) {
@@ -109,31 +109,37 @@ public class Partida extends JFrame implements Observer {
     
     private class Controler implements KeyListener {
 
+    	public void jokoaHasi() {
+    		jokoa.hasiJokoa();
+    	}
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
 		}
 
 		@Override
-	    public void keyPressed(KeyEvent e) {
-	    	requestFocus();
-	    	
-	    	Bomberman bomberman = jokoa.getBomberman();
-	    	
-	    	int x = jokoa.getBomberman().getX();
-		    int y = jokoa.getBomberman().getY();
-		    
-
-	        switch (e.getKeyCode()) {
-		        case KeyEvent.VK_UP:    bomberman.mugitu(x - 1, y); break;
-		        case KeyEvent.VK_DOWN:  bomberman.mugitu(x + 1, y); break;
-		        case KeyEvent.VK_LEFT:  bomberman.mugitu(x, y - 1); break;
-		        case KeyEvent.VK_RIGHT: bomberman.mugitu(x, y + 1); break;
-		        case KeyEvent.VK_SPACE: bomberman.bonbaJarri(); break;
-		        // Gainontzeko teklak ez dira kontuan hartuko  
-		        default: return; 
-	        }
-	    }
+		public void keyPressed(KeyEvent e) {
+		    requestFocus();
+		    switch (e.getKeyCode()) {
+		        case KeyEvent.VK_UP:    
+		            jokoa.bombermanMugitu(-1, 0); 
+		            break;
+		        case KeyEvent.VK_DOWN:  
+		            jokoa.bombermanMugitu(1, 0); 
+		            break;
+		        case KeyEvent.VK_LEFT:  
+		            jokoa.bombermanMugitu(0, -1); 
+		            break;
+		        case KeyEvent.VK_RIGHT: 
+		            jokoa.bombermanMugitu(0, 1); 
+		            break;
+		        case KeyEvent.VK_SPACE:
+		            jokoa.getBomberman().bonbaJarri(); 
+		            break;
+		        default: 
+		            return; 
+		    }
+		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
