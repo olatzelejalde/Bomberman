@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
-    private Laberinto laberinto;
+    //private Laberinto laberinto;
     private Bonba bonba;
     private boolean amaituta;
 
@@ -23,11 +23,10 @@ public class Jokoa extends Observable{
     
     // Metodo jokoa hasteko
     public void hasiJokoa(){
-    	this.laberinto = new Classic();
-    	this.bomberman = new White(0, 0, 10);
-    	this.laberinto.sortuLaberinto();
-    	setChanged();
-    	notifyObservers();
+    	Laberinto.getLaberinto().sortuLaberinto();
+        this.bomberman = new White(0, 0, 10);
+        setChanged();
+        notifyObservers();
     }
     
     // Bomberman-a lortu
@@ -35,10 +34,10 @@ public class Jokoa extends Observable{
         return this.bomberman;
     }
     
-    // Labirintoa sortu
+    /*/ Labirintoa sortu
     public Laberinto getLaberinto(){
-        return this.laberinto;
-    }
+        return nireLaberinto;
+    }*/
     
     // Bonba lortu
     public Bonba getBonba() {
@@ -49,6 +48,7 @@ public class Jokoa extends Observable{
     public void kokatuBonba() {
     	int x = bomberman.getX();
     	int y = bomberman.getY();
+    	Laberinto laberinto = Laberinto.getLaberinto();
     		
     	// Egiaztatu bonba kokatu aurretik
         if (laberinto.koordenatuBarruan(x, y) && laberinto.getMatriz()[x][y] != null) {
@@ -79,7 +79,7 @@ public class Jokoa extends Observable{
         if (bomberman.hildaDago()) {
             bukaera(false);
         } 
-        else if (!laberinto.blokeakDaude()) {
+        else if (!Laberinto.getLaberinto().blokeakDaude()) {
             bukaera(true);
         }
     }
@@ -97,6 +97,7 @@ public class Jokoa extends Observable{
 	public void bistaratu() {
 		setChanged();
         notifyObservers();
+        Laberinto laberinto = Laberinto.getLaberinto();
         for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 17; j++) {
 				laberinto.getMatriz()[i][j].eguneratuBista();
