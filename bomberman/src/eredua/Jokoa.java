@@ -104,4 +104,14 @@ public class Jokoa extends Observable{
 			}
         }
 	}
+	
+	public void bombermanMugitu (int dx, int dy) {
+        if (bomberman != null) {
+            int Xberria = bomberman.getX() + dx;
+            int Yberria = bomberman.getY() + dy;
+            bomberman.mugitu(Xberria, Yberria);
+            setChanged();
+            notifyObservers();
+        }
+    }
 }
