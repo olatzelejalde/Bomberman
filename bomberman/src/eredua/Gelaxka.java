@@ -76,7 +76,25 @@ public class Gelaxka extends Observable {
 	
 	// Aldaketetaz jakinarazi bistari
 	public void eguneratuBista() {
-		setChanged();
-        notifyObservers();
-	}
+        String egoera;
+        if (this.sua) {
+            egoera = "sua";
+        } else if (bomberman && bonbaDago()) {
+        	egoera = "bombermanBonba";
+        } else if (bomberman) {
+        	egoera = "bomberman";
+        } else if (bonbaDago()) {
+        	egoera = "bonba";
+        } else if (blokeDu()) {
+            if (apurtuDaiteke()) {
+            	egoera = "blokBig";
+            } else {
+            	egoera = "blokGo";
+            }
+        } else {
+        	egoera = "hutsik";
+        }
+        setChanged();
+        notifyObservers(egoera);
+    }
 }
