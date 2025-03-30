@@ -15,16 +15,16 @@ public class White extends Bomberman {
 	
 	// Bomberman-a dituen bonba kopurua lortu
 	public int getBonbaKop() {
-		return bonbaKop;
+		return super.getBonbaKop();
 	}
 	
 	// Bonba kokatzeko metodoa
 	public void bonbaJarri() {
 		// Bonbaren bat badauka, zuzenean jarriko du
-		if (bonbaKop > 0) {
+		if (getBonbaKop() > 0) {
 			Jokoa.getJokoa().kokatuBonba();
-			bonbaKop--;
-			System.out.println("Bonba kokatu da. Bonba kopurua: " + bonbaKop);
+			super.setBonbaKop(getBonbaKop() - 1);
+			System.out.println("Bonba kokatu da. Bonba kopurua: " + getBonbaKop());
 		}
 		// Bonbarik ez badauka, 3 segundo itxaron beharko ditu beste bonba bat lortzeko 
 		else if (!bonbaItxaroten) {
@@ -46,7 +46,7 @@ public class White extends Bomberman {
         bonbaTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                bonbaKop = 1; 
+            	setBonbaKop(1);
                 bonbaItxaroten = false; 
                 System.out.println("Bonba bat gehiago duzu!!");
             }
