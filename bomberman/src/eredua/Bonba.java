@@ -2,9 +2,8 @@ package eredua;
 
 public abstract class Bonba {
 	private int x, y;
-	protected boolean aktibatuta;
+	private boolean aktibatuta;
 
-	// Eraikitzailea
 	public Bonba(int x, int y) {
 		this.x = x;
 		this.y = y;
