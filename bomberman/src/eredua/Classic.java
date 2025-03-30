@@ -3,18 +3,21 @@ package eredua;
 import java.util.Random;
 
 public class Classic extends Laberinto {
+	private int etsaiKop;
 	
 	public Classic() {
 		super();
+		etsaiKop = 0;
 	}
 	
-	// Labirintoa sortzeko metodoa
+	// Metodoa laberintoa sortzeko 
 	public void sortuLaberinto() {
 	    Random r = new Random();
+	    Gelaxka[][] matriz = super.getMatriz();
 
 	    for (int i = 0; i < 11; i++) { // altuera
 	        for (int j = 0; j < 17; j++) { // zabalera
-	        	// Bombermana gelaxka libre batean hasiko da
+	        	// Bomberman gelaxka libre batean hasiko da
 	            if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
 	                if (i == 0 && j == 0) {
 	                	matriz[i][j] = new Gelaxka(null, true);
@@ -28,18 +31,26 @@ public class Classic extends Laberinto {
 	            else if (i % 2 != 0 && j % 2 != 0) {
 	                matriz[i][j] = new Gelaxka(new BlokeGogorra(), false);
 	            }
-	            // Beste posizioak: bloke bigunak edo hutsik
-	            else {
-	                int prob1 = r.nextInt(100); // 0-99
-	                if (prob1 < 40) { 
-	                	// Bloke bigunen probabilitatea 40% 
-	                    matriz[i][j] = new Gelaxka(new BlokeBiguna(), false);
-	                    Laberinto.getLaberinto().gehituSuntsigarri();
-	                } else { 
-	                	// Gelaxka hutsaren probabilitatea 60%
-	                    matriz[i][j] = new Gelaxka(null, false);
-	                }
-	            }
+	            
+	            // Beste posizioak: bloke bigunak, etsaiak edo hutsik
+                else {
+                    int prob1 = r.nextInt(100); // 0-99
+                    // 40% probabilitate bloke biguna
+                    if (prob1 < 40) { 
+                        matriz[i][j] = new Gelaxka(new BlokeBiguna(), false);
+                        Laberinto.getLaberinto().gehituSuntsigarri();
+                    }
+                    else {
+                        int prob2 = r.nextInt(100);
+                        // 10% probabilitate etsaientzat
+                        if (prob2 > 90 && etsaiKop < 6) {
+                            matriz[i][j] = new Gelaxka(new Etsaia(), false);
+                            etsaiKop++;
+                        } else {
+                            matriz[i][j] = new Gelaxka(null, false);
+                        }
+                    }
+                }
 	        }
 	    }
 	}
