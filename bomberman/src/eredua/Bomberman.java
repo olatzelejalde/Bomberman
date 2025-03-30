@@ -3,10 +3,9 @@ package eredua;
 public abstract class Bomberman {
     private int x, y;
     private boolean bizirik;
-    protected int bonbaKop;
+    private int bonbaKop;
     private String norabidea = "behera"; 
 
-    // Eraikitzailea
     public Bomberman(int x, int y, int bonbaKop) {
         this.x = x;
         this.y = y;
@@ -34,6 +33,14 @@ public abstract class Bomberman {
  		this.y = y;
  	}
  	
+ 	public int getBonbaKop() {
+ 		return bonbaKop;
+ 	}
+ 	
+ 	public void setBonbaKop(int bonbaKop) {
+ 	    this.bonbaKop = bonbaKop;
+ 	}
+ 	
  	// Hil den egiaztatu
  	public boolean hildaDago() {
  	    return !bizirik;
@@ -45,13 +52,14 @@ public abstract class Bomberman {
  	}
 
 	// Norantz doan jakiteko
-    	public String getNorabidea() {
-        	return norabidea;
+    public String getNorabidea() {
+      	return norabidea;
     }
     
  	// Metodo abstraktua Normal klasean dagoen metodoa deitu
  	public abstract void bonbaJarri();
 
+ 	// Metodo mugitzeko
     public void mugitu(int newX, int newY) {
         Laberinto laberinto = Laberinto.getLaberinto();
 
@@ -64,17 +72,17 @@ public abstract class Bomberman {
                 // Mugitu baino lehen posizioa eguneratu
                 if (newX < x) {
                     norabidea = "goruntz"; // Gora
-                } else if (newX > x) {
+                } 
+                else if (newX > x) {
                     norabidea = "behera"; // Behera
-                } else if (newY < y) {
+                } 
+                else if (newY < y) {
                     norabidea = "ezkerra"; // Ezkerra
-                } else if (newY > y) {
+                } 
+                else if (newY > y) {
                     norabidea = "eskuina"; // Eskuina
                 }
 
-                // System.out.println("Norabidea: " + norabidea);
-
-                
                 // Kendu Bombermana gelaxka honetatik
                 laberinto.getGelaxkaPos(x, y).setBomberman(false);
                 // Gelaxka berrira mugitu
@@ -83,16 +91,19 @@ public abstract class Bomberman {
                 x = newX;
                 y = newY;
 
-                System.out.println("Bombermana mugitu da: (" + x + ", " + y + ")");
+                System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
                 //Jokoa.getJokoa().bistaratu();
-            } else {
+            } 
+            else {
                 System.out.println("Ezin da mugitu posizio honetara");
             }
-        } else {
+        } 
+        else {
             System.out.println("Laberintotik kanpo");
         }
     }
-    // Bombermana hil
+    
+    // Bomberman hil
     public void hil() {
 	    if (bizirik) {
 	        bizirik = false;
