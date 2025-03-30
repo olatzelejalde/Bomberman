@@ -2,10 +2,9 @@ package eredua;
 
 public abstract class Laberinto {
 	private static Laberinto nireLaberinto;
-	protected Gelaxka[][] matriz;
+	private Gelaxka[][] matriz;
 	private int suntsigarriak;
 
-	
 	protected Laberinto() {
 		this.matriz = new Gelaxka[11][17];
 		this.suntsigarriak = 0;
