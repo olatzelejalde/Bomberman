@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
-    //private Laberinto laberinto;
     private Bonba bonba;
     private boolean amaituta;
 
@@ -29,15 +28,10 @@ public class Jokoa extends Observable{
         notifyObservers();
     }
     
-    // Bomberman-a lortu
+    // Bomberman lortu
     public Bomberman getBomberman(){
         return this.bomberman;
     }
-    
-    /*/ Labirintoa sortu
-    public Laberinto getLaberinto(){
-        return nireLaberinto;
-    }*/
     
     // Bonba lortu
     public Bonba getBonba() {
@@ -93,7 +87,7 @@ public class Jokoa extends Observable{
         }
     }
 
-    // Labirintoa bistaratu
+    // Laberintoa bistaratu
 	public void bistaratu() {
 		setChanged();
         notifyObservers();
