@@ -25,12 +25,7 @@ public class Soft extends Laberinto {
                         matriz[i][j] = new Gelaxka(null, false);
                     }
                 }
-                
-                // Bloke gogorrak posizio bakoitietan
-                else if (i % 2 != 0 && j % 2 != 0) {
-                    matriz[i][j] = new Gelaxka(new BlokeGogorra(), false);
-                }
-                
+                // Kasu honetan, ez dugu bloke gogorrik izango.
                 // Beste posizioak
                 else {
                     int prob1 = r.nextInt(100);
@@ -42,7 +37,7 @@ public class Soft extends Laberinto {
                     else {
                         // Bigarren probabilitatea etsaientzat
                         int prob2 = r.nextInt(100);
-                        if (prob2 > 0 && etsaiKop < 8) {
+                        if (prob2 > 90 && etsaiKop < 8) {
                             matriz[i][j] = new Gelaxka(new Etsaia(), false);
                             etsaiKop++;
                         } else {
