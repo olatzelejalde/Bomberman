@@ -9,4 +9,7 @@ public abstract class Blokea {
 
 	public abstract boolean blokeBigunaDa();
 	
+	public boolean suntsigarriaDa() {
+        return suntsigarri;
+    }
 }
