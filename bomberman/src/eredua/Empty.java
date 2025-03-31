@@ -25,12 +25,6 @@ public class Empty extends Laberinto {
                         matriz[i][j] = new Gelaxka(null, false);
                     }
                 }
-                
-                // Bloke gogorrak posizio bakoitietan
-                else if (i % 2 != 0 && j % 2 != 0) {
-                    matriz[i][j] = new Gelaxka(new BlokeGogorra(), false);
-                }
-                
                 // Beste posizioak: etsaiak edo hutsik
                 else {
                     int prob = r.nextInt(100);
