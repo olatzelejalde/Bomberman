@@ -6,7 +6,6 @@ public class BlokeGogorra extends Blokea {
 		super(false); // Bloke gogorrak ez dira suntsigarriak
 	}
 	
-	@Override
     public boolean blokeBigunaDa() {
         return false;
     }
