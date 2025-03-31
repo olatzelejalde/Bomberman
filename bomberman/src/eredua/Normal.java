@@ -6,7 +6,6 @@ import java.util.TimerTask;
 public class Normal extends Bonba {
 	private Timer suaTimer, eztandaTimer, tocarFuegoTimer;
 	
-	
 	public Normal(int x, int y) {
 		super(x,y);
 	}
@@ -26,7 +25,7 @@ public class Normal extends Bonba {
 	
 	// Bonbaren eztanda kontrolatzeko metodoa
 	public void eztanda() {
-		aktibatuta = false;
+		setAktibatuta(false);
 		
 		int x = getX();
 		int y = getY();
