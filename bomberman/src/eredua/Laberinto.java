@@ -1,7 +1,6 @@
 package eredua;
 
-public abstract class Laberinto {
-	private static Laberinto nireLaberinto;
+public class Laberinto {
 	private Gelaxka[][] matriz;
 	private int suntsigarriak;
 
@@ -9,20 +8,18 @@ public abstract class Laberinto {
 		this.matriz = new Gelaxka[11][17];
 		this.suntsigarriak = 0;
 	}
-
-	public static Laberinto getLaberinto() {
-		if (nireLaberinto == null) {
-			nireLaberinto = new Classic();
-		}
-		return nireLaberinto;
-	}
-	
-	// Metodo abstraktua labirintoa sortzeko
-	public abstract void sortuLaberinto();
 	
 	// Matrizea lortu
 	public Gelaxka[][] getMatriz() {
 		return matriz;
+	}
+	
+	public void sortuLaberinto(String mota) {
+		LaberintoFactory.getLaberintoFactory().createLaberinto(mota);
+	}
+	
+	public Laberinto getLaberinto() {
+		return 
 	}
 	
 	// Gelaxkaren posizioa lortu
