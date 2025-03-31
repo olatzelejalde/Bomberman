@@ -13,6 +13,7 @@ public class Soft extends Laberinto {
     public void sortuLaberinto() {
         Random r = new Random();
         Gelaxka[][] matriz = super.getMatriz();
+        BlokeFactory blokeFactory = BlokeFactory.getBlokeFactory();
 
         for (int i = 0; i < 11; i++) {
             for (int j = 0; j < 17; j++) {
@@ -25,19 +26,20 @@ public class Soft extends Laberinto {
                         matriz[i][j] = new Gelaxka(null, false);
                     }
                 }
-                // Kasu honetan, ez dugu bloke gogorrik izango.
+                
                 // Beste posizioak
                 else {
                     int prob1 = r.nextInt(100);
                     if (prob1 < 40) {
                         // Bloke biguna (40% probabilitatea)
-                        matriz[i][j] = new Gelaxka(new BlokeBiguna(), false);
-                        Laberinto.getLaberinto().gehituSuntsigarri();
+                    	Blokea blokeBiguna = blokeFactory.createBloke(BlokeFactory.BIGUNA);
+                        matriz[i][j] = new Gelaxka(blokeBiguna, false);
+                        gehituSuntsigarri();
                     } 
                     else {
                         // Bigarren probabilitatea etsaientzat
                         int prob2 = r.nextInt(100);
-                        if (prob2 > 90 && etsaiKop < 8) {
+                        if (prob2 > 0 && etsaiKop < 8) {
                             matriz[i][j] = new Gelaxka(new Etsaia(), false);
                             etsaiKop++;
                         } else {
