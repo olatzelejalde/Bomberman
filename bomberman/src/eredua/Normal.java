@@ -6,6 +6,7 @@ import java.util.TimerTask;
 public class Normal extends Bonba {
 	private Timer suaTimer, eztandaTimer, tocarFuegoTimer;
 	
+	
 	public Normal(int x, int y) {
 		super(x,y);
 	}
@@ -25,12 +26,12 @@ public class Normal extends Bonba {
 	
 	// Bonbaren eztanda kontrolatzeko metodoa
 	public void eztanda() {
-		setAktibatuta(false);
+		super.aktibatutaDago();
 		
 		int x = getX();
 		int y = getY();
 		
-		Laberinto laberinto = Laberinto.getLaberinto();
+		Laberinto laberinto = LaberintoFactory.getLaberintoFactory().getLaberinto();
 		Gelaxka g = laberinto.getMatriz()[x][y];
 		
 		// Gelaxkatik bonba kendu
@@ -38,13 +39,13 @@ public class Normal extends Bonba {
 				
 		// Sua jarri bonbaren posizioan eta ondokoetan
 		laberinto.jarriSua(x, y); // Bonbaren posizioa
-		laberinto.jarriSua(x - 1, y); // Goiko gelaxka
-		laberinto.jarriSua(x + 1, y); // Beheko gelaxka
-		laberinto.jarriSua(x, y - 1); // Ezkerreko gelaxka
-		laberinto.jarriSua(x, y + 1); // Eskumako gelaxka
+		laberinto.jarriSua(x - 1, y); // Goikoa
+		laberinto.jarriSua(x + 1, y); // Behekoa
+		laberinto.jarriSua(x, y - 1); // Ezkerrekoa
+		laberinto.jarriSua(x, y + 1); // Eskumakoa
 	
 		
-		// 500ms-ro egiaztatu bomberman-a ez duela sua ukitu
+		// 500ms-ro egiaztatu bomberman ez duela sua ukitu
 		tocarFuegoTimer = new Timer();
 		tocarFuegoTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
@@ -57,8 +58,7 @@ public class Normal extends Bonba {
                 if (laberinto.getMatriz()[bombermanX][bombermanY].suaDago()) {
                     Jokoa.getJokoa().getBomberman().hil();
                     Jokoa.getJokoa().bukaera(false);
-                    // Egiaztapena eten
-                    this.cancel();
+                    this.cancel(); // Egiaztapena eten
                 }
             }
         }, 0, 500); 
