@@ -14,6 +14,7 @@ public class Classic extends Laberinto {
 	public void sortuLaberinto() {
 	    Random r = new Random();
 	    Gelaxka[][] matriz = super.getMatriz();
+	    BlokeFactory blokeFactory = BlokeFactory.getBlokeFactory();
 
 	    for (int i = 0; i < 11; i++) { // altuera
 	        for (int j = 0; j < 17; j++) { // zabalera
@@ -29,7 +30,8 @@ public class Classic extends Laberinto {
 	            
 	            // Bloke gogorrak posizio bakoitietan
 	            else if (i % 2 != 0 && j % 2 != 0) {
-	                matriz[i][j] = new Gelaxka(new BlokeGogorra(), false);
+	            	Blokea blokeGog = blokeFactory.createBloke(BlokeFactory.GOGORRA);
+                    matriz[i][j] = new Gelaxka(blokeGog, false);
 	            }
 	            
 	            // Beste posizioak: bloke bigunak, etsaiak edo hutsik
@@ -37,8 +39,9 @@ public class Classic extends Laberinto {
                     int prob1 = r.nextInt(100); // 0-99
                     // 40% probabilitate bloke biguna
                     if (prob1 < 40) { 
-                        matriz[i][j] = new Gelaxka(new BlokeBiguna(), false);
-                        Laberinto.getLaberinto().gehituSuntsigarri();
+                    	Blokea blokeBiguna = blokeFactory.createBloke(BlokeFactory.BIGUNA);
+                        matriz[i][j] = new Gelaxka(blokeBiguna, false);
+                        gehituSuntsigarri();
                     }
                     else {
                         int prob2 = r.nextInt(100);
