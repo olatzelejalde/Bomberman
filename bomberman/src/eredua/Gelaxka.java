@@ -117,6 +117,7 @@ public class Gelaxka extends Observable {
         	egoera = "hutsik";
         }
         setChanged();
-        notifyObservers(egoera);
+        notifyObservers(new String[]{egoera, Jokoa.getJokoa().getBomberman().getNorabidea()});
+
     }
 }
