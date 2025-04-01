@@ -7,8 +7,10 @@ public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
     private Bonba bonba;
+    private Laberinto laberinto;
     private boolean amaituta;
 
+    
     private Jokoa() {       
         this.amaituta = false;
     }
@@ -21,29 +23,41 @@ public class Jokoa extends Observable{
     }
     
     // Metodo jokoa hasteko
-    public void hasiJokoa(){
-    	Laberinto.getLaberinto().sortuLaberinto();
-        this.bomberman = new White(0, 0, 10);
+    public void hasiJokoa(String laberintoMota, String jokalariMota){
+    	laberinto.sortuLaberinto(laberintoMota);
+    	
+    	// Aukeratutakoaren arabera jokalaria sortu
+        if ("White".equalsIgnoreCase(jokalariMota)) {
+            this.bomberman = new White(0, 0, 10);
+        } 
+        else if ("Black".equalsIgnoreCase(jokalariMota)) {
+            this.bomberman = new Black(0, 0, 1);
+        }
+    	
         setChanged();
         notifyObservers("sortu");
         bistaratu();
     }
     
+    // Laberinto lortu
+    public Laberinto getLaberinto(){
+        return laberinto;
+    }
+    
     // Bomberman lortu
     public Bomberman getBomberman(){
-        return this.bomberman;
+        return bomberman;
     }
     
     // Bonba lortu
     public Bonba getBonba() {
-    	return this.bonba;
+    	return bonba;
     }
     
     // Bonba kokatzeko metodoa
     public void kokatuBonba() {
     	int x = bomberman.getX();
     	int y = bomberman.getY();
-    	Laberinto laberinto = Laberinto.getLaberinto();
     		
     	// Egiaztatu bonba kokatu aurretik
         if (laberinto.koordenatuBarruan(x, y) && laberinto.getMatriz()[x][y] != null) {
@@ -74,7 +88,7 @@ public class Jokoa extends Observable{
         if (bomberman.hildaDago()) {
             bukaera(false);
         } 
-        else if (!Laberinto.getLaberinto().blokeakDaude()) {
+        else if (!laberinto.blokeakDaude()) {
             bukaera(true);
         }
     }
@@ -90,7 +104,6 @@ public class Jokoa extends Observable{
 
     // Laberintoa bistaratu
 	public void bistaratu() {
-        Laberinto laberinto = Laberinto.getLaberinto();
         for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 17; j++) {
 				laberinto.getMatriz()[i][j].eguneratuBista();
