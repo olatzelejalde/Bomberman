@@ -40,8 +40,11 @@ public class GelaxkaBista extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-	    if (arg instanceof String) {
-	        String egoera = (String) arg;
+	    if (arg instanceof String[]) {
+	        String[] datuak = (String[]) arg;
+	        
+	        String egoera = datuak[0];  // egoera
+	        String norabidea = datuak[1]; // norabidea
 
 	        switch (egoera) {
 	            case "sua":
@@ -51,26 +54,22 @@ public class GelaxkaBista extends JLabel implements Observer {
 	                this.setIcon(whiteBonbarekin);
 	                break;
 	            case "bomberman":
-	                Jokoa joko = Jokoa.getJokoa();
-	                Bomberman bomber = joko.getBomberman();
-	                if (bomber != null) {
-	                    switch (bomber.getNorabidea()) {
-	                        case "ezkerra":
-	                            this.setIcon(ezkerra);
-	                            break;
-	                        case "eskuina":
-	                            this.setIcon(eskuina);
-	                            break;
-	                        case "goruntz":
-	                            this.setIcon(atzera);
-	                            break;
-	                        case "behera":
-	                            this.setIcon(aurrera);
-	                            break;
-	                        default:
-	                            this.setIcon(bomberIcon);
-	                            break;
-	                    }
+	                switch (norabidea) {
+	                    case "ezkerra":
+	                        this.setIcon(ezkerra);
+	                        break;
+	                    case "eskuina":
+	                        this.setIcon(eskuina);
+	                        break;
+	                    case "goruntz":
+	                        this.setIcon(atzera);
+	                        break;
+	                    case "behera":
+	                        this.setIcon(aurrera);
+	                        break;
+	                    default:
+	                        this.setIcon(bomberIcon);
+	                        break;
 	                }
 	                break;
 	            case "bonba":
