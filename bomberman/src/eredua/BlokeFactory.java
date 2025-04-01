@@ -27,8 +27,10 @@ public class BlokeFactory {
         switch(mota.toLowerCase()) {
             case BIGUNA:
                 bloke = new BlokeBiguna();
+		break;
             case GOGORRA:
                 bloke = new BlokeGogorra();
+		break;
         }
         return bloke;
     }
