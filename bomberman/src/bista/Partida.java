@@ -47,39 +47,9 @@ public class Partida extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        
-        // JPanel-ari argazkia jarri fondoan
-        JPanel boardPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (fondoIcon != null) {
-                    g.drawImage(fondoIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
-                }
-            }
-        };
-        boardPanel.setLayout(new GridLayout(errenkada, zutabe));
 
         jokoa = Jokoa.getJokoa();
     	jokoa.addObserver(this);
-    	
-    	getControler().jokoaHasi();
-        Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz();
-        // Tableroa hasieratu
-        for (int i = 0; i < errenkada; i++) {
-            for (int j = 0; j < zutabe; j++) {
-                board[i][j] = new GelaxkaBista();
-                boardPanel.add(board[i][j]);
-                matriz[i][j].addObserver(board[i][j]);
-            }
-        }
-        jokoa.bistaratu();
-        
-        add(boardPanel, BorderLayout.CENTER);       
-        addKeyListener(getControler());
-        setFocusable(true);
-        requestFocusInWindow();
-        setVisible(true);
     }        
     
    @Override
@@ -90,12 +60,41 @@ public class Partida extends JFrame implements Observer {
             JOptionPane.showMessageDialog(this, mensaje, "Bukaera", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
             
+    	} else if (arg instanceof String) {
+    		if (arg == "sortu") {
+    			JPanel boardPanel = new JPanel() {
+    	            @Override
+    	            protected void paintComponent(Graphics g) {
+    	                super.paintComponent(g);
+    	                if (fondoIcon != null) {
+    	                    g.drawImage(fondoIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
+    	                }
+    	            }
+    	        };
+    	        boardPanel.setLayout(new GridLayout(errenkada, zutabe));
+    			Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz(); // !!!!!!!!!!!!!!
+                // Tableroa hasieratu
+                for (int i = 0; i < errenkada; i++) {
+                    for (int j = 0; j < zutabe; j++) {
+                        board[i][j] = new GelaxkaBista();
+                        boardPanel.add(board[i][j]);
+                        System.out.println(i);
+                        System.out.println(j);
+                        matriz[i][j].addObserver(board[i][j]);
+                    }
+                }
+                
+                add(boardPanel, BorderLayout.CENTER);       
+                addKeyListener(getControler());
+                setFocusable(true);
+                requestFocusInWindow();
+                setVisible(true);
+    		}
+    		
     	}
 	}
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Partida());
-    }
+   
     
     
    /************************CONTROLER********************************/
@@ -109,9 +108,7 @@ public class Partida extends JFrame implements Observer {
     
     private class Controler implements KeyListener {
 
-    	public void jokoaHasi() {
-    		jokoa.hasiJokoa();
-    	}
+    
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
