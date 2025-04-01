@@ -25,7 +25,8 @@ public class Jokoa extends Observable{
     	Laberinto.getLaberinto().sortuLaberinto();
         this.bomberman = new White(0, 0, 10);
         setChanged();
-        notifyObservers();
+        notifyObservers("sortu");
+        bistaratu();
     }
     
     // Bomberman lortu
@@ -89,8 +90,6 @@ public class Jokoa extends Observable{
 
     // Laberintoa bistaratu
 	public void bistaratu() {
-		setChanged();
-        notifyObservers();
         Laberinto laberinto = Laberinto.getLaberinto();
         for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 17; j++) {
