@@ -26,6 +26,9 @@ public class Partida extends JFrame implements Observer {
 
     private GelaxkaBista[][] board = new GelaxkaBista[errenkada][zutabe];
     private Jokoa jokoa;
+    private Laberinto laberinto; //-------MAL PERO ERA PARA PROBAR
+    private static String laberintoMota;
+    private static String jokalariMota;
     
     private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
     
@@ -41,59 +44,65 @@ public class Partida extends JFrame implements Observer {
         }
     }
     
-    public Partida() {
+    public Partida(String laberintoMota, String jokalariMota) {
     	setTitle("Bomberman");
         setSize(zutabe * tam, errenkada * tam);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        
+        this.laberintoMota = laberintoMota;
+        this.jokalariMota = jokalariMota;
 
         jokoa = Jokoa.getJokoa();
     	jokoa.addObserver(this);
     }        
     
-   @Override
-   public void update(Observable o, Object arg) {
+    @Override
+    public void update(Observable o, Object arg) {
     	if (arg instanceof Boolean) {
             boolean irabazi = (Boolean) arg;
             String mensaje = irabazi ? "Zorionak!! Irabazi duzu!!" : "Galdu duzu, saiatu berriro.";
             JOptionPane.showMessageDialog(this, mensaje, "Bukaera", JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
-            
-    	} else if (arg instanceof String) {
-    		if (arg == "sortu") {
-    			JPanel boardPanel = new JPanel() {
-    	            @Override
-    	            protected void paintComponent(Graphics g) {
-    	                super.paintComponent(g);
-    	                if (fondoIcon != null) {
-    	                    g.drawImage(fondoIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
-    	                }
-    	            }
-    	        };
-    	        boardPanel.setLayout(new GridLayout(errenkada, zutabe));
-    			Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz(); // !!!!!!!!!!!!!!
-                // Tableroa hasieratu
-                for (int i = 0; i < errenkada; i++) {
-                    for (int j = 0; j < zutabe; j++) {
-                        board[i][j] = new GelaxkaBista();
-                        boardPanel.add(board[i][j]);
-                        System.out.println(i);
-                        System.out.println(j);
-                        matriz[i][j].addObserver(board[i][j]);
-                    }
-                }
-                
-                add(boardPanel, BorderLayout.CENTER);       
-                addKeyListener(getControler());
-                setFocusable(true);
-                requestFocusInWindow();
-                setVisible(true);
-    		}
-    		
-    	}
-	}
-
+            System.exit(0);  
+		} 
+		else if (arg instanceof String) {
+			if (arg == "sortu") {
+				JPanel boardPanel = new JPanel() {
+		            @Override
+		            protected void paintComponent(Graphics g) {
+		                super.paintComponent(g);
+		                if (fondoIcon != null) {
+		                    g.drawImage(fondoIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
+		                }
+		            }
+		        };
+		        boardPanel.setLayout(new GridLayout(errenkada, zutabe));
+				//Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz(); // !!!!!!!!!!!!!!
+		        Gelaxka[][] matriz = laberinto.getMatriz(); //---------MAL PERO ERA PARA PROBAR
+	            // Tableroa hasieratu
+	            for (int i = 0; i < errenkada; i++) {
+	                for (int j = 0; j < zutabe; j++) {
+	                    board[i][j] = new GelaxkaBista();
+	                    boardPanel.add(board[i][j]);
+	                    System.out.println(i);
+	                    System.out.println(j);
+	                    matriz[i][j].addObserver(board[i][j]);
+	                }
+	            }
+	            
+	            add(boardPanel, BorderLayout.CENTER);       
+	            addKeyListener(getControler());
+	            setFocusable(true);
+	            requestFocusInWindow();
+	            setVisible(true);
+			}
+		}
+    }
+   
+    public static void main(String[] args) {
+        Jokoa.getJokoa().hasiJokoa(laberintoMota, jokalariMota);
+    }
    
     
     
