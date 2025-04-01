@@ -4,7 +4,7 @@ public class Laberinto {
 	private Gelaxka[][] matriz;
 	private int suntsigarriak;
 
-	protected Laberinto() {
+	public Laberinto() {
 		this.matriz = new Gelaxka[11][17];
 		this.suntsigarriak = 0;
 	}
@@ -15,11 +15,8 @@ public class Laberinto {
 	}
 	
 	public void sortuLaberinto(String mota) {
-		LaberintoFactory.getLaberintoFactory().createLaberinto(mota);
-	}
-	
-	public Laberinto getLaberinto() {
-		return 
+		Laberinto laberinto = LaberintoFactory.getLaberintoFactory().createLaberinto(mota);
+		this.matriz = laberinto.getMatriz();
 	}
 	
 	// Gelaxkaren posizioa lortu
