@@ -22,14 +22,15 @@ public class BlokeFactory {
             throw new IllegalArgumentException("Mota ezin daiteke null izan");
         }
         
+        Blokea bloke = null;
+        
         switch(mota.toLowerCase()) {
             case BIGUNA:
-                return new BlokeBiguna();
+                bloke = new BlokeBiguna();
             case GOGORRA:
-                return new BlokeGogorra();
-            default:
-                throw new IllegalArgumentException("Bloke mota ezezaguna: " + mota);
+                bloke = new BlokeGogorra();
         }
+        return bloke;
     }
     
 }
