@@ -23,16 +23,20 @@ public class LaberintoFactory {
             throw new IllegalArgumentException("Mota ezin daiteke null izan");
         }
     	
+    	Laberinto laberinto = null;
+    	
     	switch(mota.toLowerCase()) {
     		case CLASSIC:
-    			return new Classic();
+    			laberinto = new Classic();
+    			break;
     		case SOFT:
-    			return new Soft();	
+    			laberinto = new Soft();	
+    			break;
     		case EMPTY:
-    			return new Empty();	
-    		default:
-                throw new IllegalArgumentException("Laberinto mota ezezaguna: " + mota);	
+    			laberinto = new Empty();
+    			break;
     	}
+    	return laberinto;
     	
     }
     
