@@ -8,6 +8,7 @@ public class Classic extends Laberinto {
 	public Classic() {
 		super();
 		etsaiKop = 0;
+		
 	}
 	
 	// Metodoa laberintoa sortzeko 
@@ -21,17 +22,17 @@ public class Classic extends Laberinto {
 	        	// Bomberman gelaxka libre batean hasiko da
 	            if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
 	                if (i == 0 && j == 0) {
-	                	matriz[i][j] = new Gelaxka(null, true);
+	                	matriz[i][j] = new Gelaxka(null, true, false);
 	                }
 	                else {
-		                matriz[i][j] = new Gelaxka(null, false);
+		                matriz[i][j] = new Gelaxka(null, false, false);
 	                }
 	            }
 	            
 	            // Bloke gogorrak posizio bakoitietan
 	            else if (i % 2 != 0 && j % 2 != 0) {
 	            	Blokea blokeGog = blokeFactory.createBloke(BlokeFactory.GOGORRA);
-                    matriz[i][j] = new Gelaxka(blokeGog, false);
+                    matriz[i][j] = new Gelaxka(blokeGog, false, false);
 	            }
 	            
 	            // Beste posizioak: bloke bigunak, etsaiak edo hutsik
@@ -40,17 +41,18 @@ public class Classic extends Laberinto {
                     // 40% probabilitate bloke biguna
                     if (prob1 < 40) { 
                     	Blokea blokeBiguna = blokeFactory.createBloke(BlokeFactory.BIGUNA);
-                        matriz[i][j] = new Gelaxka(blokeBiguna, false);
+                        matriz[i][j] = new Gelaxka(blokeBiguna, false, false);
                         gehituSuntsigarri();
                     }
                     else {
                         int prob2 = r.nextInt(100);
                         // 10% probabilitate etsaientzat
                         if (prob2 > 90 && etsaiKop < 6) {
-                            matriz[i][j] = new Gelaxka(new Etsaia(), false);
+                        	// Birpasatu 
+                            matriz[i][j] = new Gelaxka(new Etsaia(), false, true);
                             etsaiKop++;
                         } else {
-                            matriz[i][j] = new Gelaxka(null, false);
+                            matriz[i][j] = new Gelaxka(null, false, false);
                         }
                     }
                 }
