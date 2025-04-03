@@ -6,7 +6,7 @@ public abstract class Labirinto {
 	private int suntsigarriak;
 	private int etsaiak;
 
-	public Labirinto() {
+	protected Labirinto() {
 		this.matriz = new Gelaxka[11][17];
 		this.suntsigarriak = 0;
 		this.etsaiak = 0;
