@@ -31,18 +31,18 @@ public class Normal extends Bonba {
 		int x = getX();
 		int y = getY();
 		
-		Laberinto laberinto = LaberintoFactory.getLaberintoFactory().getLaberinto();
-		Gelaxka g = laberinto.getMatriz()[x][y];
+		Labirinto labirinto = LaberintoFactory.getLaberintoFactory().getLabirinto();
+		Gelaxka g = labirinto.getMatriz()[x][y];
 		
 		// Gelaxkatik bonba kendu
 		g.setBonba(null);
 				
 		// Sua jarri bonbaren posizioan eta ondokoetan
-		laberinto.jarriSua(x, y); // Bonbaren posizioa
-		laberinto.jarriSua(x - 1, y); // Goikoa
-		laberinto.jarriSua(x + 1, y); // Behekoa
-		laberinto.jarriSua(x, y - 1); // Ezkerrekoa
-		laberinto.jarriSua(x, y + 1); // Eskumakoa
+		labirinto.jarriSua(x, y); // Bonbaren posizioa
+		labirinto.jarriSua(x - 1, y); // Goikoa
+		labirinto.jarriSua(x + 1, y); // Behekoa
+		labirinto.jarriSua(x, y - 1); // Ezkerrekoa
+		labirinto.jarriSua(x, y + 1); // Eskumakoa
 	
 		
 		// 500ms-ro egiaztatu bomberman ez duela sua ukitu
@@ -55,7 +55,7 @@ public class Normal extends Bonba {
                 int bombermanY = Jokoa.getJokoa().getBomberman().getY();
 
                 // Egiaztatu bomberman ea sua daukan gelaxka batean dagoen
-                if (laberinto.getMatriz()[bombermanX][bombermanY].suaDago()) {
+                if (labirinto.getMatriz()[bombermanX][bombermanY].suaDago()) {
                     Jokoa.getJokoa().getBomberman().hil();
                     Jokoa.getJokoa().bukaera(false);
                     this.cancel(); // Egiaztapena eten
@@ -69,11 +69,11 @@ public class Normal extends Bonba {
             @Override
             public void run() {
             	// Sua kendu
-                laberinto.kenduSua(x, y);
-                laberinto.kenduSua(x - 1, y);
-                laberinto.kenduSua(x + 1, y);
-                laberinto.kenduSua(x, y - 1);
-                laberinto.kenduSua(x, y + 1);
+                labirinto.kenduSua(x, y);
+                labirinto.kenduSua(x - 1, y);
+                labirinto.kenduSua(x + 1, y);
+                labirinto.kenduSua(x, y - 1);
+                labirinto.kenduSua(x, y + 1);
                 tocarFuegoTimer.cancel();
             }
         }, 2000); 
