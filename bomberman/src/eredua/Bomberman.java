@@ -61,14 +61,14 @@ public abstract class Bomberman {
 
  	// Metodo mugitzeko
     public void mugitu(int newX, int newY) {
-        Laberinto laberinto = Laberinto.getLaberinto();
+        Labirinto labirinto = Labirinto.getLabirinto();
 
-        if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {
-            if (laberinto.getGelaxkaPos(newX, newY).bonbaDago()) {
+        if (labirinto.koordenatuBarruan(newX, newY) && labirinto != null) {
+            if (labirinto.getGelaxkaPos(newX, newY).bonbaDago()) {
                 System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
             }
 
-            if (laberinto.bidePosizioa(newX, newY)) {
+            if (labirinto.bidePosizioa(newX, newY)) {
                 // Mugitu baino lehen posizioa eguneratu
                 if (newX < x) {
                     norabidea = "goruntz"; // Gora
@@ -84,9 +84,9 @@ public abstract class Bomberman {
                 }
 
                 // Kendu Bombermana gelaxka honetatik
-                laberinto.getGelaxkaPos(x, y).setBomberman(false);
+                labirinto.getGelaxkaPos(x, y).setBomberman(false);
                 // Gelaxka berrira mugitu
-                laberinto.getGelaxkaPos(newX, newY).setBomberman(true);
+                labirinto.getGelaxkaPos(newX, newY).setBomberman(true);
 
                 x = newX;
                 y = newY;
@@ -99,7 +99,7 @@ public abstract class Bomberman {
             }
         } 
         else {
-            System.out.println("Laberintotik kanpo");
+            System.out.println("Labirintotik kanpo");
         }
     }
     
