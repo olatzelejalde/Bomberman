@@ -7,7 +7,7 @@ public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
     private Bonba bonba;
-    private Laberinto laberinto;
+    private Labirinto labirinto;
     private boolean amaituta;
 
     
@@ -24,7 +24,7 @@ public class Jokoa extends Observable{
     
     // Metodo jokoa hasteko
     public void hasiJokoa(String laberintoMota, String jokalariMota){
-    	laberinto.sortuLaberinto(laberintoMota);
+    	labirinto.sortuLaberinto(laberintoMota);
     	
     	// Aukeratutakoaren arabera jokalaria sortu
         if ("White".equalsIgnoreCase(jokalariMota)) {
@@ -40,8 +40,8 @@ public class Jokoa extends Observable{
     }
     
     // Laberinto lortu
-    public Laberinto getLaberinto(){
-        return laberinto;
+    public Labirinto getLabirinto(){
+        return labirinto;
     }
     
     // Bomberman lortu
@@ -60,13 +60,13 @@ public class Jokoa extends Observable{
     	int y = bomberman.getY();
     		
     	// Egiaztatu bonba kokatu aurretik
-        if (laberinto.koordenatuBarruan(x, y) && laberinto.getMatriz()[x][y] != null) {
-        	Gelaxka g = laberinto.getMatriz()[x][y];
+        if (labirinto.koordenatuBarruan(x, y) && labirinto.getMatriz()[x][y] != null) {
+        	Gelaxka g = labirinto.getMatriz()[x][y];
         	
         	// Begiratu ea gelaxka hutsik dagoen edo blokea biguna den
         	if (!g.blokeDu() || g.apurtuDaiteke()) {
         		bonba = new Normal(x, y);
-                laberinto.getMatriz()[x][y].setBonba(bonba);
+                labirinto.getMatriz()[x][y].setBonba(bonba);
                
                 
                 // Eztandarako timerra hasieratu
@@ -88,7 +88,7 @@ public class Jokoa extends Observable{
         if (bomberman.hildaDago()) {
             bukaera(false);
         } 
-        else if (!laberinto.blokeakDaude()) {
+        else if (!labirinto.blokeakDaude()) {
             bukaera(true);
         }
     }
@@ -106,7 +106,7 @@ public class Jokoa extends Observable{
 	public void bistaratu() {
         for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 17; j++) {
-				laberinto.getMatriz()[i][j].eguneratuBista();
+				labirinto.getMatriz()[i][j].eguneratuBista();
 			}
         }
 	}
