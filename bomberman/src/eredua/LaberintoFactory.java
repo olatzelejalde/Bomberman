@@ -18,25 +18,25 @@ public class LaberintoFactory {
         return nireLaberintoFactory;
     }
     
-    public Laberinto createLaberinto(String mota){
+    public Labirinto createLaberinto(String mota){
     	if (mota == null) {
             throw new IllegalArgumentException("Mota ezin daiteke null izan");
         }
     	
-    	Laberinto laberinto = null;
+    	Labirinto labirinto = null;
     	
     	switch(mota.toLowerCase()) {
     		case CLASSIC:
-    			laberinto = new Classic();
+    			labirinto = new Classic();
     			break;
     		case SOFT:
-    			laberinto = new Soft();	
+    			labirinto = new Soft();	
     			break;
     		case EMPTY:
-    			laberinto = new Empty();
+    			labirinto = new Empty();
     			break;
     	}
-    	return laberinto;
+    	return labirinto;
     	
     }
     
