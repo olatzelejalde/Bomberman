@@ -2,7 +2,7 @@ package eredua;
 
 import java.util.Random;
 
-public class Soft extends Laberinto {
+public class Soft extends Labirinto {
     
     public Soft() {
         super();
