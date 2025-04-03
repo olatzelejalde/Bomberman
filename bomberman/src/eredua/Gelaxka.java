@@ -39,7 +39,7 @@ public class Gelaxka extends Observable {
 			System.out.println("Blokea apurtu da!!");
 			eguneratuBista();
 			// Singleton arazoa
-			Laberinto.getLaberinto().kenduSuntsigarri();
+			Labirinto.getLabirinto().kenduSuntsigarri();
 		}
 	}
 	
