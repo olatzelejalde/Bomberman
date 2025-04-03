@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 import eredua.Bomberman;
 import eredua.Gelaxka;
 import eredua.Jokoa;
-import eredua.Laberinto;
+import eredua.Labirinto;
 
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -26,7 +26,7 @@ public class Partida extends JFrame implements Observer {
 
     private GelaxkaBista[][] board = new GelaxkaBista[errenkada][zutabe];
     private Jokoa jokoa;
-    private Laberinto laberinto; //-------MAL PERO ERA PARA PROBAR
+    private Labirinto labirinto; //-------MAL PERO ERA PARA PROBAR
     private static String laberintoMota;
     private static String jokalariMota;
     
@@ -44,7 +44,7 @@ public class Partida extends JFrame implements Observer {
         }
     }
     
-    public Partida(String laberintoMota, String jokalariMota) {
+    public Partida(String labirintoMota, String jokalariMota) {
     	setTitle("Bomberman");
         setSize(zutabe * tam, errenkada * tam);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +79,7 @@ public class Partida extends JFrame implements Observer {
 		        };
 		        boardPanel.setLayout(new GridLayout(errenkada, zutabe));
 				//Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz(); // !!!!!!!!!!!!!!
-		        Gelaxka[][] matriz = laberinto.getMatriz(); //---------MAL PERO ERA PARA PROBAR
+		        Gelaxka[][] matriz = labirinto.getMatriz(); //---------MAL PERO ERA PARA PROBAR
 	            // Tableroa hasieratu
 	            for (int i = 0; i < errenkada; i++) {
 	                for (int j = 0; j < zutabe; j++) {
