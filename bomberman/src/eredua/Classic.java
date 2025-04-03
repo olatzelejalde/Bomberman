@@ -3,12 +3,9 @@ package eredua;
 import java.util.Random;
 
 public class Classic extends Laberinto {
-	private int etsaiKop;
 	
 	public Classic() {
 		super();
-		etsaiKop = 0;
-		
 	}
 	
 	// Metodoa laberintoa sortzeko 
@@ -47,10 +44,11 @@ public class Classic extends Laberinto {
                     else {
                         int prob2 = r.nextInt(100);
                         // 10% probabilitate etsaientzat
-                        if (prob2 > 90 && etsaiKop < 6) {
-                        	// Birpasatu 
+                        if (prob2 > 90 && getEtsaiak() < 6) {
+                        	// Birpasatu Gelaxka eraikitzailea
+                        	// matriz[i][j] = new Gelaxka(null, false, true);
                             matriz[i][j] = new Gelaxka(new Etsaia(), false, true);
-                            etsaiKop++;
+                            gehituEtsaia();
                         } else {
                             matriz[i][j] = new Gelaxka(null, false, false);
                         }
