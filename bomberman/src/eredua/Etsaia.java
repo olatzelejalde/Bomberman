@@ -48,8 +48,7 @@ public class Etsaia {
 	// Metodo mugitzeko
      public void mugitu() {
          if (!bizirik) return;
-         
-         Laberinto laberinto = Laberinto.getLaberinto();
+
          List<int[]> mugimenduAukerak = new ArrayList<>();
          
          // Posibles movimientos
@@ -65,8 +64,10 @@ public class Etsaia {
              int newX = pos[0];
              int newY = pos[1];
              
-             if (laberinto.koordenatuBarruan(newX, newY)) {
-                 Gelaxka gelaxka = laberinto.getGelaxkaPos(newX, newY);
+             // Labirintoa nondik lortzen da?
+             
+             if (labirinto.koordenatuBarruan(newX, newY)) {
+                 Gelaxka gelaxka = labirinto.getGelaxkaPos(newX, newY);
                  
                  // Puede moverse a casillas vacías o donde esté el Bomberman
                  if (gelaxka.pasatuDaiteke() || gelaxka.bombermanDago()) {
@@ -84,8 +85,9 @@ public class Etsaia {
      }
      
      private void eguneratuPosizioa(int newX, int newY) {
-         Laberinto laberinto = Laberinto.getLaberinto();
-         Gelaxka gelaxkaHelmuga = laberinto.getGelaxkaPos(newX, newY);
+    	 // Singleton arazoa
+         Labirinto labirinto = Labirinto.getLabirinto();
+         Gelaxka gelaxkaHelmuga = labirinto.getGelaxkaPos(newX, newY);
          
          // Atacar si hay Bomberman
          if (gelaxkaHelmuga.bombermanDago()) {
@@ -94,13 +96,13 @@ public class Etsaia {
          }
          
          // Mover el enemigo
-         laberinto.getGelaxkaPos(x, y).kenduEtsaia();
+         labirinto.getGelaxkaPos(x, y).kenduEtsaia();
          this.x = newX;
          this.y = newY;
-         gelaxkaHelmuga.setEtsaia(this);
+         gelaxkaHelmuga.setEtsaia(true);
          
          // Verificar si hay fuego en la nueva posición
-         if (gelazkaHelmuga.suaDago()) {
+         if (gelaxkaHelmuga.suaDago()) {
              hil();
          }
      }
@@ -108,9 +110,8 @@ public class Etsaia {
      public void hil() {
          if (bizirik) {
              bizirik = false;
-             Laberinto.getLaberinto().getGelaxkaPos(x, y).kenduEtsaia();
+             Labirinto.getLabirinto().getGelaxkaPos(x, y).kenduEtsaia();
              Jokoa.getJokoa().etsaiaHil(); // Notificar que un enemigo ha muerto
          }
      }
-
 }
