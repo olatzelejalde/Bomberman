@@ -3,10 +3,12 @@ package eredua;
 public class Laberinto {
 	private Gelaxka[][] matriz;
 	private int suntsigarriak;
+	private int etsaiak;
 
 	public Laberinto() {
 		this.matriz = new Gelaxka[11][17];
 		this.suntsigarriak = 0;
+		this.etsaiak = 0;
 	}
 	
 	// Matrizea lortu
@@ -40,7 +42,7 @@ public class Laberinto {
 	// Gelaxka eguneratu egoera aldatu bada
 	public void eguneratuGelaxka(int x, int y, Blokea bloke) {
 		if (koordenatuBarruan(x,y)) {
-			matriz[x][y] = new Gelaxka(bloke, false);
+			matriz[x][y] = new Gelaxka(bloke, false, false);
 		}
 	}
 	
@@ -59,8 +61,24 @@ public class Laberinto {
 		if (suntsigarriak > 0) {
 			this.suntsigarriak--;
 		}
-		
-		if (suntsigarriak == 0) {
+		else if (suntsigarriak == 0 && etsaiak == 0) {
+			Jokoa.getJokoa().bukaera(true);
+		}
+	}
+	
+	public boolean etsaiakDaude() {
+		return this.etsaiak > 0;
+	}
+	
+	public void gehituEtsaia() {
+		this.etsaiak++;
+	}
+	
+	public void kenduEtsaia() {
+		if (etsaiak > 0) {
+			this.etsaiak--;
+		}
+		else if (suntsigarriak == 0 && etsaiak == 0) {
 			Jokoa.getJokoa().bukaera(true);
 		}
 	}
