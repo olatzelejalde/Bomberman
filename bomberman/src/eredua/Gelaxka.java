@@ -9,7 +9,7 @@ public class Gelaxka extends Observable {
 	private boolean sua;
 	private boolean bomberman;
 
-	public Gelaxka(Blokea bloke, boolean bomberman) {
+	public Gelaxka(Blokea bloke, boolean bomberman, boolean etsai) {
 		this.bloke = bloke;
 		this.bonba = null;
 		this.etsai = etsai;
@@ -38,6 +38,7 @@ public class Gelaxka extends Observable {
 			bloke = null;
 			System.out.println("Blokea apurtu da!!");
 			eguneratuBista();
+			// Singleton arazoa
 			Laberinto.getLaberinto().kenduSuntsigarri();
 		}
 	}
