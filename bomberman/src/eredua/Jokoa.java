@@ -7,7 +7,7 @@ public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
     private Bonba bonba;
-    private Labirinto labirinto;
+    private Laberinto labirinto;
     private boolean amaituta;
 
     
@@ -40,7 +40,7 @@ public class Jokoa extends Observable{
     }
     
     // Laberinto lortu
-    public Labirinto getLabirinto(){
+    public Laberinto getLabirinto(){
         return labirinto;
     }
     
