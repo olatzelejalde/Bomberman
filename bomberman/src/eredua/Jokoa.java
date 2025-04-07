@@ -7,7 +7,7 @@ public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
     private Bonba bonba;
-    private Laberinto labirinto;
+    private Labirinto labirinto;
     private boolean amaituta;
 
     
@@ -26,6 +26,10 @@ public class Jokoa extends Observable{
     public void hasiJokoa(String laberintoMota, String jokalariMota){
     	labirinto.sortuLaberinto(laberintoMota);
     	
+    	BombermanFactory bf = BombermanFactory.getBF();
+    	bomberman = bf.sortuBomberman(jokalariMota);
+    	
+    	/*
     	// Aukeratutakoaren arabera jokalaria sortu
         if ("White".equalsIgnoreCase(jokalariMota)) {
             this.bomberman = new White(0, 0, 10);
@@ -33,14 +37,17 @@ public class Jokoa extends Observable{
         else if ("Black".equalsIgnoreCase(jokalariMota)) {
             this.bomberman = new Black(0, 0, 1);
         }
-    	
+    
+    	 */
+    	  	
         setChanged();
         notifyObservers("sortu");
         bistaratu();
     }
     
+    
     // Laberinto lortu
-    public Laberinto getLabirinto(){
+    public Labirinto getLabirinto(){
         return labirinto;
     }
     
