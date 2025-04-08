@@ -10,17 +10,22 @@ import eredua.Jokoa;
 
 public class GelaxkaBista extends JLabel implements Observer {
 
-	// Erabiliko diren irudiak atributu gisa kargatu
     private ImageIcon blokGoIcon = loadImage("/irudiak/hard5.png");
     private ImageIcon blokBigIcon = loadImage("/irudiak/soft1.png");
-    private ImageIcon bomberIcon = loadImage("/irudiak/whitefront1.png");
+    private ImageIcon whiteIcon = loadImage("/irudiak/whitefront1.png");
+    private ImageIcon blackIcon = loadImage("/irudiak/blackfront1.png");
     private ImageIcon bonbaIcon = loadImage("/irudiak/bomb1.png");
     private ImageIcon suaIcon = loadImage("/irudiak/kaBomb2.png");
     private ImageIcon whiteBonbarekin = loadImage("/irudiak/whitewithbomb1.png");
-    private ImageIcon ezkerra = loadImage("/irudiak/whiteleft2.png");
-    private ImageIcon eskuina = loadImage("/irudiak/whiteright2.png");
-    private ImageIcon atzera = loadImage("/irudiak/whiteup2.png");
-    private ImageIcon aurrera = loadImage("/irudiak/whitedown2.png");
+    private ImageIcon ezkerraWhite = loadImage("/irudiak/whiteleft2.png");
+    private ImageIcon eskuinaWhite = loadImage("/irudiak/whiteright2.png");
+    private ImageIcon atzeraWhite = loadImage("/irudiak/whiteup2.png");
+    private ImageIcon aurreraWhite = loadImage("/irudiak/whitedown2.png");
+    private ImageIcon blackBonbarekin = loadImage("/irudiak/blackwithbomb1.png");
+    private ImageIcon ezkerraBlack = loadImage("/irudiak/blackleft2.png");
+    private ImageIcon eskuinaBlack = loadImage("/irudiak/blackright2.png");
+    private ImageIcon atzeraBlack = loadImage("/irudiak/blackup2.png");
+    private ImageIcon aurreraBlack = loadImage("/irudiak/blackdown2.png");
 
 	// Irudiak kargatzeko metodoa
 	private ImageIcon loadImage(String path) {
@@ -34,7 +39,7 @@ public class GelaxkaBista extends JLabel implements Observer {
         }
     }
 
-	// Eraikitzailea
+
 	public GelaxkaBista() {
 	}
 	
@@ -45,33 +50,61 @@ public class GelaxkaBista extends JLabel implements Observer {
 	        
 	        String egoera = datuak[0];  // egoera
 	        String norabidea = datuak[1]; // norabidea
+	        String jokalariMota = datuak.length > 2 ? datuak[2] : "white";
 
 	        switch (egoera) {
 	            case "sua":
 	                this.setIcon(suaIcon);
 	                break;
 	            case "bombermanBonba":
-	                this.setIcon(whiteBonbarekin);
-	                break;
+	            	if (jokalariMota.equals("black")) {
+	            		this.setIcon(blackBonbarekin);
+		                break;
+	            	}
+	            	else {
+	            		this.setIcon(whiteBonbarekin);
+		                break;
+	            	}
 	            case "bomberman":
-	                switch (norabidea) {
-	                    case "ezkerra":
-	                        this.setIcon(ezkerra);
-	                        break;
-	                    case "eskuina":
-	                        this.setIcon(eskuina);
-	                        break;
-	                    case "goruntz":
-	                        this.setIcon(atzera);
-	                        break;
-	                    case "behera":
-	                        this.setIcon(aurrera);
-	                        break;
-	                    default:
-	                        this.setIcon(bomberIcon);
-	                        break;
-	                }
-	                break;
+	            	if ("black".equals(jokalariMota)) {
+                        switch (norabidea) {
+                            case "ezkerra": 
+                            	this.setIcon(ezkerraBlack); 
+                            	break;
+                            case "eskuina": 
+                            	this.setIcon(eskuinaBlack);
+                            	break;
+                            case "goruntz": 
+                            	this.setIcon(atzeraBlack);
+                            	break;
+                            case "behera": 
+                            	this.setIcon(aurreraBlack); 
+                            	break;
+                            default: 
+                            	this.setIcon(blackIcon); 
+                            	break;
+                        }
+                    } else { //white
+                        switch (norabidea) {
+                            case "ezkerra": 
+                            	this.setIcon(ezkerraWhite); 
+                            	break;
+                            case "eskuina": 
+                            	this.setIcon(eskuinaWhite);
+                            	break;
+                            case "goruntz": 
+                            	this.setIcon(atzeraWhite); 
+                            	break;
+                            case "behera": 
+                            	this.setIcon(aurreraWhite); 
+                            	break;
+                            default: 
+                            	this.setIcon(whiteIcon); 
+                            	break;
+                        }
+                    }
+                    break;
+
 	            case "bonba":
 	                this.setIcon(bonbaIcon);
 	                break;
