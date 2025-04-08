@@ -1,6 +1,6 @@
 package eredua;
 
-public abstract class Bonba {
+public abstract class Bonba implements BonbaPortaera{
 	private int x, y;
 	private boolean aktibatuta;
 
@@ -20,11 +20,27 @@ public abstract class Bonba {
 		return y;
 	}
 	
+	// X posizioan jarri
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	// Y posizioan jarri
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 	// Bonba jarrita dagoen jakiteko
 	public boolean aktibatutaDago() {
 		return aktibatuta;
 	}
 	
-	// Metodo abstraktua Normal klasean jartzeko
-	protected abstract void hasiEztanda();
+	public void setAktibatuta(boolean b) {
+		aktibatuta = b;
+	}
+	
+	// Métodos del interfaz BonbaPortaera
+    public abstract void bonbaJarri(Bomberman b);
+    public abstract void hasiEztanda();
+
 }
