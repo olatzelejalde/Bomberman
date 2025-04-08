@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 import eredua.Bomberman;
 import eredua.Gelaxka;
 import eredua.Jokoa;
-import eredua.Labirinto;
+import eredua.Laberinto;
 
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -26,7 +26,6 @@ public class Partida extends JFrame implements Observer {
 
     private GelaxkaBista[][] board = new GelaxkaBista[errenkada][zutabe];
     private Jokoa jokoa;
-    private Labirinto labirinto; //-------MAL PERO ERA PARA PROBAR
     private static String laberintoMota;
     private static String jokalariMota;
     
@@ -44,7 +43,7 @@ public class Partida extends JFrame implements Observer {
         }
     }
     
-    public Partida(String labirintoMota, String jokalariMota) {
+    public Partida(String laberintoMota, String jokalariMota) {
     	setTitle("Bomberman");
         setSize(zutabe * tam, errenkada * tam);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +55,8 @@ public class Partida extends JFrame implements Observer {
 
         jokoa = Jokoa.getJokoa();
     	jokoa.addObserver(this);
+    	
+    	jokoa.hasiJokoa(laberintoMota, jokalariMota); // NS SI ESTO SE PUEDE PONER AQUI PORQUE ESTA EN EL MAIN
     }        
     
     @Override
@@ -67,7 +68,7 @@ public class Partida extends JFrame implements Observer {
             System.exit(0);  
 		} 
 		else if (arg instanceof String) {
-			if (arg == "sortu") {
+			if (arg.equals("sortu")) {
 				JPanel boardPanel = new JPanel() {
 		            @Override
 		            protected void paintComponent(Graphics g) {
@@ -78,9 +79,8 @@ public class Partida extends JFrame implements Observer {
 		            }
 		        };
 		        boardPanel.setLayout(new GridLayout(errenkada, zutabe));
-				//Gelaxka[][] matriz = Laberinto.getLaberinto().getMatriz(); // !!!!!!!!!!!!!!
-		        Gelaxka[][] matriz = labirinto.getMatriz(); //---------MAL PERO ERA PARA PROBAR
-	            // Tableroa hasieratu
+				Gelaxka[][] matriz = Jokoa.getJokoa().getLaberinto().getMatriz();
+				// Tableroa hasieratu
 	            for (int i = 0; i < errenkada; i++) {
 	                for (int j = 0; j < zutabe; j++) {
 	                    board[i][j] = new GelaxkaBista();
@@ -103,6 +103,7 @@ public class Partida extends JFrame implements Observer {
     public static void main(String[] args) {
         Jokoa.getJokoa().hasiJokoa(laberintoMota, jokalariMota);
     }
+   
    
     
     
