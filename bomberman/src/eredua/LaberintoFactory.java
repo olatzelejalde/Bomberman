@@ -1,42 +1,40 @@
 package eredua;
 
 public class LaberintoFactory {
-	private static LaberintoFactory nireLaberintoFactory;
-    private static final String CLASSIC = "classic";
-    private static final String SOFT = "soft";
-    private static final String EMPTY = "empty";
+	private static LaberintoFactory nLF;
+    private String classic, soft, empty;
     
     
     private LaberintoFactory() {
     	
     }
     
-    public static LaberintoFactory getLaberintoFactory() {
-        if (nireLaberintoFactory == null) {
-        	nireLaberintoFactory = new LaberintoFactory();
+    public static LaberintoFactory getLF() {
+        if (nLF == null) {
+        	nLF = new LaberintoFactory();
         }
-        return nireLaberintoFactory;
+        return nLF;
     }
     
-    public Labirinto createLaberinto(String mota){
+    public Laberinto createLaberinto(String mota){
     	if (mota == null) {
             throw new IllegalArgumentException("Mota ezin daiteke null izan");
         }
     	
-    	Labirinto labirinto = null;
+    	Laberinto laberinto = null;
     	
     	switch(mota.toLowerCase()) {
-    		case CLASSIC:
-    			labirinto = new Classic();
+    		case "classic":
+    			laberinto = new Classic();
     			break;
-    		case SOFT:
-    			labirinto = new Soft();	
+    		case "soft":
+    			laberinto = new Soft();	
     			break;
-    		case EMPTY:
-    			labirinto = new Empty();
+    		case "empty":
+    			laberinto = new Empty();
     			break;
     	}
-    	return labirinto;
+    	return laberinto;
     	
     }
     
