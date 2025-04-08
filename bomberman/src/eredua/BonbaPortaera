@@ -1,0 +1,6 @@
+package eredua;
+
+public interface BonbaPortaera {
+	void bonbaJarri(Bomberman b);
+	void hasiEztanda();
+}
