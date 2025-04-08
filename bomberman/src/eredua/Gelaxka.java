@@ -3,13 +3,14 @@ package eredua;
 import java.util.Observable;
 
 public class Gelaxka extends Observable {
-	private Blokea bloke;
+	private Bloke bloke;
 	private Bonba bonba;
 	private boolean etsai;
 	private boolean sua;
 	private boolean bomberman;
 
-	public Gelaxka(Blokea bloke, boolean bomberman, boolean etsai) {
+	
+	public Gelaxka(Bloke bloke, boolean bomberman, boolean etsai) {
 		this.bloke = bloke;
 		this.bonba = null;
 		this.etsai = etsai;
@@ -38,8 +39,7 @@ public class Gelaxka extends Observable {
 			bloke = null;
 			System.out.println("Blokea apurtu da!!");
 			eguneratuBista();
-			// Singleton arazoa
-			Labirinto.getLabirinto().kenduSuntsigarri();
+			Jokoa.getJokoa().getLaberinto().kenduSuntsigarri();
 		}
 	}
 	
@@ -87,38 +87,57 @@ public class Gelaxka extends Observable {
 		eguneratuBista();
 	}
 	
+	// Metodo etsaia kentzeko
+	public void kenduEtsaia() {
+		setEtsaia(false);
+		
+	}
+	
 	// Aldaketetaz jakinarazi bistari
 	public void eguneratuBista() {
-        String egoera;
+        String[] datuak = new String[3]; //0.egoera, 1.norabide, 2.tipoJokalari
         
-        if (this.sua) {
-            egoera = "sua";
+        if (sua) {
+            datuak[0] = "sua";
         } 
         else if (bomberman && bonbaDago()) {
-        	egoera = "bombermanBonba";
+            datuak[0] = "bombermanBonba";
         } 
         else if (bomberman) {
-        	egoera = "bomberman";
+            datuak[0] = "bomberman";
+            datuak[1] = Jokoa.getJokoa().getBomberman().getNorabidea();
         } 
         else if (bonbaDago()) {
-        	egoera = "bonba";
+            datuak[0] = "bonba";
         } 
         else if (etsaiaDago()) {
-        	egoera = "bonba";
+            datuak[0] = "etsaia";
         } 
         else if (blokeDu()) {
-            if (apurtuDaiteke()) {
-            	egoera = "blokBig";
-            } 
-            else {
-            	egoera = "blokGo";
-            }
+        	 if (apurtuDaiteke()) {
+        		 datuak[0] = "blokBig";
+             } 
+             else {
+            	 datuak[0] = "blokGo";
+             }
         } 
         else {
-        	egoera = "hutsik";
+            datuak[0] = "hutsik";
         }
-        setChanged();
-        notifyObservers(new String[]{egoera, Jokoa.getJokoa().getBomberman().getNorabidea()});
 
+        // Añadir tipo de jugador si es bomberman
+        if (bomberman) {
+            Bomberman b = Jokoa.getJokoa().getBomberman();
+            if (b instanceof Black) {
+            	datuak[2] = "black";
+            }
+            else {
+            	datuak[2] = "white";
+            }
+        }
+
+        setChanged();
+        notifyObservers(datuak);
     }
+
 }
