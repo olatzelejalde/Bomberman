@@ -2,10 +2,11 @@ package eredua;
 
 import java.util.Random;
 
-public class Soft extends Labirinto {
+public class Soft extends Laberinto {
     
     public Soft() {
         super();
+        sortuLaberinto();
     }
     
     public void sortuLaberinto() {
@@ -30,22 +31,26 @@ public class Soft extends Labirinto {
                     int prob1 = r.nextInt(100);
                     if (prob1 < 40) {
                         // Bloke biguna (40% probabilitatea)
-                    	Blokea blokeBiguna = blokeFactory.createBloke(BlokeFactory.BIGUNA);
-                        matriz[i][j] = new Gelaxka(blokeBiguna, false, false);
+                    	Bloke blokeBig = blokeFactory.createBloke(BlokeFactory.getBlokeFactory().BIGUNA);
+                        matriz[i][j] = new Gelaxka(blokeBig, false, false);
                         gehituSuntsigarri();
                     } 
+                    
+                    //cuando el etsaia este hecho, cambiaremos este else por el comentado debajo
+                    else {
+                    	matriz[i][j] = new Gelaxka(null, false, false);
+                    }
+                    /*
                     else {
                         // Bigarren probabilitatea etsaientzat
                         int prob2 = r.nextInt(100);
                         if (prob2 > 0 && getEtsaiak() < 8) {
-                        	// Birpasatu Gelaxka eraikitzailea
-                        	// matriz[i][j] = new Gelaxka(null, false, true);
                             matriz[i][j] = new Gelaxka(new Etsaia(), false, true);
                             gehituEtsaia();
                         } else {
                             matriz[i][j] = new Gelaxka(null, false, false);
                         }
-                    }
+                    }*/
                 }
             }
         }
