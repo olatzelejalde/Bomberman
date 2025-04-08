@@ -1,9 +1,9 @@
 package eredua;
 
-public abstract class Blokea {
+public abstract class Bloke {
 	private boolean suntsigarri;
 
-	public Blokea(boolean suntsigarri) {
+	public Bloke(boolean suntsigarri) {
 		this.suntsigarri = suntsigarri;
 	}
 
