@@ -2,10 +2,11 @@ package eredua;
 
 import java.util.Random;
 
-public class Classic extends Labirinto {
+public class Classic extends Laberinto {
 	
 	public Classic() {
 		super();
+		sortuLaberinto();
 	}
 	
 	// Metodoa laberintoa sortzeko 
@@ -28,7 +29,7 @@ public class Classic extends Labirinto {
 	            
 	            // Bloke gogorrak posizio bakoitietan
 	            else if (i % 2 != 0 && j % 2 != 0) {
-	            	Blokea blokeGog = blokeFactory.createBloke(BlokeFactory.GOGORRA);
+	            	Bloke blokeGog = blokeFactory.createBloke(BlokeFactory.getBlokeFactory().GOGORRA);
                     matriz[i][j] = new Gelaxka(blokeGog, false, false);
 	            }
 	            
@@ -37,22 +38,25 @@ public class Classic extends Labirinto {
                     int prob1 = r.nextInt(100); // 0-99
                     // 40% probabilitate bloke biguna
                     if (prob1 < 40) { 
-                    	Blokea blokeBiguna = blokeFactory.createBloke(BlokeFactory.BIGUNA);
-                        matriz[i][j] = new Gelaxka(blokeBiguna, false, false);
+                    	Bloke blokeBig = blokeFactory.createBloke(BlokeFactory.getBlokeFactory().BIGUNA);
+                        matriz[i][j] = new Gelaxka(blokeBig, false, false);
                         gehituSuntsigarri();
                     }
+                    //cuando el etsaia este hecho, cambiaremos este else por el comentado debajo
+                    else {
+                    	matriz[i][j] = new Gelaxka(null, false, false);
+                    }
+                    /*
                     else {
                         int prob2 = r.nextInt(100);
                         // 10% probabilitate etsaientzat
                         if (prob2 > 90 && getEtsaiak() < 6) {
-                        	// Birpasatu Gelaxka eraikitzailea
-                        	// matriz[i][j] = new Gelaxka(null, false, true);
                             matriz[i][j] = new Gelaxka(new Etsaia(), false, true);
                             gehituEtsaia();
                         } else {
                             matriz[i][j] = new Gelaxka(null, false, false);
                         }
-                    }
+                    }*/
                 }
 	        }
 	    }
