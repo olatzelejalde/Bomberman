@@ -1,37 +1,46 @@
 package eredua;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class White extends Bomberman {
 	private boolean bonbaItxaroten;
 	private Timer bonbaTimer;
+	private List<Normal> bonbaList;
 	
-	// Eraikitzailea
-	public White(int x, int y, int bonbaKop) {
-		super(x, y, bonbaKop);
-		this.bonbaItxaroten = false;		
+
+	public White(int x, int y) {
+		super(x, y);
+		this.bonbaList = new ArrayList<>();
+		this.bonbaItxaroten = false;
+		for (int i = 0; i < 10; i++) { // solo 10
+			bonbaList.add(new Normal(x, y));
+		}
 	}
 	
-	// Bomberman-a dituen bonba kopurua lortu
+	// Bomberman dituen bonba kopurua lortu
 	public int getBonbaKop() {
-		return super.getBonbaKop();
+		return bonbaList.size();
 	}
 	
+	public void gehituBonba() {
+        bonbaList.add(new Normal(this.getX(), this.getY()));
+    }
+
 	// Bonba kokatzeko metodoa
 	public void bonbaJarri() {
 		// Bonbaren bat badauka, zuzenean jarriko du
-		if (getBonbaKop() > 0) {
-			Jokoa.getJokoa().kokatuBonba();
-			super.setBonbaKop(getBonbaKop() - 1);
+		if (!bonbaList.isEmpty()) {
+			BonbaPortaera bp = bonbaList.remove(getBonbaKop()-1);
+			bp.bonbaJarri(this);
 			System.out.println("Bonba kokatu da. Bonba kopurua: " + getBonbaKop());
 		}
-		// Bonbarik ez badauka, 3 segundo itxaron beharko ditu beste bonba bat lortzeko 
 		else if (!bonbaItxaroten) {
 			System.out.println("Ez daukazu bonbarik!! 3 segundo itxaron bonba bat lortzeko.");
 			itxaronBonba();
 		}
-		// Bonba jada kokatzen ari da
 		else {
 			System.out.println("Bonba bat lortzen ari zara, itxaron!!");
 		}
@@ -46,7 +55,7 @@ public class White extends Bomberman {
         bonbaTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-            	setBonbaKop(1);
+            	gehituBonba();
                 bonbaItxaroten = false; 
                 System.out.println("Bonba bat gehiago duzu!!");
             }
