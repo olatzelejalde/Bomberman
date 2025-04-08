@@ -1,44 +1,52 @@
 package eredua;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Black extends Bomberman {
 	private boolean bonbaItxaroten;
 	private Timer bonbaTimer;
+	private List<Ultra> bonbaList;
 	
-	// Eraikitzailea
-	public Black(int x, int y, int bonbaKop) {
-		super(x, y, bonbaKop);
-		this.bonbaItxaroten = false;		
+
+	public Black(int x, int y) {
+		super(x, y);
+		this.bonbaList = new ArrayList<Ultra>();
+		this.bonbaItxaroten = false;
+		for (int i = 0; i < 1; i++) { // solo 1
+			bonbaList.add(new Ultra(x, y));
+		}
 	}
 	
-	// Bomberman-a dituen bonba bakarra dauka : ultrabomb.
-	// Bomberman-a dituen bonba kopurua lortu
+	// Bomberman dituen bonba kopurua lortu
 	public int getBonbaKop() {
-		return super.getBonbaKop();
+		return bonbaList.size();
 	}
+	
+	public void gehituBonba() {
+        bonbaList.add(new Ultra(this.getX(), this.getY()));
+    }
 	
 	// Bonba bat 3 segunduro jarri ahalko ditu 
 	@Override
 	public void bonbaJarri() {
-		if (getBonbaKop() == 1) {
-			Jokoa.getJokoa().kokatuBonba();
-			super.setBonbaKop(0);
-			System.out.println("Bomba kokatu duzu. Bomba berria jartzeko 3 segundo itxaron.");	
+		if (!bonbaList.isEmpty()) {
+			BonbaPortaera bp = bonbaList.remove(getBonbaKop()-1);
+			bp.bonbaJarri(this);
+			System.out.println("Bonba kokatu da. Bonba kopurua: " + getBonbaKop());
 		}
-		// Bonbarik ez badauka, 3 segundo itxaron beharko ditu beste bonba bat lortzeko 
 		else if (!bonbaItxaroten) {
 			System.out.println("Ez daukazu bonbarik!! 3 segundo itxaron bonba bat lortzeko.");
 			itxaronBonba();
 		}
-		// Bonba jada kokatzen ari da
 		else {
 			System.out.println("Bonba bat lortzen ari zara, itxaron!!");
 		}
 	}
 
-	// Metodo honek bonba bat lortzeko itxaron beharreko denbora kontrolatuko du
+	// Bonba bat lortzeko itxaron beharreko denbora 
 	public void itxaronBonba() {
 		bonbaItxaroten = true;
 			
@@ -47,7 +55,7 @@ public class Black extends Bomberman {
 	    bonbaTimer.schedule(new TimerTask() {
 	    	@Override
 	        public void run() {
-	          	setBonbaKop(1);
+	    		gehituBonba();
 	            bonbaItxaroten = false; 
 	            System.out.println("Bonba bat gehiago duzu!!");
 	        }
