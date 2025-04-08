@@ -2,8 +2,7 @@ package eredua;
 
 public class BlokeFactory {
 	private static BlokeFactory nireBlokeFactory;
-	public static final String BIGUNA = "biguna";
-    public static final String GOGORRA = "gogorra";
+	private String biguna, gogorra;
     
    
     private BlokeFactory() {
@@ -17,20 +16,20 @@ public class BlokeFactory {
         return nireBlokeFactory;
     }
     
-    public Blokea createBloke(String mota) {
+    public Bloke createBloke(String mota) {
         if (mota == null) {
             throw new IllegalArgumentException("Mota ezin daiteke null izan");
         }
         
-        Blokea bloke = null;
+        Bloke bloke = null;
         
         switch(mota.toLowerCase()) {
-            case BIGUNA:
+            case "biguna":
                 bloke = new BlokeBiguna();
-		break;
-            case GOGORRA:
+                break;
+            case "gogorra":
                 bloke = new BlokeGogorra();
-		break;
+                break;
         }
         return bloke;
     }
