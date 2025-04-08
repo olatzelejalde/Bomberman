@@ -1,13 +1,12 @@
 package eredua;
 
 import java.util.Observable;
-import javax.swing.JOptionPane;
 
 public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
     private Bonba bonba;
-    private Labirinto labirinto;
+    private Laberinto laberinto;
     private boolean amaituta;
 
     
@@ -24,31 +23,16 @@ public class Jokoa extends Observable{
     
     // Metodo jokoa hasteko
     public void hasiJokoa(String laberintoMota, String jokalariMota){
-    	labirinto.sortuLaberinto(laberintoMota);
-    	
-    	BombermanFactory bf = BombermanFactory.getBF();
-    	bomberman = bf.sortuBomberman(jokalariMota);
-    	
-    	/*
-    	// Aukeratutakoaren arabera jokalaria sortu
-        if ("White".equalsIgnoreCase(jokalariMota)) {
-            this.bomberman = new White(0, 0, 10);
-        } 
-        else if ("Black".equalsIgnoreCase(jokalariMota)) {
-            this.bomberman = new Black(0, 0, 1);
-        }
-    
-    	 */
-    	  	
+    	laberinto = LaberintoFactory.getLF().createLaberinto(laberintoMota);    	
+    	bomberman = BombermanFactory.getBF().createBomberman(jokalariMota);
         setChanged();
         notifyObservers("sortu");
         bistaratu();
     }
     
-    
     // Laberinto lortu
-    public Labirinto getLabirinto(){
-        return labirinto;
+    public Laberinto getLaberinto(){
+        return laberinto;
     }
     
     // Bomberman lortu
@@ -56,30 +40,33 @@ public class Jokoa extends Observable{
         return bomberman;
     }
     
-    // Bonba lortu
-    public Bonba getBonba() {
-    	return bonba;
+    // Bonba jartzeko
+    public void setBonba(Bonba bonba) {
+        this.bonba = bonba;
     }
     
     // Bonba kokatzeko metodoa
     public void kokatuBonba() {
-    	int x = bomberman.getX();
+		int x = bomberman.getX();
     	int y = bomberman.getY();
     		
     	// Egiaztatu bonba kokatu aurretik
-        if (labirinto.koordenatuBarruan(x, y) && labirinto.getMatriz()[x][y] != null) {
-        	Gelaxka g = labirinto.getMatriz()[x][y];
+        if (laberinto.koordenatuBarruan(x, y) && laberinto.getMatriz()[x][y] != null) {
+        	Gelaxka g = laberinto.getMatriz()[x][y];
         	
         	// Begiratu ea gelaxka hutsik dagoen edo blokea biguna den
         	if (!g.blokeDu() || g.apurtuDaiteke()) {
-        		bonba = new Normal(x, y);
-                labirinto.getMatriz()[x][y].setBonba(bonba);
+        		bonba.setX(x);
+        		bonba.setY(y);
+                laberinto.getMatriz()[x][y].setBonba(bonba);
                
                 
                 // Eztandarako timerra hasieratu
                 bonba.hasiEztanda();
                 setChanged();
                 notifyObservers();
+                
+                //System.out.println("Bonba kokatu da. Bomberman pos: (" + x + "," + y + ") --- Bonba pos: (" + bonba.getX() + "," + bonba.getY() + ")");
         	}
         	else {
         		System.out.println("ERROR: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri");
@@ -90,12 +77,12 @@ public class Jokoa extends Observable{
         }
     }
      
-    // Eguneratu bombermana hil bada edo irabazi badu
+    // Eguneratu bomberman hil bada edo irabazi badu
     public void eguneratu() {
         if (bomberman.hildaDago()) {
             bukaera(false);
         } 
-        else if (!labirinto.blokeakDaude()) {
+        else if (!laberinto.blokeakDaude()) {
             bukaera(true);
         }
     }
@@ -113,7 +100,7 @@ public class Jokoa extends Observable{
 	public void bistaratu() {
         for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 17; j++) {
-				labirinto.getMatriz()[i][j].eguneratuBista();
+				laberinto.getMatriz()[i][j].eguneratuBista();
 			}
         }
 	}
