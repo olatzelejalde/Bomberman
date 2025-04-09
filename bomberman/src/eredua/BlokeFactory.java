@@ -2,11 +2,11 @@ package eredua;
 
 public class BlokeFactory {
 	private static BlokeFactory nireBlokeFactory;
-	private String biguna, gogorra;
+	public static final String BIGUNA = "biguna";
+	public static final String GOGORRA = "gogorra";
     
    
     private BlokeFactory() {
-    	
     }
     
     public static BlokeFactory getBlokeFactory() {
