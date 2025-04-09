@@ -59,13 +59,13 @@ public class Menu extends JFrame implements Observer {
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
 
-        // Panel de controles con transparencia
+        // Kontrol panela
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new GridBagLayout());
         controlPanel.setOpaque(false);
         controlPanel.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
 
-        // Configuración de controles
+        // Kontrolen konfigurazioa
         Font labelFont = new Font("Arial", Font.BOLD, 15);
         Font comboFont = new Font("Arial", Font.PLAIN, 15);
 
@@ -78,19 +78,19 @@ public class Menu extends JFrame implements Observer {
         cmbLaberinto.setFont(comboFont);
         cmbLaberinto.setBackground(new Color(255, 255, 255, 200));
         cmbLaberinto.setMaximumRowCount(3);
-
+        cmbLaberinto.setSelectedIndex(0);
+        
         // Combo Jokalari
         JLabel lblJokalari = new JLabel("Jokalari mota");
         lblJokalari.setFont(labelFont);
         lblJokalari.setForeground(Color.WHITE);
-	cmbJokalari.setSelectedIndex(0);
-        
+	
         cmbJokalari = new JComboBox<>(new String[]{"White", "Black"});
         cmbJokalari.setFont(comboFont);
         cmbJokalari.setBackground(new Color(255, 255, 255, 200));
-	cmbJokalari.setSelectedIndex(0);
+        cmbJokalari.setSelectedIndex(0);
 		
-        // Botón Start
+        // Start botoia
         btnStart = new JButton("START GAME");
         btnStart.setFont(new Font("Arial", Font.BOLD, 15));
         btnStart.setBackground(new Color(70, 130, 180));
@@ -103,7 +103,7 @@ public class Menu extends JFrame implements Observer {
         	));
         btnStart.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Añadir componentes al panel de controles
+        // Kontrolen panelean konponenteak gehitu
         GridBagConstraints gbcControl = new GridBagConstraints();
         gbcControl.gridwidth = GridBagConstraints.REMAINDER;
         gbcControl.fill = GridBagConstraints.HORIZONTAL;
@@ -115,15 +115,15 @@ public class Menu extends JFrame implements Observer {
         controlPanel.add(lblJokalari, gbcControl);
         controlPanel.add(cmbJokalari, gbcControl);
 
-        // Añadir componentes al panel principal
+        // Hasierako panelean konponenteak gehitu
         mainPanel.add(lblTitle, gbc);
         mainPanel.add(controlPanel, gbc);
         mainPanel.add(btnStart, gbc);
 
-        // Añadir panel principal al JFrame
+        // Panel nagusia gehitu
         add(mainPanel);
 
-        // Configurar acción del botón
+        // Botoiaren ekintza 
         btnStart.addActionListener(getControler());
 				
 	}
