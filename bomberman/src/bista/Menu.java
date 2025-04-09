@@ -91,7 +91,7 @@ public class Menu extends JFrame implements Observer {
         cmbJokalari.setSelectedIndex(0);
 		
         // Start botoia
-        btnStart = new JButton("START GAME");
+        btnStart = new JButton("JOKOA HASI");
         btnStart.setFont(new Font("Arial", Font.BOLD, 15));
         btnStart.setBackground(new Color(70, 130, 180));
         btnStart.setForeground(Color.WHITE);
