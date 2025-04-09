@@ -8,7 +8,7 @@ public class Jokoa extends Observable{
     private Bonba bonba;
     private Laberinto laberinto;
     private boolean amaituta;
-
+    private int etsaiKop = 0;
     
     private Jokoa() {       
         this.amaituta = false;
@@ -28,6 +28,8 @@ public class Jokoa extends Observable{
         setChanged();
         notifyObservers("sortu");
         bistaratu();
+	System.out.println("Laberinto mota jaso da: " + laberintoMota);
+
     }
     
     // Laberinto lortu
@@ -44,10 +46,20 @@ public class Jokoa extends Observable{
     public void setBonba(Bonba bonba) {
         this.bonba = bonba;
     }
-    
+
+public void gehituEtsaia() {
+        etsaiKop++;
+    }
+
+    public void etsaiaHil() {
+        etsaiKop--;
+        if (etsaiKop <= 0) {
+            bukaera(true); // Jokua irabazita
+        }
+    }
     // Bonba kokatzeko metodoa
     public void kokatuBonba() {
-		int x = bomberman.getX();
+	int x = bomberman.getX();
     	int y = bomberman.getY();
     		
     	// Egiaztatu bonba kokatu aurretik
@@ -58,7 +70,7 @@ public class Jokoa extends Observable{
         	if (!g.blokeDu() || g.apurtuDaiteke()) {
         		bonba.setX(x);
         		bonba.setY(y);
-                laberinto.getMatriz()[x][y].setBonba(bonba);
+                	laberinto.getMatriz()[x][y].setBonba(bonba);
                
                 
                 // Eztandarako timerra hasieratu
