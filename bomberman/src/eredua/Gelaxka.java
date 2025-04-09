@@ -1,111 +1,159 @@
 package eredua;
-
-import java.util.Observable;
-
-public class Jokoa extends Observable{
-    private static Jokoa nireJokoa;
-    private Bomberman bomberman;
-    private Laberinto laberinto;
-    private boolean amaituta;
-
-    
-    private Jokoa() {       
-        this.amaituta = false;
-    }
-
-    public static Jokoa getJokoa() {
-        if (nireJokoa == null) {
-        	nireJokoa = new Jokoa();
-        }
-        return nireJokoa;
-    }
-    
-    // Metodo jokoa hasteko
-    public void hasiJokoa(String laberintoMota, String jokalariMota){
-    	laberinto = LaberintoFactory.getLF().createLaberinto(laberintoMota);    	
-    	bomberman = BombermanFactory.getBF().createBomberman(jokalariMota);
-    }
-    
-    // Laberinto lortu
-    public Laberinto getLaberinto(){
-        return laberinto;
-    }
-    
-    // Bomberman lortu
-    public Bomberman getBomberman(){
-        return bomberman;
-    }
-    
-    // Bonba kokatzeko metodoa
-    public void kokatuBonba() {
-		int x = bomberman.getX();
-    	int y = bomberman.getY();
-    		
-    	// Egiaztatu bonba kokatu aurretik
-        if (laberinto.koordenatuBarruan(x, y) && laberinto.getMatriz()[x][y] != null) {
-        	Gelaxka g = laberinto.getMatriz()[x][y];
-        	
-        	// Begiratu ea gelaxka hutsik dagoen edo blokea biguna den
-        	if (!g.blokeDu() || g.apurtuDaiteke()) {
-        		Bonba bonba = getBomberman().getBonba();
-        		bonba.setX(x);
-        		bonba.setY(y);
-                laberinto.getMatriz()[x][y].setBonba(bonba);
-               
-                
-                // Eztandarako timerra hasieratu
-                bonba.hasiEztanda();
-                setChanged();
-                notifyObservers();
-                
-                //System.out.println("Bonba kokatu da. Bomberman pos: (" + x + "," + y + ") --- Bonba pos: (" + bonba.getX() + "," + bonba.getY() + ")");
-        	}
-        	else {
-        		System.out.println("ERROR: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri");
-        	}
-        } 
-        else {
-            System.out.println("ERROR: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri, laberintotik kanpo dagoelako");
-        }
-    }
-     
-    // Eguneratu bomberman hil bada edo irabazi badu
-    public void eguneratu() {
-        if (bomberman.hildaDago()) {
-            bukaera(false);
-        } 
-        else if (!laberinto.blokeakDaude()) {
-            bukaera(true);
-        }
-    }
-
-    // Partida amaitu
-    public void bukaera(boolean irabazi) {
-    	if (!amaituta) {
-    		amaituta = true;
-    		setChanged();
-    		notifyObservers(irabazi);
-        }
-    }
-
-    // Laberintoa bistaratu
-	public void bistaratu() {
-		setChanged();
-        notifyObservers("sortu");
-        for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 17; j++) {
-				laberinto.getMatriz()[i][j].eguneratuBista();
-			}
-        }
-	}
-	
-	public void bombermanMugitu (int dx, int dy) {
-        if (bomberman != null) {
-            int Xberria = bomberman.getX() + dx;
-            int Yberria = bomberman.getY() + dy;
-            bomberman.mugitu(Xberria, Yberria);
-            setChanged();
-            notifyObservers();
-        }
-    }
-}
+ 
+ import java.util.Observable;
+ 
+ public class Gelaxka extends Observable {
+ 	private Bloke bloke;
+ 	private Bonba bonba;
+ 	private boolean etsai;
+ 	private boolean sua;
+ 	private boolean bomberman;
+ 
+ 	public Gelaxka(Bloke bloke, boolean bomberman, boolean etsai) {
+ 		this.bloke = bloke;
+ 		this.bonba = null;
+ 		this.etsai = etsai;
+ 		this.sua = false;
+ 		this.bomberman = bomberman;
+ 	}
+ 
+ 	// Gelaxkan bloke dagoen jakiteko
+ 	public boolean blokeDu() {
+ 		return bloke != null;
+ 	}
+ 
+ 	// Blokea apurtu ahal den jakiteko
+ 	public boolean apurtuDaiteke() {
+ 		return bloke != null && bloke.blokeBigunaDa();
+ 	}
+ 
+ 	// Etsaia pasatzeko bidea dagoen jakiteko
+ 	public boolean pasatuDaiteke() {
+ 	    return !blokeDu() && !bonbaDago() && !etsaiaDago() && !bombermanDago();
+ 	}
+ 
+ 	// Blokea apurtu apurtu ahal bada
+ 	public void apurtuBlokea() {
+ 		if (apurtuDaiteke()) {
+ 			bloke = null;
+ 			System.out.println("Blokea apurtu da!!");
+ 			eguneratuBista();
+ 			Jokoa.getJokoa().getLaberinto().kenduSuntsigarri();
+ 		}
+ 	}
+ 
+ 	// Gelaxkan etsaia dagoen jakiteko
+ 	public boolean etsaiaDago() {
+ 		return etsai;
+ 	}
+ 
+ 	// Gelaxkan sua dagoen jakiteko
+ 	public boolean suaDago() {
+ 		return sua;
+ 	}
+ 
+ 	// Gelaxkan Bomberman dagoen jakiteko
+ 	public boolean bombermanDago() {
+ 		return bomberman;
+ 	}
+ 
+ 	// Gelaxkan bonba dagoen jakiteko
+ 	public boolean bonbaDago() {
+ 		return bonba != null;
+ 	}
+ 
+ 	// Bombermana gelaxkan jarri
+ 	public void setBomberman(boolean b) {
+ 		bomberman = b;
+ 		eguneratuBista();
+ 	}
+ 
+ 	// Bonba gelaxkan jarri
+ 	public void setBonba(Bonba bonba) {
+ 		this.bonba = bonba;
+ 		eguneratuBista();
+ 	}
+ 
+ 	// Sua gelaxkan jarri
+ 	public void setSua(boolean sua) {
+ 		this.sua = sua;
+ 		eguneratuBista();
+ 	}
+ 
+ 	// Sua gelaxkan jarri
+ 	public void setEtsaia(boolean etsai) {
+ 		this.etsai = etsai;
+ 		eguneratuBista();
+ 	}
+ 
+ 	// Metodo etsaia kentzeko
+ 	public void kenduEtsaia() {
+ 		setEtsaia(false);
+ 		
+ 	}
+ 	
+ 	// Aldaketetaz jakinarazi bistari
+ 	public void eguneratuBista() {
+         String egoera;
+         String[] datuak = new String[3]; //0.egoera, 1.norabide, 2.tipoJokalari
+ 
+         if (this.sua) {
+             egoera = "sua";
+         if (sua) {
+             datuak[0] = "sua";
+         } 
+         else if (bomberman && bonbaDago()) {
+         	egoera = "bombermanBonba";
+             datuak[0] = "bombermanBonba";
+         } 
+         else if (bomberman) {
+         	egoera = "bomberman";
+             datuak[0] = "bomberman";
+             datuak[1] = Jokoa.getJokoa().getBomberman().getNorabidea();
+         } 
+         else if (bonbaDago()) {
+         	egoera = "bonba";
+             datuak[0] = "bonba";
+         } 
+         else if (etsaiaDago()) {
+         	egoera = "bonba";
+             datuak[0] = "etsaia";
+         } 
+         else if (blokeDu()) {
+             if (apurtuDaiteke()) {
+             	egoera = "blokBig";
+             } 
+             else {
+             	egoera = "blokGo";
+             }
+         	 if (apurtuDaiteke()) {
+         		 datuak[0] = "blokBig";
+              } 
+              else {
+             	 datuak[0] = "blokGo";
+              }
+         } 
+         else {
+         	egoera = "hutsik";
+             datuak[0] = "hutsik";
+         }
+         setChanged();
+         notifyObservers(new String[]{egoera, Jokoa.getJokoa().getBomberman().getNorabidea()});
+ 
+         // Añadir tipo de jugador si es bomberman
+         if (bomberman) {
+             Bomberman b = Jokoa.getJokoa().getBomberman();
+             if (b instanceof Black) {
+             	datuak[2] = "black";
+             }
+             else {
+             	datuak[2] = "white";
+             }
+         }
+ 
+         setChanged();
+         notifyObservers(datuak);
+     }
+ 
+ }
+ 	}
