@@ -53,10 +53,10 @@ public class Etsaia {
          
          // Posibles movimientos
          int[][] mugimenduak = {
-             {x-1, y},  // Arriba
-             {x+1, y},  // Abajo
-             {x, y-1},  // Izquierda
-             {x, y+1}   // Derecha
+             {x-1, y},  // Gora
+             {x+1, y},  // Behera
+             {x, y-1},  // Ezkerra
+             {x, y+1}   // Eskuina
          };
          
          // Verificar movimientos válidos
@@ -76,7 +76,7 @@ public class Etsaia {
              }
          }
          
-         // Auzaz aukeratu nora joan, posible bada
+         // Ausaz aukeratu nora joan, posible bada
          if (!mugimenduAukerak.isEmpty()) {
              Random r = new Random();
              int[] aukeratua = mugimenduAukerak.get(r.nextInt(mugimenduAukerak.size()));
