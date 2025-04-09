@@ -83,11 +83,13 @@ public class Menu extends JFrame implements Observer {
         JLabel lblJokalari = new JLabel("Jokalari mota");
         lblJokalari.setFont(labelFont);
         lblJokalari.setForeground(Color.WHITE);
+	cmbJokalari.setSelectedIndex(0);
         
         cmbJokalari = new JComboBox<>(new String[]{"White", "Black"});
         cmbJokalari.setFont(comboFont);
         cmbJokalari.setBackground(new Color(255, 255, 255, 200));
-
+	cmbJokalari.setSelectedIndex(0);
+		
         // Botón Start
         btnStart = new JButton("START GAME");
         btnStart.setFont(new Font("Arial", Font.BOLD, 15));
