@@ -86,7 +86,7 @@ public class Etsaia {
      
      private void eguneratuPosizioa(int newX, int newY) {
     	 // Singleton arazoa
-         Laberinto laberinto = Laberinto.getLaberinto();
+         Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
          Gelaxka gelaxkaHelmuga = laberinto.getGelaxkaPos(newX, newY);
          
          // Bombermana badago atakatu
@@ -110,7 +110,7 @@ public class Etsaia {
      public void hil() {
          if (bizirik) {
              bizirik = false;
-             Laberinto.getLaberinto().getGelaxkaPos(x, y).kenduEtsaia();
+             Jokoa.getJokoa().getLaberinto().getGelaxkaPos(x, y).kenduEtsaia();
              Jokoa.getJokoa().etsaiaHil(); // Etsai bat hil bada abisatu
          }
      }
