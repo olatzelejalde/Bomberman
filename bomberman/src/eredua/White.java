@@ -20,10 +20,19 @@ public class White extends Bomberman {
 		}
 	}
 	
+	public Bonba getBonba() {
+		return bonbaList.get(0);
+	}
+	
 	// Bomberman dituen bonba kopurua lortu
 	public int getBonbaKop() {
 		return bonbaList.size();
 	}
+	
+	public void kenduBonba() {
+        bonbaList.remove(0);
+    }
+
 	
 	public void gehituBonba() {
         bonbaList.add(new Normal(this.getX(), this.getY()));
@@ -33,8 +42,8 @@ public class White extends Bomberman {
 	public void bonbaJarri() {
 		// Bonbaren bat badauka, zuzenean jarriko du
 		if (!bonbaList.isEmpty()) {
-			BonbaPortaera bp = bonbaList.remove(getBonbaKop()-1);
-			bp.bonbaJarri(this);
+			Jokoa.getJokoa().kokatuBonba();
+			kenduBonba();
 			System.out.println("Bonba kokatu da. Bonba kopurua: " + getBonbaKop());
 		}
 		else if (!bonbaItxaroten) {
@@ -46,7 +55,7 @@ public class White extends Bomberman {
 		}
 	}
 	
-	// Metodo honek bonba bat lortzeko itxaron beharreko denbora kontrolatuko du
+	// Bonba bat lortzeko itxaron beharreko denbora 
 	public void itxaronBonba() {
 		bonbaItxaroten = true;
 		
