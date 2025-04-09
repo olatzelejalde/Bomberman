@@ -48,12 +48,12 @@ public class Hasiera extends JFrame {
         backgroundPanel.add(labirintoa);
         backgroundPanel.add(new JLabel("Bomberman mota aukeratu:"));
         backgroundPanel.add(bomberman);
-        backgroundPanel.add(new JLabel("")); // Espacio vacío
+        backgroundPanel.add(new JLabel("")); // Hutsik
         backgroundPanel.add(startButton);
 
         setContentPane(backgroundPanel);
 
-        // Acción del botón
+        // AcciÃ³n del botÃ³n
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,21 +63,21 @@ public class Hasiera extends JFrame {
                 Jokoa nJ= Jokoa.getJokoa();
                 if (aukeratutakoBomberman == "White") {
                 	if (aukeratutakoLabirintoa == "Classic") {
-                    	nJ.hasiJokoa (new White(0,0,10), new Classic());
+                    	nJ.hasiJokoa("Classic", "White");
                     }
                     else if (aukeratutakoLabirintoa == "Soft"){
-                    	nJ.hasiJokoa(new White(0,0,10), new Soft());
+                    	nJ.hasiJokoa("Soft", "White");
                     }
                 }	
                 else {
                 	if (aukeratutakoLabirintoa == "Classic") {
-                		nJ.hasiJokoa(new Black(0,0,0), new Classic());
+                		nJ.hasiJokoa("Classic", "Black");
                     }
                     else if (aukeratutakoLabirintoa == "Soft"){
-                    	nJ.hasiJokoa(new Black(0,0,0), new Soft());	
+                    	nJ.hasiJokoa("Soft", "Black");	
                     }
                 }
-                dispose(); // Cierra la ventana actual
+                dispose(); // Leihoa itxi
             }
         });
     }
@@ -89,3 +89,4 @@ public class Hasiera extends JFrame {
         });
     }
 }
+
