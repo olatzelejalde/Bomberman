@@ -25,9 +25,6 @@ public class Partida extends JFrame implements Observer {
     private Controler nireControler;
 
     private GelaxkaBista[][] board = new GelaxkaBista[errenkada][zutabe];
-    private Jokoa jokoa;
-    private static String laberintoMota;
-    private static String jokalariMota;
     
     private ImageIcon fondoIcon = loadImage("/irudiak/stageBack1.png");
     
@@ -43,20 +40,16 @@ public class Partida extends JFrame implements Observer {
         }
     }
     
-    public Partida(String laberintoMota, String jokalariMota) {
+    public Partida() {
     	setTitle("Bomberman");
         setSize(zutabe * tam, errenkada * tam);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        
-        this.laberintoMota = laberintoMota;
-        this.jokalariMota = jokalariMota;
 
-        jokoa = Jokoa.getJokoa();
-    	jokoa.addObserver(this);
+        Jokoa.getJokoa().addObserver(this);
     	
-    	jokoa.hasiJokoa(laberintoMota, jokalariMota); // NS SI ESTO SE PUEDE PONER AQUI PORQUE ESTA EN EL MAIN
+    	
     }        
     
     @Override
@@ -100,9 +93,10 @@ public class Partida extends JFrame implements Observer {
 		}
     }
    
-    public static void main(String[] args) {
-        Jokoa.getJokoa().hasiJokoa(laberintoMota, jokalariMota);
-    }
+	/*
+	 * public static void main(String[] args) {
+	 * Jokoa.getJokoa().hasiJokoa(laberintoMota, jokalariMota); }
+	 */
    
    
     
@@ -129,19 +123,19 @@ public class Partida extends JFrame implements Observer {
 		    requestFocus();
 		    switch (e.getKeyCode()) {
 		        case KeyEvent.VK_UP:    
-		            jokoa.bombermanMugitu(-1, 0); 
+		            Jokoa.getJokoa().bombermanMugitu(-1, 0); 
 		            break;
 		        case KeyEvent.VK_DOWN:  
-		            jokoa.bombermanMugitu(1, 0); 
+		        	Jokoa.getJokoa().bombermanMugitu(1, 0); 
 		            break;
 		        case KeyEvent.VK_LEFT:  
-		            jokoa.bombermanMugitu(0, -1); 
+		        	Jokoa.getJokoa().bombermanMugitu(0, -1); 
 		            break;
 		        case KeyEvent.VK_RIGHT: 
-		            jokoa.bombermanMugitu(0, 1); 
+		        	Jokoa.getJokoa().bombermanMugitu(0, 1); 
 		            break;
 		        case KeyEvent.VK_SPACE:
-		            jokoa.getBomberman().bonbaJarri(); 
+		        	Jokoa.getJokoa().getBomberman().bonbaJarri(); 
 		            break;
 		        default: 
 		            return; 
