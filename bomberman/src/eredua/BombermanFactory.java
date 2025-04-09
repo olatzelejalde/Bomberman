@@ -2,7 +2,6 @@ package eredua;
 
 public class BombermanFactory {
 	private static BombermanFactory nBF;
-	private String white, black;
     
    
     private BombermanFactory() {
