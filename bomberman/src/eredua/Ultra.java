@@ -23,6 +23,13 @@ public class Ultra extends Bonba{
 			}
 		}, 3000);
 	}
+	@Override
+	public void bonbaJarri(Bomberman b) {
+	    Jokoa j = Jokoa.getJokoa();
+	    j.setBonba(this);           // Uneko bonba jokoa-n gorde
+	    j.kokatuBonba();            // Bonba kokatu labirintoan
+	    System.out.println("Bonba ultra kokatu da. Pos: (" + getX() + "," + getY() + ")");
+	}
 	
 	// Bonbaren eztanda kontrolatzeko metodoa
 	public void eztanda() {
@@ -43,14 +50,13 @@ public class Ultra extends Bonba{
 			laberinto.jarriSua(x + h, y);
 			laberinto.jarriSua(x, y + h);
 			laberinto.jarriSua(x, y + h);	
-			
 			h ++;
 		}
 		
 		// 500ms-ro egiaztatu bomberman-a ez duela sua ukitu
 		tocarFuegoTimer = new Timer();
 		tocarFuegoTimer.scheduleAtFixedRate(new TimerTask() {
-			@Override
+		@Override
             public void run() {
                 // Bomberman-aren momentuko posizioa gorde  
                 int bombermanX = Jokoa.getJokoa().getBomberman().getX();
