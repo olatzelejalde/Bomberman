@@ -2,6 +2,8 @@ package bista;
 
 import javax.swing.*;
 
+import eredua.Jokoa;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,13 +61,13 @@ public class Menu extends JFrame implements Observer {
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
 
-        // Kontrol panela
+        // Panel de controles con transparencia
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new GridBagLayout());
         controlPanel.setOpaque(false);
         controlPanel.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
 
-        // Kontrolen konfigurazioa
+        // Configuración de controles
         Font labelFont = new Font("Arial", Font.BOLD, 15);
         Font comboFont = new Font("Arial", Font.PLAIN, 15);
 
@@ -78,20 +80,18 @@ public class Menu extends JFrame implements Observer {
         cmbLaberinto.setFont(comboFont);
         cmbLaberinto.setBackground(new Color(255, 255, 255, 200));
         cmbLaberinto.setMaximumRowCount(3);
-        cmbLaberinto.setSelectedIndex(0);
-        
+
         // Combo Jokalari
         JLabel lblJokalari = new JLabel("Jokalari mota");
         lblJokalari.setFont(labelFont);
         lblJokalari.setForeground(Color.WHITE);
-	
+        
         cmbJokalari = new JComboBox<>(new String[]{"White", "Black"});
         cmbJokalari.setFont(comboFont);
         cmbJokalari.setBackground(new Color(255, 255, 255, 200));
-        cmbJokalari.setSelectedIndex(0);
-		
-        // Start botoia
-        btnStart = new JButton("JOKOA HASI");
+
+        // Botón Start
+        btnStart = new JButton("START GAME");
         btnStart.setFont(new Font("Arial", Font.BOLD, 15));
         btnStart.setBackground(new Color(70, 130, 180));
         btnStart.setForeground(Color.WHITE);
@@ -103,7 +103,7 @@ public class Menu extends JFrame implements Observer {
         	));
         btnStart.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Kontrolen panelean konponenteak gehitu
+        // Añadir componentes al panel de controles
         GridBagConstraints gbcControl = new GridBagConstraints();
         gbcControl.gridwidth = GridBagConstraints.REMAINDER;
         gbcControl.fill = GridBagConstraints.HORIZONTAL;
@@ -115,15 +115,15 @@ public class Menu extends JFrame implements Observer {
         controlPanel.add(lblJokalari, gbcControl);
         controlPanel.add(cmbJokalari, gbcControl);
 
-        // Hasierako panelean konponenteak gehitu
+        // Añadir componentes al panel principal
         mainPanel.add(lblTitle, gbc);
         mainPanel.add(controlPanel, gbc);
         mainPanel.add(btnStart, gbc);
 
-        // Panel nagusia gehitu
+        // Añadir panel principal al JFrame
         add(mainPanel);
 
-        // Botoiaren ekintza 
+        // Configurar acción del botón
         btnStart.addActionListener(getControler());
 				
 	}
@@ -156,7 +156,9 @@ public class Menu extends JFrame implements Observer {
     	        Menu.this.dispose(); // Itxi
     	        
     	        SwingUtilities.invokeLater(() -> {
-                    Partida partida = new Partida(laberintoMota, jokalariMota);
+    	        	Jokoa.getJokoa().hasiJokoa(laberintoMota, jokalariMota); // NS SI ESTO SE PUEDE PONER AQUI PORQUE ESTA EN EL MAIN
+                    Partida partida = new Partida();
+                    Jokoa.getJokoa().bistaratu();
                     partida.setVisible(true);
                 });
     	    }
