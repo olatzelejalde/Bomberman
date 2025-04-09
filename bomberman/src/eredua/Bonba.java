@@ -1,13 +1,19 @@
 package eredua;
 
-public abstract class Bonba implements BonbaPortaera{
+import java.util.Timer;
+import java.util.TimerTask;
+
+public abstract class Bonba {
 	private int x, y;
 	private boolean aktibatuta;
+	private BonbaPortaera bp;
+	private Timer suaTimer, eztandaTimer, tocarFuegoTimer;
 
-	public Bonba(int x, int y) {
+	public Bonba(int x, int y, BonbaPortaera bPortaera) {
 		this.x = x;
 		this.y = y;
 		this.aktibatuta = true;
+		this.bp = bPortaera;
 	}
 	
 	// X posizioa lortu
@@ -38,9 +44,31 @@ public abstract class Bonba implements BonbaPortaera{
 	public void setAktibatuta(boolean b) {
 		aktibatuta = b;
 	}
-	
-	// Métodos del interfaz BonbaPortaera
-    public abstract void bonbaJarri(Bomberman b);
-    public abstract void hasiEztanda();
+    
+    // Eztandarako timerra hasieratu
+    public void hasiEztanda() {
+    	// 3s itxaron eta sua jarri
+        eztandaTimer = new Timer();
+        eztandaTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+            	setAktibatuta(true);
+                bp.eztanda(x, y); 
+                kenduSua();
+            }     
+        }, 3000);
+    }
+    
+    public void kenduSua() {
+		// 2s itxaron
+	    suaTimer = new Timer();
+	    suaTimer.schedule(new TimerTask() {
+	        @Override
+	        public void run() {
+	        	// Sua kendu
+	            bp.kenduSua(x, y);
+	        }
+	    }, 2000);
+    }
 
 }
