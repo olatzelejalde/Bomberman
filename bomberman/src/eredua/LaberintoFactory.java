@@ -2,7 +2,6 @@ package eredua;
 
 public class LaberintoFactory {
 	private static LaberintoFactory nLF;
-    private String classic, soft, empty;
     
     
     private LaberintoFactory() {
