@@ -65,7 +65,7 @@ public class Etsaia {
              int newY = pos[1];
              
              // Labirintoa nondik lortzen da?
-             
+	     Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
              if (labirinto.koordenatuBarruan(newX, newY)) {
                  Gelaxka gelaxka = labirinto.getGelaxkaPos(newX, newY);
                  
