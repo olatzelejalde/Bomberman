@@ -26,10 +26,10 @@ public class Hasiera extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Cargar imagen de fondo
+        // Atzealdeko argazkia kargatu
         backgroundImage = new ImageIcon("src/resources/background.jpg").getImage();
 
-        // Panel con fondo personalizado
+        // Aukeratutako atzealdearekin panela sortu
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -39,10 +39,10 @@ public class Hasiera extends JFrame {
         };
         backgroundPanel.setLayout(new GridLayout(3, 2));
 
-        // Opciones
+        // Aukerak
         labirintoa = new JComboBox<>(new String[]{"Classic", "Soft"});
         bomberman = new JComboBox<>(new String[]{"Normal", "Black"});
-        startButton = new JButton("Iniciar Partida");
+        startButton = new JButton("PARTIDA HASI");
 
         backgroundPanel.add(new JLabel("Labirinto mota aukeratu:"));
         backgroundPanel.add(labirintoa);
@@ -53,7 +53,7 @@ public class Hasiera extends JFrame {
 
         setContentPane(backgroundPanel);
 
-        // Acción del botón
+        // Botoiaren ekintza
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
