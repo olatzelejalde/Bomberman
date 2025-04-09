@@ -39,7 +39,7 @@ public class Ultra extends Bonba implements BonbaPortaera{
 		int x = getX();
 		int y = getY();
 		
-		Laberinto laberinto = Laberinto.getLaberinto();
+		Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
 		Gelaxka g = laberinto.getMatriz()[x][y];
 		
 		// Gelaxkatik bonba kendu 
