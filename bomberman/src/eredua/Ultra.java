@@ -3,7 +3,7 @@ package eredua;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Ultra extends Bonba{
+public class Ultra extends Bonba implements BonbaPortaera{
 	private Timer suaTimer, eztandaTimer, tocarFuegoTimer;
 	
 	
