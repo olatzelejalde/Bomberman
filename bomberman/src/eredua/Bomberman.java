@@ -6,7 +6,7 @@ public abstract class Bomberman {
     private int bonbaKop;
     private String norabidea = "behera"; 
 
-    public Bomberman(int x, int y, int bonbaKop) {
+    public Bomberman(int x, int y) {
         this.x = x;
         this.y = y;
         this.bizirik = true;
@@ -61,14 +61,14 @@ public abstract class Bomberman {
 
  	// Metodo mugitzeko
     public void mugitu(int newX, int newY) {
-        Labirinto labirinto = Labirinto.getLabirinto();
+        Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
 
-        if (labirinto.koordenatuBarruan(newX, newY) && labirinto != null) {
-            if (labirinto.getGelaxkaPos(newX, newY).bonbaDago()) {
+        if (laberinto.koordenatuBarruan(newX, newY) && laberinto != null) {
+            if (laberinto.getGelaxkaPos(newX, newY).bonbaDago()) {
                 System.out.println("Bonba bat jarri duzu posizio honetan, itxaron eztanda egin arte");
             }
 
-            if (labirinto.bidePosizioa(newX, newY)) {
+            if (laberinto.bidePosizioa(newX, newY)) {
                 // Mugitu baino lehen posizioa eguneratu
                 if (newX < x) {
                     norabidea = "goruntz"; // Gora
@@ -84,9 +84,9 @@ public abstract class Bomberman {
                 }
 
                 // Kendu Bombermana gelaxka honetatik
-                labirinto.getGelaxkaPos(x, y).setBomberman(false);
+                laberinto.getGelaxkaPos(x, y).setBomberman(false);
                 // Gelaxka berrira mugitu
-                labirinto.getGelaxkaPos(newX, newY).setBomberman(true);
+                laberinto.getGelaxkaPos(newX, newY).setBomberman(true);
 
                 x = newX;
                 y = newY;
