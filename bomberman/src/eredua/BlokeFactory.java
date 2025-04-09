@@ -1,12 +1,10 @@
 package eredua;
 
 public class BlokeFactory {
-	private static BlokeFactory nireBlokeFactory;
-	public static final String BIGUNA = "biguna";
-	public static final String GOGORRA = "gogorra";
-    
+	private static BlokeFactory nireBlokeFactory;    
    
     private BlokeFactory() {
+    	
     }
     
     public static BlokeFactory getBlokeFactory() {
