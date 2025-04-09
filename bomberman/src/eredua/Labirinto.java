@@ -1,25 +1,19 @@
 package eredua;
 
-public abstract class Labirinto {
-
+public abstract class Laberinto {
 	private Gelaxka[][] matriz;
 	private int suntsigarriak;
-	private int etsaiak;
 
-	protected Labirinto() {
+	public Laberinto() {
 		this.matriz = new Gelaxka[11][17];
 		this.suntsigarriak = 0;
-		this.etsaiak = 0;
 	}
+	
+	public abstract void sortuLaberinto();
 	
 	// Matrizea lortu
 	public Gelaxka[][] getMatriz() {
 		return matriz;
-	}
-	
-	public void sortuLaberinto(String mota) {
-		Labirinto labirinto = LaberintoFactory.getLaberintoFactory().createLabirinto(mota);
-		this.matriz = labirinto.getMatriz();
 	}
 	
 	// Gelaxkaren posizioa lortu
@@ -40,8 +34,8 @@ public abstract class Labirinto {
 		return !matriz[x][y].blokeDu() && !matriz[x][y].bonbaDago();
 	}
 
-	// Gelaxka eguneratu egoera aldatu bada
-	public void eguneratuGelaxka(int x, int y, Blokea bloke) {
+	// Egoera eguneratu aldatu bada
+	public void eguneratuGelaxka(int x, int y, Bloke bloke) {
 		if (koordenatuBarruan(x,y)) {
 			matriz[x][y] = new Gelaxka(bloke, false, false);
 		}
@@ -62,28 +56,8 @@ public abstract class Labirinto {
 		if (suntsigarriak > 0) {
 			this.suntsigarriak--;
 		}
-		else if (suntsigarriak == 0 && etsaiak == 0) {
-			Jokoa.getJokoa().bukaera(true);
-		}
-	}
-	
-	public boolean etsaiakDaude() {
-		return this.etsaiak > 0;
-	}
-	
-	public int getEtsaiak() {
-		return this.etsaiak;
-	}
-	
-	public void gehituEtsaia() {
-		this.etsaiak++;
-	}
-	
-	public void kenduEtsaia() {
-		if (etsaiak > 0) {
-			this.etsaiak--;
-		}
-		else if (suntsigarriak == 0 && etsaiak == 0) {
+		
+		if (suntsigarriak == 0) {
 			Jokoa.getJokoa().bukaera(true);
 		}
 	}
@@ -93,7 +67,7 @@ public abstract class Labirinto {
 		if (koordenatuBarruan(x,y)) {
 			Gelaxka g = matriz[x][y];
 			
-			// Bakarrik sua jarriko du gelaxka hutsik badago edo bloke biguna bada
+			// Sua jarri elaxka hutsik badago edo bloke biguna bada
 			if (!g.blokeDu() || g.apurtuDaiteke() || g.bombermanDago()) {
 				g.setSua(true);
 				
@@ -120,4 +94,7 @@ public abstract class Labirinto {
 			}
 		}
 	}
+	
+    
+	
 }
