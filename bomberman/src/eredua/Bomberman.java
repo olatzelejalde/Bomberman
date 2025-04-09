@@ -1,21 +1,21 @@
 package eredua;
 
+import java.util.List;
+
 public abstract class Bomberman {
     private int x, y;
     private boolean bizirik;
-    private int bonbaKop;
     private String norabidea = "behera"; 
-
+    
     public Bomberman(int x, int y) {
         this.x = x;
         this.y = y;
         this.bizirik = true;
-        this.bonbaKop = bonbaKop;
     }
-
+    
  	// X posizioa lortu
  	public int getX() {
- 		return x;
+ 		return x;																																			
  	}
  	
  	// Y posizioa lortu
@@ -33,14 +33,6 @@ public abstract class Bomberman {
  		this.y = y;
  	}
  	
- 	public int getBonbaKop() {
- 		return bonbaKop;
- 	}
- 	
- 	public void setBonbaKop(int bonbaKop) {
- 	    this.bonbaKop = bonbaKop;
- 	}
- 	
  	// Hil den egiaztatu
  	public boolean hildaDago() {
  	    return !bizirik;
@@ -56,8 +48,10 @@ public abstract class Bomberman {
       	return norabidea;
     }
     
- 	// Metodo abstraktua Normal klasean dagoen metodoa deitu
- 	public abstract void bonbaJarri();
+    public abstract Bonba getBonba();
+    
+    // Metodo bonba jartzeko
+    public abstract void bonbaJarri();
 
  	// Metodo mugitzeko
     public void mugitu(int newX, int newY) {
@@ -92,14 +86,13 @@ public abstract class Bomberman {
                 y = newY;
 
                 System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
-                //Jokoa.getJokoa().bistaratu();
             } 
             else {
                 System.out.println("Ezin da mugitu posizio honetara");
             }
         } 
         else {
-            System.out.println("Labirintotik kanpo");
+            System.out.println("Laberintotik kanpo");
         }
     }
     
