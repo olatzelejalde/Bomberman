@@ -13,6 +13,7 @@ public class Empty extends Laberinto {
         Random r = new Random();
         Gelaxka[][] matriz = super.getMatriz();
         BlokeFactory blokeFactory = BlokeFactory.getBlokeFactory();
+        Jokoa jokoa = Jokoa.getJokoa();
 
         for (int i = 0; i < 11; i++) {
             for (int j = 0; j < 17; j++) {
@@ -25,23 +26,17 @@ public class Empty extends Laberinto {
                         matriz[i][j] = new Gelaxka(null, false, false);
                     }
                 }
-                
-                //cuando el etsaia este hecho, cambiaremos este else por el comentado debajo
-                else {
-                    matriz[i][j] = new Gelaxka(null, false, false);
-                }
-                /*
                 // Beste posizioak: etsaiak edo hutsik
                 else {
                     int prob = r.nextInt(100);
-                    if (prob > 95 && getEtsaiak() < 10) {
-                        matriz[i][j] = new Gelaxka(new Etsaia(), false, true);
-                        gehituEtsaia();
+                    if (prob > 95 && jokoa.getEtsaiKop() < 10) {
+                        matriz[i][j] = new Gelaxka(null, false, true);
+                        jokoa.gehituEtsaia(new Etsaia(i,j));
                     } 
                     else {
                         matriz[i][j] = new Gelaxka(null, false, false);
                     }
-                }*/
+                }
             }
         }
     }
