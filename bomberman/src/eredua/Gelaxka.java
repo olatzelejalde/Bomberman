@@ -95,7 +95,7 @@ public class Gelaxka extends Observable {
 	
 	// Aldaketetaz jakinarazi bistari
 	public void eguneratuBista() {
-        String[] datuak = new String[3]; //0.egoera, 1.norabide, 2.tipoJokalari
+        String[] datuak = new String[3]; //0.egoera, 1.norabide, 2.motaJokalari
         
         if (sua) {
             datuak[0] = "sua";
@@ -125,7 +125,7 @@ public class Gelaxka extends Observable {
             datuak[0] = "hutsik";
         }
 
-        // Añadir tipo de jugador si es bomberman
+        // Bomberman bada jokalari mota gehitu
         if (bomberman) {
             Bomberman b = Jokoa.getJokoa().getBomberman();
             if (b instanceof Black) {
