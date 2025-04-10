@@ -35,7 +35,7 @@ public abstract class Bomberman {
  	
  	// Hil den egiaztatu
  	public boolean hildaDago() {
- 	    return !bizirik;
+ 	    return this.bizirik;
  	}
 
  	// Bonbermana hil
@@ -52,6 +52,7 @@ public abstract class Bomberman {
     
     // Metodo bonba jartzeko
     public abstract void bonbaJarri();
+    
 
  	// Metodo mugitzeko
     public void mugitu(int newX, int newY) {
@@ -84,6 +85,12 @@ public abstract class Bomberman {
 
                 x = newX;
                 y = newY;
+                
+                Gelaxka g = laberinto.getGelaxkaPos(newX, newY);
+                if (g.suaDago()) {
+                	hil();
+                	Jokoa.getJokoa().bukaera(false);
+                }
 
                 System.out.println("Bomberman mugitu da: (" + x + ", " + y + ")");
             } 
