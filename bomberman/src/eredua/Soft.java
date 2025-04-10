@@ -13,6 +13,7 @@ public class Soft extends Laberinto {
         Random r = new Random();
         Gelaxka[][] matriz = super.getMatriz();
         BlokeFactory blokeFactory = BlokeFactory.getBlokeFactory();
+        Jokoa jokoa = Jokoa.getJokoa();
 
         for (int i = 0; i < 11; i++) {
             for (int j = 0; j < 17; j++) {
@@ -31,26 +32,21 @@ public class Soft extends Laberinto {
                     int prob1 = r.nextInt(100);
                     if (prob1 < 40) {
                         // Bloke biguna (40% probabilitatea)
-                    	Bloke blokeBig = blokeFactory.createBloke(BlokeFactory.getBlokeFactory().BIGUNA);
+                    	Bloke blokeBig = blokeFactory.createBloke("biguna");
                         matriz[i][j] = new Gelaxka(blokeBig, false, false);
                         gehituSuntsigarri();
                     } 
-                    
-                    //cuando el etsaia este hecho, cambiaremos este else por el comentado debajo
-                    else {
-                    	matriz[i][j] = new Gelaxka(null, false, false);
-                    }
-                    /*
                     else {
                         // Bigarren probabilitatea etsaientzat
                         int prob2 = r.nextInt(100);
-                        if (prob2 > 0 && getEtsaiak() < 8) {
-                            matriz[i][j] = new Gelaxka(new Etsaia(), false, true);
-                            gehituEtsaia();
-                        } else {
+                        if (prob2 > 0 && jokoa.getEtsaiKop() < 8) {
+                            matriz[i][j] = new Gelaxka(null, false, true);
+                            jokoa.gehituEtsaia(new Etsaia(i,j));
+                        } 
+                        else {
                             matriz[i][j] = new Gelaxka(null, false, false);
                         }
-                    }*/
+                    }
                 }
             }
         }
