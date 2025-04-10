@@ -1,17 +1,24 @@
 package eredua;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class Jokoa extends Observable{
     private static Jokoa nireJokoa;
     private Bomberman bomberman;
-    private Bonba bonba;
     private Laberinto laberinto;
     private boolean amaituta;
-    private int etsaiKop = 0;
+    private List<Etsaia> etsaiList;
+    private Timer etsaiakTimer;
+
     
     private Jokoa() {       
         this.amaituta = false;
+        this.etsaiList = new ArrayList<>();
     }
 
     public static Jokoa getJokoa() {
@@ -25,11 +32,64 @@ public class Jokoa extends Observable{
     public void hasiJokoa(String laberintoMota, String jokalariMota){
     	laberinto = LaberintoFactory.getLF().createLaberinto(laberintoMota);    	
     	bomberman = BombermanFactory.getBF().createBomberman(jokalariMota);
-        setChanged();
-        notifyObservers("sortu");
-        bistaratu();
-	System.out.println("Laberinto mota jaso da: " + laberintoMota);
-
+    	System.out.println("Laberinto mota: " + laberintoMota + " --- Jokalari mota: " + jokalariMota);
+    	
+    	hasieratuEtsaiak();
+    }
+    
+	 private void hasieratuEtsaiak() { 
+		 etsaiList = new ArrayList<>(); 
+		 Gelaxka[][] matriz = laberinto.getMatriz();
+	  
+		 // Etsaiak laberintoan aurkitu 
+		 for (int i = 0; i < 11; i++) { 
+			 for (int j = 0; j < 17; j++) { 
+				 if (matriz[i][j].etsaiaDago()) { 
+					 etsaiList.add(new Etsaia(i,j)); 
+				 } 
+			 } 
+		 }
+	 
+		 // Etsaiak segunduro mugitu 
+		 etsaiakTimer = new Timer();
+		 etsaiakTimer.scheduleAtFixedRate(new TimerTask() {
+		 
+		 @Override 
+		 public void run() { 
+			 mugituEtsaiak(); 
+			 } 
+		 }, 1000, 1000); 
+	}
+		 
+	 // Etsai guztiak mugitu 
+	 private void mugituEtsaiak() { 
+		 for (Etsaia etsaia : new ArrayList<>(etsaiList)) { 
+			 if (!etsaia.hildaDago()) { 
+				 etsaia.mugitu(); 
+			 } 
+			 else {
+				 etsaiList.remove(etsaia); 
+			 } 
+		 } 
+		 //setChanged(); 
+		 //notifyObservers();
+	}		 
+    
+    // Metodo etsaia gehitzeko
+    public void gehituEtsaia(Etsaia etsaia) {
+        etsaiList.add(etsaia);
+        //setChanged();
+        //notifyObservers("etsaiaGehitu");
+    }
+    
+    // Metodo etsaia kentzeko
+    public void kenduEtsaia(Etsaia etsaia) {
+        etsaiList.remove(etsaia);
+    }
+    
+    // Etsai kopurua lortu
+    public int getEtsaiKop() {
+    	return etsaiList.size();
     }
     
     // Laberinto lortu
@@ -42,24 +102,9 @@ public class Jokoa extends Observable{
         return bomberman;
     }
     
-    // Bonba jartzeko
-    public void setBonba(Bonba bonba) {
-        this.bonba = bonba;
-    }
-
-public void gehituEtsaia() {
-        etsaiKop++;
-    }
-
-    public void etsaiaHil() {
-        etsaiKop--;
-        if (etsaiKop <= 0) {
-            bukaera(true); // Jokua irabazita
-        }
-    }
     // Bonba kokatzeko metodoa
     public void kokatuBonba() {
-	int x = bomberman.getX();
+		int x = bomberman.getX();
     	int y = bomberman.getY();
     		
     	// Egiaztatu bonba kokatu aurretik
@@ -68,17 +113,16 @@ public void gehituEtsaia() {
         	
         	// Begiratu ea gelaxka hutsik dagoen edo blokea biguna den
         	if (!g.blokeDu() || g.apurtuDaiteke()) {
+        		Bonba bonba = getBomberman().getBonba();
         		bonba.setX(x);
         		bonba.setY(y);
-                	laberinto.getMatriz()[x][y].setBonba(bonba);
+                laberinto.getMatriz()[x][y].setBonba(bonba);
                
                 
                 // Eztandarako timerra hasieratu
                 bonba.hasiEztanda();
                 setChanged();
                 notifyObservers();
-                
-                //System.out.println("Bonba kokatu da. Bomberman pos: (" + x + "," + y + ") --- Bonba pos: (" + bonba.getX() + "," + bonba.getY() + ")");
         	}
         	else {
         		System.out.println("ERROR: Ezin da (" + x + ", " + y + ") posizioan bonbarik jarri");
@@ -101,6 +145,11 @@ public void gehituEtsaia() {
 
     // Partida amaitu
     public void bukaera(boolean irabazi) {
+    	if (etsaiakTimer != null) {
+    		//etsaiakTimer = null;
+            etsaiakTimer.cancel();
+        }
+    	
     	if (!amaituta) {
     		amaituta = true;
     		setChanged();
@@ -110,6 +159,8 @@ public void gehituEtsaia() {
 
     // Laberintoa bistaratu
 	public void bistaratu() {
+		setChanged();
+        notifyObservers("sortu");
         for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 17; j++) {
 				laberinto.getMatriz()[i][j].eguneratuBista();
