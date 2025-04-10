@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Etsaia {
-	private int x;
-	private int y;
+	private int x, y;
 	private boolean bizirik;
 	
 	public Etsaia(int x, int y) {
@@ -40,7 +39,7 @@ public class Etsaia {
   	    return !bizirik;
   	}
 
-  	// Bonbermana hil
+  	// Bonberman hil
   	public void setHil(boolean hil) {
   		this.bizirik = false;
   	}
@@ -48,29 +47,28 @@ public class Etsaia {
 	// Metodo mugitzeko
      public void mugitu() {
          if (!bizirik) return;
-
+         
+         Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
          List<int[]> mugimenduAukerak = new ArrayList<>();
          
-         // Posibles movimientos
+         // Mugimendu posibleak
          int[][] mugimenduak = {
              {x-1, y},  // Gora
              {x+1, y},  // Behera
              {x, y-1},  // Ezkerra
-             {x, y+1}   // Eskuina
+             {x, y+1}   // Eskiuna
          };
          
-         // Verificar movimientos válidos
+         // Mugimendu posibleak konprobatu
          for (int[] pos : mugimenduak) {
              int newX = pos[0];
              int newY = pos[1];
              
-             // Labirintoa nondik lortzen da?
-	     Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
              if (laberinto.koordenatuBarruan(newX, newY)) {
-                 Gelaxka gelaxka = laberinto.getGelaxkaPos(newX, newY);
+                 Gelaxka g = laberinto.getGelaxkaPos(newX, newY);
                  
-                 // Gelaxka hutsetara edo Bonbermana dagoen posizioetara mugitu ahal da
-                 if (gelaxka.pasatuDaiteke() || gelaxka.bombermanDago()) {
+                 // Gelaxka libreetara edo Bomberman-gana mugitu
+                 if (g.pasatuDaiteke() || g.bombermanDago()) {
                      mugimenduAukerak.add(pos);
                  }
              }
@@ -85,24 +83,25 @@ public class Etsaia {
      }
      
      private void eguneratuPosizioa(int newX, int newY) {
-    	 // Singleton arazoa
          Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
-         Gelaxka gelaxkaHelmuga = laberinto.getGelaxkaPos(newX, newY);
+         Gelaxka helmuga = laberinto.getGelaxkaPos(newX, newY);
          
-         // Bombermana badago atakatu
-         if (gelaxkaHelmuga.bombermanDago()) {
-             Jokoa.getJokoa().bukaera(false); // Bonbermanak galdu du
+         // Atakatu Bomberman badago 
+         if (helmuga.bombermanDago()) {
+             Jokoa.getJokoa().bukaera(false); // Jokalaria galdu
              return;
          }
          
          // Etsaia mugitu
-         laberinto.getGelaxkaPos(x, y).kenduEtsaia();
+         laberinto.getGelaxkaPos(x,y).kenduEtsaia();
+         
+         // Posizio berrian jarri
          this.x = newX;
          this.y = newY;
-         gelaxkaHelmuga.setEtsaia(true);
+         helmuga.setEtsaia(this);
          
-         // Posizio berrian sua dagoen egiaztatu
-         if (gelaxkaHelmuga.suaDago()) {
+         // Posizio berrian sua badago konprobatu
+         if (helmuga.suaDago()) {
              hil();
          }
      }
@@ -110,8 +109,11 @@ public class Etsaia {
      public void hil() {
          if (bizirik) {
              bizirik = false;
-             Jokoa.getJokoa().getLaberinto().getGelaxkaPos(x, y).kenduEtsaia();
-             Jokoa.getJokoa().etsaiaHil(); // Etsai bat hil bada abisatu
+             Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
+             laberinto.getGelaxkaPos(x, y).kenduEtsaia();
+             Jokoa.getJokoa().kenduEtsaia(this);
          }
      }
+     
+
 }
