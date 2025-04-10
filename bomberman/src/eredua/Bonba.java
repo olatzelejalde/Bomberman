@@ -7,8 +7,9 @@ public abstract class Bonba {
 	private int x, y;
 	private boolean aktibatuta;
 	private BonbaPortaera bp;
-	private Timer suaTimer, eztandaTimer, tocarFuegoTimer;
+	private Timer suaTimer, eztandaTimer;
 
+	
 	public Bonba(int x, int y, BonbaPortaera bPortaera) {
 		this.x = x;
 		this.y = y;
@@ -41,6 +42,7 @@ public abstract class Bonba {
 		return aktibatuta;
 	}
 	
+	// Bonba aktibatu
 	public void setAktibatuta(boolean b) {
 		aktibatuta = b;
 	}
@@ -59,13 +61,13 @@ public abstract class Bonba {
         }, 3000);
     }
     
+    // Sua kentzeko timerra hasieratu
     public void kenduSua() {
 		// 2s itxaron
 	    suaTimer = new Timer();
 	    suaTimer.schedule(new TimerTask() {
 	        @Override
 	        public void run() {
-	        	// Sua kendu
 	            bp.kenduSua(x, y);
 	        }
 	    }, 2000);
