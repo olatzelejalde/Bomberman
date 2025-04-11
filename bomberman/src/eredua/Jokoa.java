@@ -162,16 +162,19 @@ public class Jokoa extends Observable{
     }
 
     // Laberintoa bistaratu
-	public void bistaratu() {
-		setChanged();
-        notifyObservers("sortu");
+    public void bistaratu() {
+        String laberintoMota = laberinto.getMota();
+        setChanged();
+        notifyObservers(new String[] {"sortu", laberintoMota});
+       
         for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 17; j++) {
-				laberinto.getMatriz()[i][j].eguneratuBista();
-			}
+            for (int j = 0; j < 17; j++) {
+                laberinto.getMatriz()[i][j].eguneratuBista();
+            }
         }
-	}
-	
+    }
+
+
 	public void bombermanMugitu(int dx, int dy) {
 	    if (bomberman != null) {
 	        int Xberria = bomberman.getX() + dx;
