@@ -38,7 +38,7 @@ public class Classic extends Laberinto {
                 else {
                     int prob1 = r.nextInt(100); // 0-99
                     // 40% probabilitate bloke biguna
-                    if (prob1 < 40) { 
+                    if (prob1 > 40) { 
                     	Bloke blokeBig = blokeFactory.createBloke("biguna");
                         matriz[i][j] = new Gelaxka(blokeBig, false, false);
                         gehituSuntsigarri();
