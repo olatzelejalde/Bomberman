@@ -40,4 +40,9 @@ public class Empty extends Laberinto {
             }
         }
     }
+    
+    @Override
+    public String getMota() {
+        return "empty";
+    }
 }
