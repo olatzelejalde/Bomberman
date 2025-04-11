@@ -71,6 +71,10 @@ public class Jokoa extends Observable{
 				 etsaiList.remove(etsaia); 
 			 } 
 		 } 
+		 
+		 if (etsaiList.isEmpty()&& !amaituta) {
+			 bukaera(true);
+		 }
 		 //setChanged(); 
 		 //notifyObservers();
 	}		 
