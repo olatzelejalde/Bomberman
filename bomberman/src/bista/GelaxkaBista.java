@@ -26,7 +26,9 @@ public class GelaxkaBista extends JLabel implements Observer {
     private ImageIcon eskuinaBlack = loadImage("/irudiak/blackright2.png");
     private ImageIcon atzeraBlack = loadImage("/irudiak/blackup2.png");
     private ImageIcon aurreraBlack = loadImage("/irudiak/blackdown2.png");
+    private ImageIcon etsaiaIcon = loadImage("/irudiak/baloon1.png");
 
+    
 	// Irudiak kargatzeko metodoa
 	private ImageIcon loadImage(String path) {
         java.net.URL imgURL = getClass().getResource(path);
@@ -47,7 +49,6 @@ public class GelaxkaBista extends JLabel implements Observer {
 	public void update(Observable o, Object arg) {
 	    if (arg instanceof String[]) {
 	        String[] datuak = (String[]) arg;
-	        
 	        String egoera = datuak[0];  // egoera
 	        String norabidea = datuak[1]; // norabidea
 	        String jokalariMota = datuak.length > 2 ? datuak[2] : "white";
@@ -104,7 +105,6 @@ public class GelaxkaBista extends JLabel implements Observer {
                         }
                     }
                     break;
-
 	            case "bonba":
 	                this.setIcon(bonbaIcon);
 	                break;
@@ -113,6 +113,9 @@ public class GelaxkaBista extends JLabel implements Observer {
 	                break;
 	            case "blokGo":
 	                this.setIcon(blokGoIcon);
+	                break;
+	            case "etsaia":
+	                this.setIcon(etsaiaIcon);
 	                break;
 	            case "hutsik":
 	                this.setIcon(null);
