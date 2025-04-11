@@ -51,4 +51,9 @@ public class Soft extends Laberinto {
             }
         }
     }
+    
+    @Override
+    public String getMota() {
+        return "soft";
+    }
 }
