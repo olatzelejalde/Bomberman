@@ -10,6 +10,7 @@ public abstract class Laberinto {
 	}
 	
 	public abstract void sortuLaberinto();
+	public abstract String getMota();
 	
 	// Matrizea lortu
 	public Gelaxka[][] getMatriz() {
