@@ -30,7 +30,7 @@ public class Soft extends Laberinto {
                 // Beste posizioak
                 else {
                     int prob1 = r.nextInt(100);
-                    if (prob1 < 40) {
+                    if (prob1 > 40) {
                         // Bloke biguna (40% probabilitatea)
                     	Bloke blokeBig = blokeFactory.createBloke("biguna");
                         matriz[i][j] = new Gelaxka(blokeBig, false, false);
