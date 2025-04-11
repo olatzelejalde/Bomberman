@@ -58,4 +58,8 @@ public class Classic extends Laberinto {
 	        }
 	    }
 	}
+	@Override
+    public String getMota() {
+        return "classic";
+    }
 }
