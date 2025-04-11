@@ -168,13 +168,22 @@ public class Jokoa extends Observable{
         }
 	}
 	
-	public void bombermanMugitu (int dx, int dy) {
-        if (bomberman != null) {
-            int Xberria = bomberman.getX() + dx;
-            int Yberria = bomberman.getY() + dy;
-            bomberman.mugitu(Xberria, Yberria);
-            setChanged();
-            notifyObservers();
-        }
-    }
+	public void bombermanMugitu(int dx, int dy) {
+	    if (bomberman != null) {
+	        int Xberria = bomberman.getX() + dx;
+	        int Yberria = bomberman.getY() + dy;
+
+	        if (!laberinto.koordenatuBarruan(Xberria, Yberria)) return;
+
+	        bomberman.mugitu(Xberria, Yberria);
+	        Gelaxka g = laberinto.getGelaxkaPos(Xberria, Yberria);
+
+	        if (g.suaDago() || g.etsaiaDago()) {
+	            bukaera(false); // Bomberman hil da
+	        }
+
+	        setChanged();
+	        notifyObservers();
+	    }
+	}
 }
