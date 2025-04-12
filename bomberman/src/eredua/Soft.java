@@ -39,7 +39,7 @@ public class Soft extends Laberinto {
                     else {
                         // Bigarren probabilitatea etsaientzat
                         int prob2 = r.nextInt(100);
-                        if (prob2 > 90 && jokoa.getEtsaiKop() < 8) {
+                        if (prob2 > 0 && jokoa.getEtsaiKop() < 8) {
                             matriz[i][j] = new Gelaxka(null, false, true);
                             jokoa.gehituEtsaia(new Etsaia(i,j));
                         } 
