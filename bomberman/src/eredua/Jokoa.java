@@ -82,8 +82,6 @@ public class Jokoa extends Observable{
     // Metodo etsaia gehitzeko
     public void gehituEtsaia(Etsaia etsaia) {
         etsaiList.add(etsaia);
-        //setChanged();
-        //notifyObservers("etsaiaGehitu");
     }
     
     // Metodo etsaia kentzeko
@@ -150,7 +148,6 @@ public class Jokoa extends Observable{
     // Partida amaitu
     public void bukaera(boolean irabazi) {
     	if (etsaiakTimer != null) {
-    		//etsaiakTimer = null;
             etsaiakTimer.cancel();
         }
     	
