@@ -15,7 +15,7 @@ public class White extends Bomberman {
 		super(x, y);
 		this.bonbaList = new ArrayList<>();
 		this.bonbaItxaroten = false;
-		for (int i = 0; i < 10; i++) { // solo 10
+		for (int i = 0; i < 10; i++) { // 10 bonba
 			bonbaList.add(new Normal(x, y));
 		}
 	}
