@@ -15,7 +15,7 @@ public class Black extends Bomberman {
 		super(x, y);
 		this.bonbaList = new ArrayList<Ultra>();
 		this.bonbaItxaroten = false;
-		for (int i = 0; i < 1; i++) { // solo 1
+		for (int i = 0; i < 1; i++) { // bonba bakarra
 			bonbaList.add(new Ultra(x, y));
 		}
 	}
