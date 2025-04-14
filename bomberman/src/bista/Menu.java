@@ -156,7 +156,7 @@ public class Menu extends JFrame implements Observer {
     	        Menu.this.dispose(); // Itxi
     	        
     	        SwingUtilities.invokeLater(() -> {
-    	        	Jokoa.getJokoa().hasiJokoa(laberintoMota, jokalariMota); // NS SI ESTO SE PUEDE PONER AQUI PORQUE ESTA EN EL MAIN
+    	        	Jokoa.getJokoa().hasiJokoa(laberintoMota, jokalariMota); 
                     Partida partida = new Partida();
                     Jokoa.getJokoa().bistaratu();
                     partida.setVisible(true);
