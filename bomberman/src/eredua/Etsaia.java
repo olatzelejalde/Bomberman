@@ -111,7 +111,7 @@ public class Etsaia {
              bizirik = false;
              Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
              laberinto.getGelaxkaPos(x, y).kenduEtsaia();
-             Jokoa.getJokoa().kenduEtsaia(this);
+             // Jokoa.getJokoa().kenduEtsaia(this);
          }
      }
      
