@@ -1,7 +1,7 @@
 package eredua;
 
 //Bloke Biguna: Suntsigarria den bloke bat
-public class BlokeBiguna extends Blokea {
+public class BlokeBiguna extends Bloke {
 	public BlokeBiguna() {
 		super(true); // Bloke bigunak suntsigarriak dira
 	}
