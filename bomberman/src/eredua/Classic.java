@@ -1,6 +1,7 @@
 package eredua;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class Classic extends Laberinto {
 	
@@ -16,8 +17,8 @@ public class Classic extends Laberinto {
 	    BlokeFactory blokeFactory = BlokeFactory.getBlokeFactory();
 	    Jokoa jokoa = Jokoa.getJokoa();
 	    
-	    for (int i = 0; i < 11; i++) { // altuera
-	        for (int j = 0; j < 17; j++) { // zabalera
+	    IntStream.range(0, 11).forEach(i -> { // altuera Java8-n
+	        IntStream.range(0,17).forEach(j -> { // zabalera Java8-n
 	        	// Bomberman gelaxka libre batean hasiko da
 	            if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
 	                if (i == 0 && j == 0) {
@@ -55,8 +56,9 @@ public class Classic extends Laberinto {
                         }
                     }
                 }
-	        }
-	    }
+	        
+	        });
+	    });
 	}
 	@Override
     public String getMota() {
