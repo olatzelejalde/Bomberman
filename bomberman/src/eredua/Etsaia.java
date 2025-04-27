@@ -3,6 +3,8 @@ package eredua;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Etsaia {
 	private int x, y;
@@ -49,7 +51,7 @@ public class Etsaia {
          if (!bizirik) return;
          
          Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
-         List<int[]> mugimenduAukerak = new ArrayList<>();
+         // List<int[]> mugimenduAukerak = new ArrayList<>();
          
          // Mugimendu posibleak
          int[][] mugimenduak = {
@@ -60,7 +62,7 @@ public class Etsaia {
          };
          
          // Mugimendu posibleak konprobatu
-         for (int[] pos : mugimenduak) {
+         /* for (int[] pos : mugimenduak) {
              int newX = pos[0];
              int newY = pos[1];
              
@@ -72,7 +74,16 @@ public class Etsaia {
                      mugimenduAukerak.add(pos);
                  }
              }
-         }
+         } */
+         
+         // Mugimenduak Java8 implementatuz
+         List<int[]> mugimenduAukerak = Stream.of(mugimenduak)
+                 .filter(pos -> laberinto.koordenatuBarruan(pos[0], pos[1])) // Posizio baliozkoak
+                 .filter(pos -> {
+                     Gelaxka g = laberinto.getGelaxkaPos(pos[0], pos[1]);
+                     return g.pasatuDaiteke() || g.bombermanDago(); // Mugimendu egokiak
+                 })
+                 .collect(Collectors.toList());
          
          // Ausaz aukeratu nora joan, posible bada
          if (!mugimenduAukerak.isEmpty()) {
@@ -114,6 +125,4 @@ public class Etsaia {
              // Jokoa.getJokoa().kenduEtsaia(this);
          }
      }
-     
-
 }
