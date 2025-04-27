@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.IntStream;
 
 
 public class Jokoa extends Observable{
@@ -37,18 +38,19 @@ public class Jokoa extends Observable{
     	hasieratuEtsaiak();
     }
     
-	 private void hasieratuEtsaiak() { 
-		 etsaiList = new ArrayList<>(); 
-		 Gelaxka[][] matriz = laberinto.getMatriz();
+    
+    private void hasieratuEtsaiak() { 
+    	etsaiList = new ArrayList<>(); 
+		Gelaxka[][] matriz = laberinto.getMatriz();
 	  
-		 // Etsaiak laberintoan aurkitu 
-		 for (int i = 0; i < 11; i++) { 
-			 for (int j = 0; j < 17; j++) { 
-				 if (matriz[i][j].etsaiaDago()) { 
-					 etsaiList.add(new Etsaia(i,j)); 
-				 } 
-			 } 
-		 }
+		// Etsaiak laberintoan aurkitu 
+		for (int i = 0; i < 11; i++) { 
+			for (int j = 0; j < 17; j++) { 
+				if (matriz[i][j].etsaiaDago()) { 
+					etsaiList.add(new Etsaia(i,j)); 
+				} 
+			} 
+		}
 	 
 		 // Etsaiak segunduro mugitu 
 		 etsaiakTimer = new Timer();
@@ -62,19 +64,37 @@ public class Jokoa extends Observable{
 	}
 		 
 	 // Etsai guztiak mugitu 
-	 private void mugituEtsaiak() { 
-		 for (Etsaia etsaia : new ArrayList<>(etsaiList)) { 
+	 private void mugituEtsaiak() {
+		 
+		 // Java8 erabili gabe
+		 /*for (Etsaia etsaia : new ArrayList<>(etsaiList)) { 
 			 if (!etsaia.hildaDago()) { 
 				 etsaia.mugitu(); 
 			 } 
 			 else {
 				 etsaiList.remove(etsaia); 
 			 } 
-		 } 
+		 } */
+		 
+		 // Java8 erabiliz
+		 for (Etsaia etsaia : etsaiList) {
+			 Gelaxka g = laberinto.getGelaxkaPos(etsaia.getX(), etsaia.getY());
+			 if (g.suaDago()) {
+				 etsaia.hil();
+			 }
+		 }
+		 
+		 // Hildako etsaia kendu (java8)
+		 etsaiList.removeIf(Etsaia::hildaDago);
+		 
+		 // bizirik dauden etsaiak mugitu (java8)
+		 etsaiList.forEach(Etsaia::mugitu);
+ 
 		 
 		 if (etsaiList.isEmpty()&& !amaituta) {
 			 bukaera(true);
 		 }
+		
 		 //setChanged(); 
 		 //notifyObservers();
 	}		 
@@ -143,6 +163,9 @@ public class Jokoa extends Observable{
         else if (!laberinto.blokeakDaude()) {
             bukaera(true);
         }
+        else if (etsaiList.isEmpty()) {
+        	bukaera(true);
+        }
     }
 
     // Partida amaitu
@@ -164,11 +187,18 @@ public class Jokoa extends Observable{
         setChanged();
         notifyObservers(new String[] {"sortu", laberintoMota});
        
-        for (int i = 0; i < 11; i++) {
+        // Java8 erabili gabe
+        /* for (int i = 0; i < 11; i++) {
             for (int j = 0; j < 17; j++) {
                 laberinto.getMatriz()[i][j].eguneratuBista();
             }
-        }
+        } */
+        
+        // Java8 erabilita
+        IntStream.range(0, 11)
+        .forEach(i -> IntStream.range(0, 17)
+            .forEach(j -> laberinto.getMatriz()[i][j].eguneratuBista()));
+
     }
 
 
