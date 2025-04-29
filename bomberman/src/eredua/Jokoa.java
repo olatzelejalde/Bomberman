@@ -61,20 +61,25 @@ public class Jokoa extends Observable{
 		 }, 1000, 1000); 
 	}
 		 
-	 // Etsai guztiak mugitu 
-	 private void mugituEtsaiak() { 		 
-	    etsaiList.forEach(etsaia -> {
-	        if (!etsaia.hildaDago()) {
-	            etsaia.mugitu();
-	        }
-	    });
+	// Etsai guztiak mugitu 
+	 private void mugituEtsaiak() {
+		 //etsaiList.removeIf(Objects::isNull);
+		 
+		 List<Etsaia> kopia = new ArrayList<>(etsaiList);
+		 
+	    // Etsai biziak mugitu
+	    kopia.stream()
+	             .filter(etsaia -> !etsaia.hildaDago())
+	             .forEach(Etsaia::mugitu);
 	    
+	    // Etsai hildak kendu
 	    etsaiList.removeIf(Etsaia::hildaDago);
 	    
+	    // Jokoa amaitu den konprobatu
 	    if (etsaiList.isEmpty() && !amaituta) {
 	        bukaera(true);
-	    } 
-	}		 
+	    }
+	} 		 
     
     // Metodo etsaia gehitzeko
     public void gehituEtsaia(Etsaia etsaia) {
