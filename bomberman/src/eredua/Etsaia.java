@@ -1,14 +1,15 @@
 package eredua;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Etsaia {
 	private int x, y;
 	private boolean bizirik;
+	
 	
 	public Etsaia(int x, int y) {
 	    this.x = x;
@@ -47,51 +48,32 @@ public class Etsaia {
   	}
 
 	// Metodo mugitzeko
-     public void mugitu() {
-         if (!bizirik) return;
-         
-         Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
-         // List<int[]> mugimenduAukerak = new ArrayList<>();
-         
-         // Mugimendu posibleak
-         int[][] mugimenduak = {
-             {x-1, y},  // Gora
-             {x+1, y},  // Behera
-             {x, y-1},  // Ezkerra
-             {x, y+1}   // Eskiuna
-         };
-         
-         // Mugimendu posibleak konprobatu
-         /* for (int[] pos : mugimenduak) {
-             int newX = pos[0];
-             int newY = pos[1];
-             
-             if (laberinto.koordenatuBarruan(newX, newY)) {
-                 Gelaxka g = laberinto.getGelaxkaPos(newX, newY);
-                 
-                 // Gelaxka libreetara edo Bomberman-gana mugitu
-                 if (g.pasatuDaiteke() || g.bombermanDago()) {
-                     mugimenduAukerak.add(pos);
-                 }
-             }
-         } */
-         
-         // Mugimenduak Java8 implementatuz
-         List<int[]> mugimenduAukerak = Stream.of(mugimenduak)
-                 .filter(pos -> laberinto.koordenatuBarruan(pos[0], pos[1])) // Posizio baliozkoak
-                 .filter(pos -> {
-                     Gelaxka g = laberinto.getGelaxkaPos(pos[0], pos[1]);
-                     return g.pasatuDaiteke() || g.bombermanDago(); // Mugimendu egokiak
-                 })
-                 .collect(Collectors.toList());
-         
-         // Ausaz aukeratu nora joan, posible bada
-         if (!mugimenduAukerak.isEmpty()) {
-             Random r = new Random();
-             int[] aukeratua = mugimenduAukerak.get(r.nextInt(mugimenduAukerak.size()));
-             eguneratuPosizioa(aukeratua[0], aukeratua[1]);
-         }
-     }
+  	public void mugitu() {
+  	    if (!bizirik) return;
+  	    
+  	    Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
+  	    
+  	    int[][] mugimenduak = {
+  	        {x-1, y},  // Gora
+  	        {x+1, y},  // Behera
+  	        {x, y-1},  // Ezkerra
+  	        {x, y+1}   // Eskuina
+  	    };
+  	    
+  	    List<int[]> mugimenduAukerak = Arrays.stream(mugimenduak)
+  	        .filter(pos -> laberinto.koordenatuBarruan(pos[0], pos[1]))
+  	        .filter(pos -> {
+  	            Gelaxka g = laberinto.getGelaxkaPos(pos[0], pos[1]);
+  	            return g.pasatuDaiteke() || g.bombermanDago();
+  	        })
+  	        .collect(Collectors.toList());
+  	    
+  	    if (!mugimenduAukerak.isEmpty()) {
+  	    	Random r = new Random();
+            int[] aukeratua = mugimenduAukerak.get(r.nextInt(mugimenduAukerak.size()));
+            eguneratuPosizioa(aukeratua[0], aukeratua[1]);
+  	    }
+  	}
      
      private void eguneratuPosizioa(int newX, int newY) {
          Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
@@ -122,7 +104,9 @@ public class Etsaia {
              bizirik = false;
              Laberinto laberinto = Jokoa.getJokoa().getLaberinto();
              laberinto.getGelaxkaPos(x, y).kenduEtsaia();
-             // Jokoa.getJokoa().kenduEtsaia(this);
+             Jokoa.getJokoa().kenduEtsaia(this);
          }
      }
+     
+
 }
