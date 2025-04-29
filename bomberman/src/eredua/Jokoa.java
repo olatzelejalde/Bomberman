@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.IntStream;
 
 
 public class Jokoa extends Observable{
@@ -38,19 +37,18 @@ public class Jokoa extends Observable{
     	hasieratuEtsaiak();
     }
     
-    
-    private void hasieratuEtsaiak() { 
-    	etsaiList = new ArrayList<>(); 
-		Gelaxka[][] matriz = laberinto.getMatriz();
+	 private void hasieratuEtsaiak() { 
+		 etsaiList = new ArrayList<>(); 
+		 Gelaxka[][] matriz = laberinto.getMatriz();
 	  
-		// Etsaiak laberintoan aurkitu 
-		for (int i = 0; i < 11; i++) { 
-			for (int j = 0; j < 17; j++) { 
-				if (matriz[i][j].etsaiaDago()) { 
-					etsaiList.add(new Etsaia(i,j)); 
-				} 
-			} 
-		}
+		 // Etsaiak laberintoan aurkitu 
+		 for (int i = 0; i < 11; i++) { 
+			 for (int j = 0; j < 17; j++) { 
+				 if (matriz[i][j].etsaiaDago()) { 
+					 etsaiList.add(new Etsaia(i,j)); 
+				 } 
+			 } 
+		 }
 	 
 		 // Etsaiak segunduro mugitu 
 		 etsaiakTimer = new Timer();
@@ -64,39 +62,18 @@ public class Jokoa extends Observable{
 	}
 		 
 	 // Etsai guztiak mugitu 
-	 private void mugituEtsaiak() {
-		 
-		 // Java8 erabili gabe
-		 /*for (Etsaia etsaia : new ArrayList<>(etsaiList)) { 
-			 if (!etsaia.hildaDago()) { 
-				 etsaia.mugitu(); 
-			 } 
-			 else {
-				 etsaiList.remove(etsaia); 
-			 } 
-		 } */
-		 
-		 // Java8 erabiliz
-		 for (Etsaia etsaia : etsaiList) {
-			 Gelaxka g = laberinto.getGelaxkaPos(etsaia.getX(), etsaia.getY());
-			 if (g.suaDago()) {
-				 etsaia.hil();
-			 }
-		 }
-		 
-		 // Hildako etsaia kendu (java8)
-		 etsaiList.removeIf(Etsaia::hildaDago);
-		 
-		 // bizirik dauden etsaiak mugitu (java8)
-		 etsaiList.forEach(Etsaia::mugitu);
- 
-		 
-		 if (etsaiList.isEmpty()&& !amaituta) {
-			 bukaera(true);
-		 }
-		
-		 //setChanged(); 
-		 //notifyObservers();
+	 private void mugituEtsaiak() { 		 
+	    etsaiList.forEach(etsaia -> {
+	        if (!etsaia.hildaDago()) {
+	            etsaia.mugitu();
+	        }
+	    });
+	    
+	    etsaiList.removeIf(Etsaia::hildaDago);
+	    
+	    if (etsaiList.isEmpty() && !amaituta) {
+	        bukaera(true);
+	    } 
 	}		 
     
     // Metodo etsaia gehitzeko
@@ -163,9 +140,6 @@ public class Jokoa extends Observable{
         else if (!laberinto.blokeakDaude()) {
             bukaera(true);
         }
-        else if (etsaiList.isEmpty()) {
-        	bukaera(true);
-        }
     }
 
     // Partida amaitu
@@ -182,42 +156,33 @@ public class Jokoa extends Observable{
     }
 
     // Laberintoa bistaratu
-    public void bistaratu() {
-        String laberintoMota = laberinto.getMota();
+	public void bistaratu() {
+		String laberintoMota = laberinto.getMota();
         setChanged();
         notifyObservers(new String[] {"sortu", laberintoMota});
-       
-        // Java8 erabili gabe
-        /* for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 17; j++) {
-                laberinto.getMatriz()[i][j].eguneratuBista();
-            }
-        } */
-        
-        // Java8 erabilita
-        IntStream.range(0, 11)
-        .forEach(i -> IntStream.range(0, 17)
-            .forEach(j -> laberinto.getMatriz()[i][j].eguneratuBista()));
-
-    }
-
-
-	public void bombermanMugitu(int dx, int dy) {
-	    if (bomberman != null) {
-	        int Xberria = bomberman.getX() + dx;
-	        int Yberria = bomberman.getY() + dy;
-
-	        if (!laberinto.koordenatuBarruan(Xberria, Yberria)) return;
-
-	        bomberman.mugitu(Xberria, Yberria);
-	        Gelaxka g = laberinto.getGelaxkaPos(Xberria, Yberria);
-
-	        if (g.suaDago() || g.etsaiaDago()) {
-	            bukaera(false); // Bomberman hil da
-	        }
-
-	        setChanged();
-	        notifyObservers();
-	    }
+        for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 17; j++) {
+				laberinto.getMatriz()[i][j].eguneratuBista();
+			}
+        }
 	}
+	
+	public void bombermanMugitu(int dx, int dy) {
+ 	    if (bomberman != null) {
+ 	        int Xberria = bomberman.getX() + dx;
+ 	        int Yberria = bomberman.getY() + dy;
+ 
+ 	        if (!laberinto.koordenatuBarruan(Xberria, Yberria)) return;
+ 
+ 	        bomberman.mugitu(Xberria, Yberria);
+ 	        Gelaxka g = laberinto.getGelaxkaPos(Xberria, Yberria);
+ 
+ 	        if (g.suaDago() || g.etsaiaDago()) {
+ 	            bukaera(false); // Bomberman hil da
+ 	        }
+ 
+ 	        setChanged();
+ 	        notifyObservers();
+ 	    }
+ 	}
 }
